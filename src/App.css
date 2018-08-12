@@ -1,0 +1,43 @@
+/* .sidebar-app {
+  & { background-color: $colorDeepBlack; color: $colorDarkGrey; position: fixed; top: 0; right: -320px; bottom: 0; width: 320px; font-size: $font18pt; transition: 0.38s all ease-out; outline: 0; }
+  > * { opacity: 0; transform: translateX(35px); transition: 0.6s all 0.22s; }
+  &.show {
+    & { transform: translateX(-320px); }
+    > * { opacity: 1; transform: translateX(0); }
+  }
+} */
+
+@keyframes opacity {
+  to { opacity: 1; }
+}
+
+.App {
+  text-align: center;
+  opacity: 0;
+  animation: 0.25s ease-out opacity forwards;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

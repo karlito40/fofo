@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Fofo",
+  "version": "0.2",
+  "description": "The secret community",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["/contentScript.js"]
+    }
+  ],
+  "web_accessible_resources":[
+    "/index.html"
+  ]
+}

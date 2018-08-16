@@ -1,0 +1,19 @@
+// Table
+—- users
+| id | name | email | password
+
+—-- sites ---
+| id | domain
+
+--- pages ---
+| id | site_id | uri
+
+--- highlight ---
+| id | user_id | page_id | location
+
+--- comments ---
+| id | user_id | commentable_id: [page_id, highlight_id] |
+commentable_type | content
+
+--- subscriptions ---
+| id | user_id | source_id: [page_id, site_id] | source_type

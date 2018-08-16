@@ -19,7 +19,7 @@ class CreatePagesTable extends Migration
             $table->string('uri');
             $table->timestamps();
 
-            $table->unique('uri');
+            $table->unique(['site_id', 'uri']);
             $table->foreign('site_id')
                 ->references('id')->on('sites')
                 ->onDelete('cascade')->onUpdate('cascade');

@@ -13,6 +13,6 @@ class Site extends Model
 
     public function pages()
     {
-        return $this->hasMany('App\Models\Page');
+        return $this->hasMany(Page::class);
     }
 }

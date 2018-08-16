@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Highlight extends Model
@@ -12,16 +13,16 @@ class Highlight extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 
     public function page()
     {
-        return $this->belongsTo('App\Models\Page');
+        return $this->belongsTo(Page::class);
     }
 
     public function comments()
     {
-        return $this->morphMany('App\Models\Comment', 'commentable');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

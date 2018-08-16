@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class Page extends Model
 {
@@ -12,16 +14,19 @@ class Page extends Model
 
     public function site()
     {
-        return $this->belongsTo('App\Models\Site');
+        return $this->belongsTo(Site::class);
     }
 
     public function highlights()
     {
-        return $this->hasMany('App\Models\Highlight');
+        return $this->hasMany(Highlight::class);
     }
 
     public function comments()
     {
-        return $this->morphMany('App\Models\Comment', 'commentable');
+        return $this->morphMany(Comment::class, 'commentable');
     }
+
+
+
 }

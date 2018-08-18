@@ -1,43 +1,35 @@
 <?php
 
 namespace App\Http\Controllers\API;
+
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
-use Validator;
 use Illuminate\Support\Facades\Hash;
+use Validator;
 
-class UserController extends Controller
+class UserController extends APIController
 {
 
-    /**
-     * login api
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function login() {
-
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
-            $user = Auth::user();
-            $accessToken = $user->createToken('Fofo')->accessToken;
-
-            return response()->json([
-                'data' => [
-                    'access_token' => $accessToken,
-                    'user' => $user
-                ]
-            ]);
-        }
-
-        return response()->json(['error' => 'Unauthorized'], 401);
+    public function me()
+    {
+        // TODO: ActivityController::me
+        throw new \Error('To be implemented');
     }
 
-    /**
-     * Register api
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function login()
+    {
+        if(!Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+            return $this->err(['code' => 'INVALID_ACCOUNT']);
+        }
+
+        $user = Auth::user();
+        $token = $user->createToken(config('app.name'))->accessToken;
+
+        return $this->res(compact('user', 'token'));
+
+    }
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -48,25 +40,18 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'error' => [
-                    'code' => 'INVALID_INPUTS',
-                    'validator' => $validator->errors()
-                ]
-            ], 401);
+            return $this->err([
+                'code' => 'INVALID_INPUTS',
+                'validator' => $validator->errors()
+            ]);
         }
 
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
-        $accessToken = $user->createToken('Fofo')->accessToken;
+        $token = $user->createToken(config('app.name'))->accessToken;
 
-        return response()->json([
-            'data' => [
-                'access_token' => $accessToken,
-                'user' => $user
-            ]
-        ]);
+        return $this->res(compact('token', 'user'));
     }
 
 }

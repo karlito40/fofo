@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
@@ -57,6 +58,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        if(!App::environment('production')) {
+            return parent::render($request, $exception);
+        }
+
+        return response()->json([
+            'succes' => false,
+            'error' => [
+                'code' => 'UnhandleException',
+                'message' => 'An error occured',
+            ],
+        ], 400);
     }
 }

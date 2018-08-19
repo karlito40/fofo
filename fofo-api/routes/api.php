@@ -18,6 +18,10 @@ $privateApi = function()
     // ---------- User ---------- //
     Route::get('/me', 'API\UserController@me')->middleware('auth:api');
 
+    // ---------- Highlight ---------- //
+    Route::post('/highlight', 'API\HighlightController@add');
+    Route::delete('/highlight/{id}', 'API\HighlightController@delete');
+
     // ---------- Comment ---------- //
     Route::post('/comment', 'API\CommentController@add');
     Route::delete('/comment/{id}', 'API\CommentController@delete');

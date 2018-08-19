@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Utils\Url;
 
-class CommentController extends APIController
+class HighlightController extends APIController
 {
 
     public function add()

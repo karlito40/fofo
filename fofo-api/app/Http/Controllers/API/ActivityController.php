@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Page;
 use App\Models\Site;
+use App\Utils\Url;
 
 class ActivityController extends APIController
 {
@@ -46,7 +47,7 @@ class ActivityController extends APIController
 
     public function address($address)
     {
-        $parts = $this->formatAddress($address);
+        $parts = Url::formatAddress($address);
 
         if(!isset($parts['host'])) {
             return $this->world();
@@ -62,7 +63,7 @@ class ActivityController extends APIController
 
     public function comments($address)
     {
-        $parts = $this->formatAddress($address);
+        $parts = Url::formatAddress($address);
 
         if(!isset($parts['host'])) {
             return $this->err(['code' => 'WRONG_DOMAIN']);
@@ -72,8 +73,4 @@ class ActivityController extends APIController
         return $this->page($parts['host'], $path);
     }
 
-    protected function formatAddress($address)
-    {
-        return parse_url('//' . $address);
-    }
 }

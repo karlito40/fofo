@@ -9,12 +9,8 @@ use Illuminate\Support\Facades\Log;
 
 class DatabaseTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testSchema()
+    /** @test **/
+    public function db_should_have_a_working_schema()
     {
         $NB_HIGHLIGHT_IN_PAGE = 2;
         $NB_COMMENTS_IN_HIGHLIGHT = 2;

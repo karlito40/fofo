@@ -4,6 +4,6 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\Site::class, function (Faker $faker) {
     return [
-        'domain' => $faker->domainName,
+        'domain' => $faker->unique()->domainName,
     ];
 });

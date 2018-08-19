@@ -4,8 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Page;
 use App\Models\Site;
-// use League\Uri\Schemes\Http;
-use League\Uri;
 
 class ActivityController extends APIController
 {
@@ -25,6 +23,9 @@ class ActivityController extends APIController
     public function site($domain)
     {
         // TODO: ActivityController::site
+        $parts = $this->formatAddress($domain); // remove path
+        $domain = $parts['host'];
+
         return $this->res(array_merge(compact('domain'), ['from' => 'site']));
     }
 
@@ -45,7 +46,7 @@ class ActivityController extends APIController
 
     public function address($address)
     {
-        $parts = parse_url('//' . $address);
+        $parts = $this->formatAddress($address);
 
         if(!isset($parts['host'])) {
             return $this->world();
@@ -56,5 +57,23 @@ class ActivityController extends APIController
         }
 
         return $this->page($parts['host'], $parts['path']);
+    }
+
+
+    public function comments($address)
+    {
+        $parts = $this->formatAddress($address);
+
+        if(!isset($parts['host'])) {
+            return $this->err(['code' => 'WRONG_DOMAIN']);
+        }
+
+        $path = isset($parts['path']) ? $parts['path'] : '';
+        return $this->page($parts['host'], $path);
+    }
+
+    protected function formatAddress($address)
+    {
+        return parse_url('//' . $address);
     }
 }

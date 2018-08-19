@@ -11,10 +11,9 @@ use Validator;
 class UserController extends APIController
 {
 
-    public function me()
+    public function me(Request $request)
     {
-        // TODO: ActivityController::me
-        throw new \Error('To be implemented');
+        return $this->res($request->user());
     }
 
     public function login()

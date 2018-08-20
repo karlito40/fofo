@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Page;
-use App\Models\Site;
 use App\Utils\WWWAddress;
 
 class ActivityController extends APIController
@@ -11,7 +9,7 @@ class ActivityController extends APIController
     public function world()
     {
         // TODO: ActivityController::world
-        return $this->res(['from' => 'world']);
+        return $this->ok(['from' => 'world']);
     }
 
     /**
@@ -27,7 +25,7 @@ class ActivityController extends APIController
 
         $domain = WWWAddress::from($domain)->getDomain();
 
-        return $this->res(array_merge(compact('domain'), ['from' => 'site']));
+        return $this->ok(array_merge(compact('domain'), ['from' => 'site']));
     }
 
     /**
@@ -42,7 +40,7 @@ class ActivityController extends APIController
     public function page($domain, $uri)
     {
         // TODO: ActivityController::page
-        return $this->res(array_merge(compact('domain', 'uri'), ['from' => 'page']));
+        return $this->ok(array_merge(compact('domain', 'uri'), ['from' => 'page']));
     }
 
     public function address($url)

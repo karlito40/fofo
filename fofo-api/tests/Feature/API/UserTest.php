@@ -36,11 +36,11 @@ class UserTest extends TestCase
     /** @test **/
     public function POST_login_on_invalid_credentials_should_contain_an_error()
     {
-        $validate = function($res) {
+        $validate = function($res, $code = 'INVALID_INPUTS') {
             $res->assertJson([
                 'success' => false,
                 'error' => [
-                    'code' => 'INVALID_ACCOUNT',
+                    'code' => $code,
                 ]
             ]);
         };
@@ -56,7 +56,7 @@ class UserTest extends TestCase
         $validate($this->api('POST', '/login', [
             'email' => $validUser->email,
             'password' => 'bad-password'
-        ]));
+        ]), 'INVALID_ACCOUNT');
 
         $validate($this->api('POST', '/login', [
             'email' => 'bad-email',

@@ -3,22 +3,17 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Responses\APIResponse;
 
 class APIController extends Controller
 {
-    protected function res($data, $status = 200)
+    protected function ok($data)
     {
-        return response()->json([
-            'success' => true,
-            'data' => $data
-        ], $status);
+        return APIResponse::ok($data);
     }
 
     public function err($data, $status = 200)
     {
-        return response()->json([
-            'success' => false,
-            'error' => $data,
-        ], $status);
+        return APIResponse::error($data, $status);
     }
 }

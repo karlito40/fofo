@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -13,10 +15,10 @@ class UserController extends APIController
 
     public function me(Request $request)
     {
-        return $this->res($request->user());
+        return $this->ok($request->user());
     }
 
-    public function login()
+    public function login(LoginRequest $request)
     {
         if(!Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             return $this->err(['code' => 'INVALID_ACCOUNT']);
@@ -25,32 +27,18 @@ class UserController extends APIController
         $user = Auth::user();
         $token = $user->createToken(config('app.name'))->accessToken;
 
-        return $this->res(compact('user', 'token'));
+        return $this->ok(compact('user', 'token'));
 
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required',
-            'c_password' => 'required|same:password',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->err([
-                'code' => 'INVALID_INPUTS',
-                'validator' => $validator->errors()
-            ]);
-        }
-
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
         $token = $user->createToken(config('app.name'))->accessToken;
 
-        return $this->res(compact('token', 'user'));
+        return $this->ok(compact('token', 'user'));
     }
 
 }

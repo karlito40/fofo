@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Page;
 use App\Models\Site;
-use App\Utils\Url;
+use App\Utils\WWWAddress;
 
 class ActivityController extends APIController
 {
@@ -24,8 +24,8 @@ class ActivityController extends APIController
     public function site($domain)
     {
         // TODO: ActivityController::site
-        $parts = $this->formatAddress($domain); // remove path
-        $domain = $parts['host'];
+
+        $domain = WWWAddress::from($domain)->getDomain();
 
         return $this->res(array_merge(compact('domain'), ['from' => 'site']));
     }
@@ -45,32 +45,31 @@ class ActivityController extends APIController
         return $this->res(array_merge(compact('domain', 'uri'), ['from' => 'page']));
     }
 
-    public function address($address)
+    public function address($url)
     {
-        $parts = Url::formatAddress($address);
+        $address = WWWAddress::from($url);
 
-        if(!isset($parts['host'])) {
+        if(!$address->isOk()) {
             return $this->world();
         }
 
-        if(!isset($parts['path'])) {
-            return $this->site($parts['host']);
+        if(!$address->hasUri()) {
+            return $this->site($address->getDomain());
         }
 
-        return $this->page($parts['host'], $parts['path']);
+        return $this->page($address->getDomain(), $address->getUri());
     }
 
 
-    public function comments($address)
+    public function comments($url)
     {
-        $parts = Url::formatAddress($address);
+        $address = WWWAddress::from($url);
 
-        if(!isset($parts['host'])) {
-            return $this->err(['code' => 'WRONG_DOMAIN']);
+        if(!$address->isOk()) {
+            return $this->err(['code' => 'INVALID_ADDRESS']);
         }
 
-        $path = isset($parts['path']) ? $parts['path'] : '';
-        return $this->page($parts['host'], $path);
+        return $this->page($address->getDomain(), $address->getUri(''));
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-$publicApi = function()
+$publicRoutes = function()
 {
     // ---------- User ---------- //
     Route::post('/login', 'API\UserController@login');
@@ -13,7 +13,7 @@ $publicApi = function()
     Route::get('/feed/page/{address}', 'API\ActivityController@comments')->where('address', '.+');
 };
 
-$privateApi = function()
+$authRoutes = function()
 {
     // ---------- User ---------- //
     Route::get('/me', 'API\UserController@me')->middleware('auth:api');
@@ -33,15 +33,15 @@ $privateApi = function()
     // ---------- Favorite ---------- //
     Route::get('/favs', 'API\FavoriteController@feed');
     Route::post('/fav', 'API\FavoriteController@add');
-    Route::delete('/fave/{id}', 'API\FavoriteController@delete');
+    Route::delete('/fav/{id}', 'API\FavoriteController@delete');
 };
 
-Route::prefix('/v1')->group(function() use($publicApi, $privateApi)
+Route::prefix('/v1')->group(function() use($publicRoutes, $authRoutes)
 {
-    $publicApi();
+    $publicRoutes();
 
-    Route::middleware('auth:api')->group(function() use($privateApi)
+    Route::middleware('auth:api')->group(function() use($authRoutes)
     {
-        $privateApi();
+        $authRoutes();
     });
 });

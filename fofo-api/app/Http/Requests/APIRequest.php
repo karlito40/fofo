@@ -10,6 +10,16 @@ use App\Http\Responses\APIResponse;
 
 class APIRequest extends FormRequest
 {
+    public function authorize()
+    {
+        return true;
+    }
+
+    public function rules()
+    {
+        return [];
+    }
+
 
     public function failedAuthorization()
     {

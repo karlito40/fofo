@@ -11,16 +11,16 @@ trait TestSetup
     {
         parent::setUp();
 
-        $user = factory(\App\User::class)->create();
-        $this->accessToken = $user->createToken(config('app.name'))->accessToken;
-        $this->cleanable($user);
+        $this->user = factory(\App\User::class)->create();
+        $this->accessToken = $this->user->createToken(config('app.name'))->accessToken;
+        $this->cleanable($this->user);
     }
 
     protected function tearDown()
     {
         foreach ($this->cleans as $target)
         {
-            $target->delete();
+            $target->forceDelete();
         }
 
         parent::tearDown();
@@ -32,7 +32,11 @@ trait TestSetup
             return;
         }
 
-        $this->cleans[] = $o;
+        if(!is_array($o)) {
+            $o = [$o];
+        }
+
+        $this->cleans = array_merge($this->cleans, $o);
     }
 
     /**
@@ -52,10 +56,16 @@ trait TestSetup
         return call_user_func_array([$this, 'json'], $args);
     }
 
-    protected function withAuth()
+    protected function withAuth($withUser = null)
     {
+        $token = $this->accessToken;
+        if(isset($withUser)) {
+            $token = $withUser->createToken(config('app.name'))->accessToken;
+        }
+
         return $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->accessToken,
+            'Authorization' => 'Bearer ' . $token,
         ]);
     }
+
 }

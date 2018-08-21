@@ -20,6 +20,7 @@ class CreateCommentsTable extends Migration
             $table->string('commentable_type');
             $table->text('content');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')
                 ->references('id')->on('users')

@@ -18,6 +18,7 @@ class CreateSubscriptionsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('source_id');
             $table->string('source_type');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

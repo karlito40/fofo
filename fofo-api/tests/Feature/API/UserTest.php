@@ -104,17 +104,16 @@ class UserTest extends TestCase
     {
         $validate = function($res, $structure = []) {
             $res->assertJsonStructure([
-                    'success',
-                    'error' => [
-                        'validator' => $structure
-                    ]
-                ])
-                ->assertJson([
-                    'success' => false,
-                    'error' => [
-                        'code' => 'INVALID_INPUTS',
-                    ]
-                ]);
+                'success',
+                'error' => [
+                    'validator' => $structure
+                ]
+            ])->assertJson([
+                'success' => false,
+                'error' => [
+                    'code' => 'INVALID_INPUTS',
+                ]
+            ]);
         };
 
         $password = 'simple-password';
@@ -169,7 +168,12 @@ class UserTest extends TestCase
     {
         $response = $this->api('GET', '/me');
 
-        $response->assertJsonStructure(['error']);
+        $response->assertJson([
+            'success' => false,
+            'error' => [
+                'code' => 'UNAUTHENTICATED'
+            ]
+        ]);
     }
 
 

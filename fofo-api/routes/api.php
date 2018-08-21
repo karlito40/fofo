@@ -24,7 +24,7 @@ $authRoutes = function()
 
     // ---------- Comment ---------- //
     Route::post('/comment', 'API\CommentController@add');
-    Route::delete('/comment/{id}', 'API\CommentController@delete');
+    Route::delete('/comment/{comment}', 'API\CommentController@delete');
 
     // ---------- Like ---------- //
     Route::post('/like', 'API\LikeController@add');

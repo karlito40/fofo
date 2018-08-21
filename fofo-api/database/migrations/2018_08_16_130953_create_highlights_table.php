@@ -19,6 +19,7 @@ class CreateHighlightsTable extends Migration
             $table->unsignedInteger('page_id');
             $table->text('location');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')
                 ->references('id')->on('users')

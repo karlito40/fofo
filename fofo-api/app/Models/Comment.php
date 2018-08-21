@@ -6,13 +6,17 @@ use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'content',
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function commentable()
     {

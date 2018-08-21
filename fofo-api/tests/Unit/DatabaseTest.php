@@ -58,8 +58,8 @@ class DatabaseTest extends TestCase
             'commentable_type' => \App\Models\Page::class,
         ]);
 
-        $user->delete();
-        $site->delete();
+        $user->forceDelete();
+        $site->forceDelete();
     }
 
     /** @test */
@@ -97,8 +97,8 @@ class DatabaseTest extends TestCase
         $nbMessagesExpected = $NB_COMMENTS_IN_PAGE + ($NB_HIGHLIGHTS_IN_PAGE * $NB_COMMENTS_IN_HIGHLIGHT);
         $this->assertEquals($nbMessagesExpected, \App\Models\Comment::concatAll($page->id)->count(), 'Test: total expected messages');
 
-        $user->delete();
-        $site->delete();
+        $user->forceDelete();
+        $site->forceDelete();
     }
 
     private function addComment($user, $source, $size = 1)

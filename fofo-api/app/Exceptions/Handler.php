@@ -6,6 +6,8 @@ use App;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
+use App\Http\Responses\APIResponse;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -30,8 +32,12 @@ class Handler extends ExceptionHandler
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
+
         if(starts_with($request->path(), 'api')) {
-            return response()->json(['error' => $exception->getMessage()], 401);
+            return APIResponse::error([
+                'code' => 'UNAUTHENTICATED',
+                'message' => 'Invalid credentials',
+            ], 401);
         }
 
         return parent::unauthenticated($request, $exception);
@@ -58,16 +64,17 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if(!App::environment('production')) {
-            return parent::render($request, $exception);
-        }
+        return parent::render($request, $exception);
 
-        return response()->json([
-            'succes' => false,
-            'error' => [
-                'code' => 'UnhandleException',
-                'message' => 'An error occured',
-            ],
-        ], 400);
+        /*Log::debug('handler render');
+        $message = (App::environment('production'))
+            ? 'An error occured'
+            : $exception->getMessage();
+
+        return APIResponse::error([
+            'code' => 'UNHANDLED_EXCEPTION',
+            'message' => $message,
+        ], 400);*/
+
     }
 }

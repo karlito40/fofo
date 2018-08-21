@@ -18,6 +18,7 @@ class CreatePagesTable extends Migration
             $table->unsignedInteger('site_id');
             $table->string('uri');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['site_id', 'uri']);
             $table->foreign('site_id')

@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Requests\AddCommentRequest;
+use App\Http\Requests\DeleteCommentRequest;
 use App\Models\Comment;
 use App\Models\Page;
 use App\Models\Site;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Validator;
 use App\Utils\WWWAddress;
@@ -43,8 +42,9 @@ class CommentController extends APIController
         return $this->ok(compact('comment', 'site', 'page'));
     }
 
-    public function delete($id)
+    public function delete(DeleteCommentRequest $request, Comment $comment)
     {
-
+        $comment->delete();
+        return $this->ok($comment);
     }
 }

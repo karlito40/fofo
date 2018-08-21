@@ -25,8 +25,8 @@ class WWWAddress
 
     public function __construct($params = [])
     {
-        $this->domain = (isset($params['domain'])) ? $params['domain'] : null;
-        $this->uri = (isset($params['uri'])) ? $params['uri'] : null;
+        $this->setDomain((isset($params['domain'])) ? $params['domain'] : null);
+        $this->setUri((isset($params['uri'])) ? $params['uri'] : null);
     }
 
     public function isOk()
@@ -46,7 +46,6 @@ class WWWAddress
             : $this->uri;
     }
 
-
     public function hasDomain()
     {
         return isset($this->domain);
@@ -56,4 +55,18 @@ class WWWAddress
     {
         return isset($this->uri);
     }
+
+    public function setDomain($domain)
+    {
+        $this->domain = (isset($domain) && strpos($domain, '.') !== false)
+            ? $domain
+            : null;
+    }
+
+    public function setUri($uri)
+    {
+        $this->uri = $uri;
+    }
+
+
 }

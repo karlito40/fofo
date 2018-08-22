@@ -16,8 +16,8 @@ class OAuthProxy
     {
         $response = $this->routeConsumer->call('POST', '/oauth/token', [
             'grant_type' => 'password',
-            'client_id' => 3,
-            'client_secret' => 'f5UKK8hwtqNxKVQta4FitxspQZDBRqasChXofZap',
+            'client_id' => config('oauth.proxy.client_id'),
+            'client_secret' => config('oauth.proxy.client_secret'),
             'username' => $email,
             'password' => $password
         ]);

@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use Illuminate\Support\Facades\Log;
+
 trait TestSetup
 {
     protected $user;
@@ -66,6 +68,14 @@ trait TestSetup
         return $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
         ]);
+    }
+
+
+    public function call($method, $uri, $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
+    {
+        $res = parent::call($method, $uri, $parameters, $cookies, $files, $server, $content);
+        $this->flushHeaders();
+        return $res;
     }
 
 }

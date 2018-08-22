@@ -9,68 +9,6 @@ class UserTest extends TestCase
 {
     use \App\Traits\TestSetup;
 
-    /** @test **/
-    public function POST_login_should_generate_a_token()
-    {
-        $password = 'my-testing-password';
-        $validUser = factory(\App\User::class)->create([
-            'password' => Hash::make($password)
-        ]);
-        $this->cleanable($validUser);
-
-        $response = $this->api('POST', '/login', [
-            'email' => $validUser->email,
-            'password' => $password
-        ]);
-
-        $response->assertJsonStructure([
-            'success',
-            'data' => [
-                'user',
-                'token'
-            ]
-        ])->assertJson(['success' => true]);
-
-    }
-
-    /** @test **/
-    public function POST_login_on_invalid_credentials_should_contain_an_error()
-    {
-        $validate = function($res, $code = 'INVALID_INPUTS') {
-            $res->assertJson([
-                'success' => false,
-                'error' => [
-                    'code' => $code,
-                ]
-            ]);
-        };
-
-        $password = 'my-testing-password';
-        $validUser = factory(\App\User::class)->create([
-            'password' => Hash::make($password)
-        ]);
-        $this->cleanable($validUser);
-
-        $validate($this->api('POST', '/login'));
-
-        $validate($this->api('POST', '/login', [
-            'email' => $validUser->email,
-            'password' => 'bad-password'
-        ]), 'INVALID_ACCOUNT');
-
-        $validate($this->api('POST', '/login', [
-            'email' => 'bad-email',
-            'password' => $password
-        ]));
-
-        $validate($this->api('POST', '/login', [
-            'email' => $validUser->email,
-        ]));
-
-        $validate($this->api('POST', '/login', [
-            'password' => $password
-        ]));
-    }
 
     /** @test **/
     public function POST_register_should_generate_a_user()
@@ -87,7 +25,7 @@ class UserTest extends TestCase
             'success',
             'data' => [
                 'user',
-                'token'
+                'access_token'
             ]
         ])->assertJson(['success' => true]);
 

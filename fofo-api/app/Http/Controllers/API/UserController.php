@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
 use App\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Validator;
+use App\Utils\OAuthProxy;
 
 class UserController extends APIController
 {
@@ -18,27 +17,18 @@ class UserController extends APIController
         return $this->ok($request->user());
     }
 
-    public function login(LoginRequest $request)
-    {
-        if(!Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
-            return $this->err(['code' => 'INVALID_ACCOUNT']);
-        }
-
-        $user = Auth::user();
-        $token = $user->createToken(config('app.name'))->accessToken;
-
-        return $this->ok(compact('user', 'token'));
-
-    }
-
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request, OAuthProxy $oauth)
     {
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-        $user = User::create($input);
-        $token = $user->createToken(config('app.name'))->accessToken;
 
-        return $this->ok(compact('token', 'user'));
+        $user = User::create($input);
+        $oauthToken = $oauth->login($user->email, $request->input('password'));
+
+        return $this->ok([
+            'user' => $user,
+            'access_token' => $oauthToken['access_token']
+        ]);
     }
 
 }

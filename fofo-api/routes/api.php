@@ -2,8 +2,10 @@
 
 $publicRoutes = function()
 {
+    // ---------- Login ---------- //
+    Route::post('/login', 'API\LoginController@login');
+
     // ---------- User ---------- //
-    Route::post('/login', 'API\UserController@login');
     Route::post('/register', 'API\UserController@register');
 
     // ---------- Feed ---------- //
@@ -13,8 +15,11 @@ $publicRoutes = function()
     Route::get('/feed/page/{address}', 'API\ActivityController@comments')->where('address', '.+');
 };
 
-$authRoutes = function()
+$restrictedRoutes = function()
 {
+    // ---------- Login ---------- //
+    Route::post('/logout', 'API\LoginController@logout');
+
     // ---------- User ---------- //
     Route::get('/me', 'API\UserController@me')->middleware('auth:api');
 
@@ -36,12 +41,12 @@ $authRoutes = function()
     Route::delete('/fav/{id}', 'API\FavoriteController@delete');
 };
 
-Route::prefix('/v1')->group(function() use($publicRoutes, $authRoutes)
+Route::prefix('/v1')->group(function() use($publicRoutes, $restrictedRoutes)
 {
     $publicRoutes();
 
-    Route::middleware('auth:api')->group(function() use($authRoutes)
+    Route::middleware('auth:api')->group(function() use($restrictedRoutes)
     {
-        $authRoutes();
+        $restrictedRoutes();
     });
 });

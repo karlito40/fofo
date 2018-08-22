@@ -32,11 +32,9 @@ class Handler extends ExceptionHandler
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-
         if(starts_with($request->path(), 'api')) {
             return APIResponse::error([
-                'code' => 'UNAUTHENTICATED',
-                'message' => 'Invalid credentials',
+                'code' => 'UNAUTHENTICATED'
             ], 401);
         }
 
@@ -64,6 +62,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \App\Exceptions\InvalidCredentialsException) {
+            return $exception->render($request);
+        }
+
         return parent::render($request, $exception);
 
         /*Log::debug('handler render');

@@ -3,9 +3,7 @@
 namespace App\Models;
 
 use App\User;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
@@ -17,6 +15,26 @@ class Comment extends Model
     ];
 
     protected $dates = ['deleted_at'];
+
+    public static function concatAll($pageId)
+    {
+        $query = (new static)->newQuery();
+
+        $query->whereHas('highlight', function($q) use($pageId)
+        {
+            $q->where('page_id', $pageId);
+        })->orWhereHas('page', function ($q) use($pageId)
+        {
+            $q->where('id', $pageId);
+        });
+
+        return $query;
+    }
+
+    public function setContentAttribute($content)
+    {
+        $this->attributes['content'] = trim($content);
+    }
 
     public function commentable()
     {
@@ -40,20 +58,6 @@ class Comment extends Model
             ->whereCommentableType(Page::class);
     }
 
-    public static function concatAll($pageId)
-    {
-        $query = (new static)->newQuery();
-
-        $query->whereHas('highlight', function($q) use($pageId)
-        {
-            $q->where('page_id', $pageId);
-        })->orWhereHas('page', function ($q) use($pageId)
-        {
-            $q->where('id', $pageId);
-        });
-
-        return $query;
-    }
 
 
 }

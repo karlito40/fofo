@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Highlight;
+use App\Policies\HighlightPolicy;
 use Laravel\Passport\Passport;
 use App\Models\Comment;
 use App\Policies\CommentPolicy;
@@ -17,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Comment::class => CommentPolicy::class,
+        Highlight::class => HighlightPolicy::class,
     ];
 
     /**

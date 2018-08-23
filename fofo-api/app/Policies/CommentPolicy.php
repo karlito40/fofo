@@ -45,7 +45,6 @@ class CommentPolicy
      */
     public function delete(User $user, Comment $comment)
     {
-        Log::debug('policy delete comment', [$user->id === $comment->user_id]);
         return $user->id === $comment->user_id;
     }
 
@@ -70,6 +69,6 @@ class CommentPolicy
      */
     public function forceDelete(User $user, Comment $comment)
     {
-        return false;
+        return $user->id === $comment->user_id;
     }
 }

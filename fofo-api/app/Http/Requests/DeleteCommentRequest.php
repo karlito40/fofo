@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Comment;
-use Illuminate\Support\Facades\Log;
 
 class DeleteCommentRequest extends APIRequest
 {

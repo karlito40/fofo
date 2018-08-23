@@ -11,7 +11,8 @@ class Highlight extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'location'
+        'location',
+        'content'
     ];
 
     protected $dates = ['deleted_at'];

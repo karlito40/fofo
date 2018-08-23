@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\WWWAddress;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
@@ -16,6 +17,24 @@ class Page extends Model
     ];
 
     protected $dates = ['deleted_at'];
+
+    public static function findOrCreateWithAddress(WWWAddress $address)
+    {
+        $page = static::firstOrNew([
+            'uri' => $address->getUri(),
+        ]);
+
+        if(!isset($page->created_at)) {
+            $site = Site::firstOrCreate([
+                'domain' => $address->getDomain(),
+            ]);
+
+            $page->site()->associate($site);
+            $page->save();
+        }
+
+        return $page;
+    }
 
     public function site()
     {

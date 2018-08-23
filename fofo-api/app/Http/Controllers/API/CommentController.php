@@ -4,10 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\AddCommentRequest;
 use App\Http\Requests\DeleteCommentRequest;
+use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Page;
-use App\Models\Site;
-use Illuminate\Support\Facades\Log;
 use Validator;
 use App\Utils\WWWAddress;
 
@@ -16,20 +15,8 @@ class CommentController extends APIController
 
     public function add(AddCommentRequest $request)
     {
-        $address = WWWAddress::from($request->input('address'));
-        Log::debug('[addr: ' . $request->input('address') .'] Comment add on address ', [$address]);
 
-        $site = Site::firstOrCreate([
-            'domain' => $address->getDomain(),
-        ]);
-
-        $page = Page::firstOrNew([
-            'uri' => $address->getUri(),
-        ]);
-
-        if(!isset($page->created_at)) {
-            $site->pages()->save($page);
-        }
+        $page = Page::findOrCreateWithAddress(WWWAddress::from($request->input('address')));
 
         $comment = new Comment([
             'content' => $request->input('content')
@@ -39,12 +26,12 @@ class CommentController extends APIController
         $comment->user()->associate($request->user());
         $comment->save();
 
-        return $this->ok(compact('comment', 'site', 'page'));
+        return $this->ok(new CommentResource($comment));
     }
 
     public function delete(DeleteCommentRequest $request, Comment $comment)
     {
         $comment->delete();
-        return $this->ok($comment);
+        return $this->ok(new CommentResource($comment));
     }
 }

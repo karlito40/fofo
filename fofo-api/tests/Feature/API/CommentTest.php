@@ -9,7 +9,11 @@ class CommentTest extends TestCase
 {
     use \App\Traits\TestSetup;
 
-    /** @test */
+    /**
+     * @test
+     *
+     * phpunit --filter POST_comment_should_be_bind_to_a_page CommentTest tests/Feature/API/CommentTest.php
+     */
     public function POST_comment_should_be_bind_to_a_page()
     {
         $site = factory(\App\Models\Site::class)->make();
@@ -25,18 +29,21 @@ class CommentTest extends TestCase
             ->assertJsonStructure([
                 'success',
                 'data' => [
-                    'comment',
-                    'page',
-                    'site'
+                    'id',
+                    'commentable' => [
+                        'page' => [
+                            'site'
+                        ]
+                    ]
                 ]
             ])
             ->assertJson(['success' => true]);
 
         $content = json_decode($response->getContent());
 
-        $site = \App\Models\Site::find($content->data->site->id);
-        $page = \App\Models\Page::find($content->data->page->id);
-        $comment = \App\Models\Comment::find($content->data->comment->id);
+        $site = \App\Models\Site::find($content->data->commentable->page->site->id);
+        $page = \App\Models\Page::find($content->data->commentable->page->id);
+        $comment = \App\Models\Comment::find($content->data->id);
 
         $this->cleanable([$site, $page, $comment]);
 
@@ -120,6 +127,9 @@ class CommentTest extends TestCase
                 'deleted_at',
             ]
         ])->assertJson(['success' => true]);
+
+        $content = json_decode($response->getContent());
+        $this->assertNotEmpty($content->data->deleted_at);
 
         $this->assertEmpty(\App\Models\Comment::find($comment->id));
     }

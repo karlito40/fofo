@@ -36,6 +36,22 @@ class Page extends Model
         return $page;
     }
 
+    public static function byLatestActivity($domain = null)
+    {
+        $fromTable = (new static)->getTable();
+
+        return static::query()
+            ->joinSub(Comment::byLatestOfType(static::class), 'latest_comments', function($join) use($fromTable) {
+                $join->on($fromTable . '.id', 'latest_comments.commentable_id');
+            })
+            ->when($domain, function ($query, $domain) use($fromTable) {
+                $joinTable = (new Site)->getTable();
+                $query->join($joinTable, $fromTable . '.site_id', $joinTable . '.id');
+                $query->where($joinTable . '.domain', $domain);
+            })
+            ->orderBy('latest_comments.last_comment_created_at', 'desc');
+    }
+
     public function site()
     {
         return $this->belongsTo(Site::class);

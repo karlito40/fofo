@@ -22,7 +22,6 @@ class HighlightTest extends TestCase
 
         $response = $this->withAuth()->api('POST', '/highlight', [
             'location' => $highlight->location,
-            'content' => $highlight->content,
             'address' => $site->domain . '/' . $page->uri
         ]);
 
@@ -80,29 +79,12 @@ class HighlightTest extends TestCase
         $validate($this->withAuth()->api('POST', '/highlight', [
         ]), [
             'address',
-            'content',
-            'location'
-        ]);
-
-        $validate($this->withAuth()->api('POST', '/highlight', [
-            'content' => '',
-            'address' => 'domain.com/path.html'
-        ]), [
-            'content',
             'location'
         ]);
 
         $validate($this->withAuth()->api('POST', '/highlight', [
             'address' => 'domain.com/path.html'
         ]), [
-            'location',
-            'content'
-        ]);
-
-        $validate($this->withAuth()->api('POST', '/highlight', [
-            'content' => 'simple-content',
-        ]), [
-            'address',
             'location'
         ]);
 

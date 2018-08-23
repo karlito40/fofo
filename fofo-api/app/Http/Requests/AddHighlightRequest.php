@@ -16,7 +16,6 @@ class AddHighlightRequest extends APIRequest
     {
         return [
             'location' => 'required',
-            'content' => 'required|min:1',
             'address' => [
                 'required',
                 function($attribute, $value, $fail) {

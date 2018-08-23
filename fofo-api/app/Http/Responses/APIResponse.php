@@ -16,13 +16,27 @@ class APIResponse
 
     public static function ok($data)
     {
+        $data = static::transformData($data);
+
+        return static::okRaw([
+            'success' => true,
+            'data' => $data
+        ]);
+    }
+
+    public static function okRaw($data)
+    {
+        $data = static::transformData($data);
+
+        return response()->json($data);
+    }
+
+    public static function transformData($data)
+    {
         if($data instanceof JsonResource) {
             $data = $data->toArray((request()));
         }
 
-        return response()->json([
-            'success' => true,
-            'data' => $data
-        ]);
+        return $data;
     }
 }

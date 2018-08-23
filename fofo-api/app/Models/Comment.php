@@ -5,6 +5,7 @@ namespace App\Models;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Comment extends Model
 {
@@ -16,9 +17,17 @@ class Comment extends Model
 
     protected $dates = ['deleted_at'];
 
+    public static function byLatestOfType($commentableType)
+    {
+        return static::query()
+            ->select('commentable_id', DB::raw('MAX(created_at) as last_comment_created_at'))
+            ->where('commentable_type', $commentableType)
+            ->groupBy('commentable_id');
+    }
+
     public static function concatAll($pageId)
     {
-        $query = (new static)->newQuery();
+        $query = static::query();
 
         $query->whereHas('highlight', function($q) use($pageId)
         {

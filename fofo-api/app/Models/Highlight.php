@@ -12,7 +12,6 @@ class Highlight extends Model
 
     protected $fillable = [
         'location',
-        'content'
     ];
 
     protected $dates = ['deleted_at'];

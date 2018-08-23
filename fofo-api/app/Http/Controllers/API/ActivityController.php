@@ -2,14 +2,27 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Comment;
+use App\Models\Page;
 use App\Utils\WWWAddress;
+use Illuminate\Support\Facades\DB;
 
 class ActivityController extends APIController
 {
+    /**
+     * Display the most recent|active pages
+     * for the world.
+     *
+     * @param $host
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function world()
     {
-        // TODO: ActivityController::world
-        return $this->ok(['from' => 'world']);
+        $pages = Page::byLatestActivity()->paginate();
+
+        return $this->okRaw(array_merge([
+            'type' => 'world',
+        ], $pages->toArray()));
     }
 
     /**
@@ -21,11 +34,14 @@ class ActivityController extends APIController
      */
     public function site($domain)
     {
-        // TODO: ActivityController::site
+        $address = WWWAddress::from($domain);
 
-        $domain = WWWAddress::from($domain)->getDomain();
+        $pages = Page::byLatestActivity($address->getDomain())->paginate();
 
-        return $this->ok(array_merge(compact('domain'), ['from' => 'site']));
+        return $this->okRaw(array_merge([
+            'type' => 'site',
+        ], $pages->toArray()));
+
     }
 
     /**

@@ -7,6 +7,11 @@ use App\Http\Responses\APIResponse;
 
 class APIController extends Controller
 {
+    protected function okRaw($data)
+    {
+        return APIResponse::okRaw($data);
+    }
+
     protected function ok($data)
     {
         return APIResponse::ok($data);

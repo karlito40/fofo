@@ -20,12 +20,16 @@ class Comment extends Model
     public static function byLatestOfType($commentableType)
     {
         return static::query()
-            ->select('commentable_id', DB::raw('MAX(created_at) as last_comment_created_at'))
+            ->select(
+                'commentable_id',
+                DB::raw('MAX(created_at) as last_comment_created_at'),
+                DB::raw('MAX(id) as last_id')
+            )
             ->where('commentable_type', $commentableType)
             ->groupBy('commentable_id');
     }
 
-    public static function concatAll($pageId)
+    public static function byLatestActivity($pageId)
     {
         $query = static::query();
 
@@ -35,7 +39,7 @@ class Comment extends Model
         })->orWhereHas('page', function ($q) use($pageId)
         {
             $q->where('id', $pageId);
-        });
+        })->orderBy('id', 'desc');
 
         return $query;
     }

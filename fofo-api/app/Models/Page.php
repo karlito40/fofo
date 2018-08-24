@@ -20,13 +20,17 @@ class Page extends Model
 
     public static function findOrCreateWithAddress(WWWAddress $address)
     {
-        $page = static::firstOrNew([
-            'uri' => $address->getUri(),
+        $site = Site::firstOrCreate([
+            'domain' => $address->getDomain(),
         ]);
 
-        if(!isset($page->created_at)) {
-            $site = Site::firstOrCreate([
-                'domain' => $address->getDomain(),
+        $page = static::where('site_id', $site->id)
+            ->where('uri', $address->getUri())
+            ->first();
+
+        if(!$page) {
+            $page = new static([
+                'uri' => $address->getUri(),
             ]);
 
             $page->site()->associate($site);
@@ -34,6 +38,19 @@ class Page extends Model
         }
 
         return $page;
+    }
+
+    public static function findLatestComment($domain, $uri)
+    {
+        $site = Site::with(['pages' => function($query) use($uri) {
+            $query->where('uri', $uri);
+        }])
+            ->where('domain', $domain)
+            ->first();
+
+        return (!empty($site) && $site->pages->isNotEmpty())
+            ? Comment::byLatestActivity($site->pages[0]->id)
+            : Comment::whereRaw('1 != 1');
     }
 
     public static function byLatestActivity($domain = null)
@@ -49,7 +66,8 @@ class Page extends Model
                 $query->join($joinTable, $fromTable . '.site_id', $joinTable . '.id');
                 $query->where($joinTable . '.domain', $domain);
             })
-            ->orderBy('latest_comments.last_comment_created_at', 'desc');
+            // ->orderBy('latest_comments.last_comment_created_at', 'desc')
+            ->orderBy('latest_comments.last_id', 'desc');
     }
 
     public function site()
@@ -66,7 +84,6 @@ class Page extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
-
 
 
 }

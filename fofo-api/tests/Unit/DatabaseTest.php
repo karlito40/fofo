@@ -95,7 +95,7 @@ class DatabaseTest extends TestCase
         $this->assertCount($NB_COMMENTS_IN_HIGHLIGHT, $checkHighlight->comments, 'Test: $NB_COMMENTS_IN_HIGHLIGHT');
 
         $nbMessagesExpected = $NB_COMMENTS_IN_PAGE + ($NB_HIGHLIGHTS_IN_PAGE * $NB_COMMENTS_IN_HIGHLIGHT);
-        $this->assertEquals($nbMessagesExpected, \App\Models\Comment::concatAll($page->id)->count(), 'Test: total expected messages');
+        $this->assertEquals($nbMessagesExpected, \App\Models\Comment::byLatestActivity($page->id)->count(), 'Test: total expected messages');
 
         $user->forceDelete();
         $site->forceDelete();

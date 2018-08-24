@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Comment;
 use App\Models\Page;
+use App\Models\Site;
 use App\Utils\WWWAddress;
 use Illuminate\Support\Facades\DB;
 
@@ -45,7 +46,7 @@ class ActivityController extends APIController
     }
 
     /**
-     * Display the most recent|active comment for the given page.
+     * Display the most recent comments for the given page.
      *
      * `_` as uri retrieve the root page.
      *
@@ -55,8 +56,15 @@ class ActivityController extends APIController
      */
     public function page($domain, $uri)
     {
-        // TODO: ActivityController::page
-        return $this->ok(array_merge(compact('domain', 'uri'), ['from' => 'page']));
+        $comments = Page::findLatestComment($domain, $uri)
+            ->paginate()
+            ->toArray();
+
+        $data = (empty($comments)) ? ['data' => []] : $comments;
+        
+        return $this->okRaw(array_merge([
+            'type' => 'page'
+        ], $data));
     }
 
     public function address($url)
@@ -83,7 +91,7 @@ class ActivityController extends APIController
             return $this->err(['code' => 'INVALID_ADDRESS']);
         }
 
-        return $this->page($address->getDomain(), $address->getUri(''));
+        return $this->page($address->getDomain(), $address->getUri('/'));
     }
 
 }

@@ -4,7 +4,7 @@
   "version": "0.2",
   "description": "The secret community",
   "permissions": [
-    "tabs"
+    "tabs", "http://*/*"
   ],
   "background": {
     "scripts":["background.js"]

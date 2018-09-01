@@ -1,20 +1,27 @@
 
+// import ipc from '../../shared/ipc';
+
+console.log('---> content script');
 const appName = 'ext-parallel';
 
+function onAppLoad() {
+  console.log('onAppLoad');
+  appIsolation.contentWindow.postMessage('yolo', '*');
+}
+
+let appIsolation;
 (() => {
   if (window != top){ 
     return;
   }
-
-
-  /* TO LEFT */
+  /* TO THE LEFT */
 
   const panelWidth = 300;
 
   document.body.style.transition = '0.38s margin-left ease-out';
   document.body.style.marginLeft = `${panelWidth}px`;
 
-  const appIsolation = createElement("iframe", {
+  appIsolation = createElement("iframe", {
     src: 'https://localhost:3000'
   }, {
     width: `${panelWidth}px`,
@@ -26,6 +33,7 @@ const appName = 'ext-parallel';
     zIndex: "9999999",
     backgroundColor: "red"
   });
+  appIsolation.onload = onAppLoad;
 
   document.body.append(appIsolation);
   appIsolation.animate([

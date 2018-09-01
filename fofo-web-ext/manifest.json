@@ -3,13 +3,16 @@
   "name": "Fofo",
   "version": "0.2",
   "description": "The secret community",
+  "permissions": [
+    "tabs"
+  ],
+  "background": {
+    "scripts":["background.js"]
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["/contentScript.js"]
+      "js": ["contentScript.js"]
     }
-  ],
-  "web_accessible_resources":[
-    "/index.html"
   ]
 }

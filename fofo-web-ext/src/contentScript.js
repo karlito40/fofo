@@ -28,12 +28,15 @@ let appIsolation;
   if (window != top){ 
     return;
   }
+
+  // getFixedNode();
   /* TO THE LEFT */
 
   const panelWidth = 300;
 
-  document.body.style.transition = '0.38s margin-left ease-out';
-  document.body.style.marginLeft = `${panelWidth}px`;
+  
+  // document.documentElement.style.transition = '0.38s margin-left ease-out';
+  document.documentElement.style.marginLeft = `${panelWidth}px`;
 
   appIsolation = createElement("iframe", {
     src: chrome.runtime.getURL("/public/frame.csp.html")
@@ -43,22 +46,24 @@ let appIsolation;
     border: "0",
     position: "fixed",
     top: "0",
-    left: `-${panelWidth}px`,
+    // left: `-${panelWidth}px`,
+    left: "0",
     zIndex: "9999999",
     backgroundColor: "red"
   });
   appIsolation.onload = onAppLoad;
 
-  document.body.append(appIsolation);
-  appIsolation.animate([
-    // keyframes
-    { transform: 'translateX(0px)' },
-    { transform: `translateX(${panelWidth}px)` }
-  ], {
-    duration: 380,
-    easing: "ease-out",
-    fill: "forwards"
-  });
+  document.documentElement.append(appIsolation);
+  // appIsolation.animate([
+  //   // keyframes
+  //   { transform: 'translateX(0px)' },
+  //   { transform: `translateX(${panelWidth}px)` }
+  // ], {
+  //   // duration: 380,
+  //   duration: 0,
+  //   easing: "ease-out",
+  //   fill: "forwards"
+  // });
 
 })();
 
@@ -89,6 +94,18 @@ function findAvailableId(i = 0) {
     return findAvailableId(++i);
   }
   return id;
+}
+
+function getFixedNode(filter) {
+  const cond = filter || ((node) => true); 
+  const nodes = [...document.querySelectorAll('*')];
+  const list = [];
+  nodes.forEach(node => {
+    if(window.getComputedStyle(node).position === 'fixed' && cond(node)) {
+      list.push(node);
+    }
+  });
+  return list;
 }
 
 

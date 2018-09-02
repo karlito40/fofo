@@ -4,7 +4,7 @@
   "version": "0.2",
   "description": "The secret community",
   "permissions": [
-    "tabs", "http://*/*"
+    "tabs"
   ],
   "background": {
     "scripts":["background.js"]
@@ -14,5 +14,14 @@
       "matches": ["<all_urls>"],
       "js": ["contentScript.js"]
     }
-  ]
+  ],
+  "web_accessible_resources":[	
+    "public/*"	
+  ],
+  "externally_connectable": {
+    "matches": [
+      "*://localhost/*", 
+      "*://*.karlidev.fr/*"
+    ]
+  }
 }

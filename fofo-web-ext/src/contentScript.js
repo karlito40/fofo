@@ -6,8 +6,22 @@ const appName = 'ext-parallel';
 
 function onAppLoad() {
   console.log('onAppLoad');
-  appIsolation.contentWindow.postMessage('yolo', '*');
+  const action = {
+    type: 'INIT',
+    data: {
+      extid: chrome.runtime.id
+    }
+  };
+
+  appIsolation.contentWindow.postMessage(JSON.stringify(action), '*');
 }
+
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+  console.log('contentscript message received', msg);
+  // if (msg.from === 'event' && msg.method == 'ping') {
+  //   sendResponse({ data: 'pong' });
+  // }
+});
 
 let appIsolation;
 (() => {
@@ -22,11 +36,11 @@ let appIsolation;
   document.body.style.marginLeft = `${panelWidth}px`;
 
   appIsolation = createElement("iframe", {
-    src: 'https://localhost:3000'
+    src: chrome.runtime.getURL("/public/frame.csp.html")
   }, {
     width: `${panelWidth}px`,
     height: "100%",
-    border: "none",
+    border: "0",
     position: "fixed",
     top: "0",
     left: `-${panelWidth}px`,

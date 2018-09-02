@@ -3,11 +3,16 @@ import styled, { keyframes } from 'styled-components';
 import { MoreVert, Menu } from 'styled-icons/material';
 import { Search, Menu as MenuFeather, MoreVertical } from 'styled-icons/feather';
 
-console.log('date', localStorage.getItem('totox'))
-localStorage.setItem('totox', Date.now());
 
 window.addEventListener('message', (e) => {
-  console.log('from app message received', e);
+  console.log('frame.app message received', e);
+  const action = JSON.parse(e.data);
+  if(action.type === 'INIT') {
+    console.log('send message from app');
+    chrome.runtime.sendMessage(action.data.extid, {from: 'popup', method:'ping'}, function(response) { // eslint-disable-line
+    
+    });
+  }
 });
 
 const AppWrapper = styled.div`

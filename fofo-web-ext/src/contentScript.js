@@ -39,7 +39,6 @@ const Body = {
     this._keepPosition();
     if(document.body) {
       document.body.style.position = position;
-      console.log('setBodyPosition', position);
     }
   },
   _keepPosition() {
@@ -55,6 +54,7 @@ const panels = {
   selected: null,
   onload: null,
   sidebar: {
+    resizing: false,
     view: null,
     currentSize: MIN_SIDEBAR_WIDTH,
     restrictSize: {
@@ -77,33 +77,37 @@ const panels = {
     update() {
       Body.setPosition('relative');
       
-      document.documentElement.style.marginLeft = `${this.currentSize}px`;
       this.view.style.width  = `${this.currentSize}px`;
-      this.moveFixedNode();
+      document.documentElement.style.marginLeft = `${this.currentSize}px`;
+      if(!this.resizing) {
+        this.moveFixedNode();
+      }
+      
     },
     moveFixedNode(forceSize) {
       const size = (typeof forceSize === 'undefined') ? this.currentSize : forceSize;
       const nodes = getFixedNode((node, style) => node !== this.view);
     
       nodes.forEach(node => {
-        let oriX = parseInt(node.getAttribute('data-pll-x'), 10);
-        if(!oriX) {
+        if(!node.getAttribute('data-pll-x')) {
           const style = window.getComputedStyle(node);
-          oriX = parseInt(style.left, 10) || 0;
-          node.setAttribute('data-pll-x', oriX);
+          node.setAttribute('data-pll-x', parseInt(style.left, 10) || 0);
         }
+
+        const oriX = parseInt(node.getAttribute('data-pll-x'), 10);
         node.style.left = `${oriX + size}px`;
       });
     },
-    setSize(rect) {
+    setSize(rect, optimizePerf) {
       this.currentSize = parseInt(rect.width, 10);
-      this.update();
+      this.update(optimizePerf);
     },
     setView(v) {
       this.view = v;
     }
   },
   bottom: {
+    resizing: false,
     view: null,
     currentSize: MIN_BOTTOM_HEIGHT,
     restrictSize: {
@@ -121,21 +125,25 @@ const panels = {
       this.moveFixedNode(0);
     },
     update() {
-      document.documentElement.style.paddingBottom = `${this.currentSize}px`;
       this.view.style.height  = `${this.currentSize}px`;
-      this.moveFixedNode(); // opti debounce
+
+      document.documentElement.style.paddingBottom = `${this.currentSize}px`;
+
+      if(!this.resizing) {
+        this.moveFixedNode(); // opti debounce
+      }
     },
     moveFixedNode(forceSize) {
       const size = (typeof forceSize === 'undefined') ? this.currentSize : forceSize;
       const nodes = getFixedNode((node, style) => node !== this.view);
     
       nodes.forEach(node => {
-        let oriY = parseInt(node.getAttribute('data-pll-y'), 10);
-        if(!oriY) {
+        if(!node.getAttribute('data-pll-y')) {
           const style = window.getComputedStyle(node);
-          oriY = parseInt(style.bottom, 10) || 0;
-          node.setAttribute('data-pll-y', oriY);
+          node.setAttribute('data-pll-y', parseInt(style.bottom, 10) || 0);
         }
+
+        const oriY = parseInt(node.getAttribute('data-pll-y'), 10);
         node.style.bottom = `${oriY + size}px`; 
         // node.style.transform = `translateY(-${size}px)`;
       });
@@ -152,6 +160,18 @@ const panels = {
     if(!this.containerView) {
       this.create();
     }
+  },
+  resizeStart() {
+    this.appView.style.pointerEvents = 'none';
+    this.getSelected().resizing = true;
+  },
+  resizeEnd() {
+    this.appView.style.pointerEvents = 'auto';
+    this.getSelected().resizing = false;
+    this.getSelected().update();
+  },
+  resize(rect) {
+    this.getSelected().setSize(rect);
   },
   create() {
     this.containerView = createElement('div', {
@@ -189,6 +209,10 @@ const panels = {
     }
     
     this.getSelected().update();
+  },
+  togglePanel() {
+    const type = (!this.selected || this.selected == 'bottom') ? 'sidebar' : 'bottom';
+    this.setSelected(type);
   },
   getPanel(panel) {
     return this[panel];
@@ -231,7 +255,7 @@ const panels = {
       zIndex: '10',
     });
     button.innerHTML = 'TOGGLE';
-    button.addEventListener('click', togglePanel);
+    button.addEventListener('click', panels.togglePanel.bind(panels));
     document.body.append(button);
 
     
@@ -250,23 +274,12 @@ const panels = {
 
       restrictSize: panels.getSelected().restrictSize,
     })
-    .on('resizestart', (e) => {
-      panels.appView.style.pointerEvents = 'none';
-    })
-    .on('resizeend', (e) => {
-      panels.appView.style.pointerEvents = 'auto';
-    })
+    .on('resizestart', panels.resizeStart.bind(panels))
+    .on('resizeend', panels.resizeEnd.bind(panels))
     .on('resizemove', (e) => {
-      panels.getSelected().setSize(e.rect);
+      panels.resize(e.rect);
     });
 })();
-
-function togglePanel() {
-  console.log('togglePanel');
-  const choice = (!panels.selected || panels.selected == 'bottom') ? 'sidebar' : 'bottom';
-  console.log('choice:', choice);
-  panels.setSelected(choice);
-}
 
 function createEdges() {
   const baseStyle = {

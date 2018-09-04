@@ -3,9 +3,16 @@ import interact from 'interactjs';
 
 console.log('contentScript.js');
 
+const APP_NAME = 'parallel-app';
+// const PANEL_DEFAULT = 'bottom';
+const PANEL_DEFAULT = 'sidebar';
+const MIN_SIDEBAR_WIDTH = 300;
+const MIN_BOTTOM_HEIGHT = 250;
+
 function onAppLoad() {
   console.log('onAppLoad');
   const action = {
+    source: APP_NAME,
     type: 'INIT',
     data: {
       extid: chrome.runtime.id
@@ -21,12 +28,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
   //   sendResponse({ data: 'pong' });
   // }
 });
-
-const APP_NAME = 'ext-parallel';
-// const PANEL_DEFAULT = 'bottom';
-const PANEL_DEFAULT = 'sidebar';
-const MIN_SIDEBAR_WIDTH = 300;
-const MIN_BOTTOM_HEIGHT = 250;
 
 const Body = {
   originalPosition: null,

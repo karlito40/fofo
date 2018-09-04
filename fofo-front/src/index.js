@@ -6,6 +6,7 @@ import registerGlobalStyle from './themes/globalStyle';
 import registerStore, { store } from './store';
 import {actions as appActions} from './store/app';
 import {actions as globalActions} from './store/global';
+import {actions as totoActions} from './store/toto';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
@@ -15,6 +16,7 @@ registerStore();
 store.dispatch(appActions.test('.1'));
 store.dispatch(appActions.helloWorld('.2'));
 store.dispatch(appActions.otherEvent('.3'));
+store.dispatch(totoActions.test('fefzef'));
 store.dispatch(globalActions.simpleTest('.4'));
 
 window.addEventListener('message', (e) => {

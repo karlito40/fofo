@@ -17,7 +17,7 @@ trait DependenciesSeeder
 
     protected function loadDependencies()
     {
-        Log::debug(static::class . '::loadDepencies ', $this->dependencies);
+        Log::debug(static::class . '::loadDependencies ', $this->dependencies);
         if(!isset($this->dependencies)) {
             return;
         }

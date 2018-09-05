@@ -1,8 +1,8 @@
-import * as actionTemplate from './actions'; 
-import reducer from './reducer'; 
-import { create } from '../../lib/ModuleStore';
+import * as _actions from './actions'; 
+import _reducer from './reducer'; 
+import { create } from '../../lib/store-component';
 
-const _module = create('app', reducer, actionTemplate);
+const component = create('app', _reducer, _actions);
 
-export default _module;
-export const actions = _module.actions;
+export default component;
+export const actions = component.getActions();

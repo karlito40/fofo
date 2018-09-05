@@ -1,9 +1,13 @@
+import Posts from './posts';
+
 export default {
+  _dependencies: {
+    posts: Posts
+  },
   _state: {
-    id: '1-toto',
+    id: 'i-am-a-user',
   },
   self: {
-    // handle toto.TEST
     test(state, data) {
       return {...state, ...data};
     },

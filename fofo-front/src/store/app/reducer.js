@@ -1,16 +1,25 @@
-// default state
+import User from './user';
+
 export default {
-  default: {
+  _dependencies: {
+    user: User,
+  },
+  _state: {
     id: 'x',
-    fakeProps: 'hello'  
+    fakeProps: 'hello',
   },
   self: {
+    // parent: app,
+    setPost(state, data) {
+      // console.log('this', this);
+    },
     // handle APP.HELLO_WORLD
     helloWorld(state, data) {
       return {...state, ...data};
     },
     // handle APP.OTHER_EVENT
     otherEvent(state, data) {
+      console.log('otherEvent', data);
       return {...state, ...data};
     },
   },

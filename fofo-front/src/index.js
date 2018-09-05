@@ -7,6 +7,7 @@ import registerStore, { store } from './store';
 import {actions as appActions} from './store/app';
 import {actions as globalActions} from './store/global';
 import {actions as totoActions} from './store/toto';
+import {actions as userActions} from './store/app/user';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
@@ -18,6 +19,7 @@ store.dispatch(appActions.helloWorld('.2'));
 store.dispatch(appActions.otherEvent('.3'));
 store.dispatch(totoActions.test('fefzef'));
 store.dispatch(globalActions.simpleTest('.4'));
+store.dispatch(userActions.test('user action send'));
 
 window.addEventListener('message', (e) => {
   let action = (typeof e.data === 'string') ? JSON.parse(e.data) : e.data;

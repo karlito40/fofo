@@ -1,13 +1,12 @@
 import { createStore, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-//import appModule from './app';
-import { modules } from '../lib/ModuleStore';
+import { Component } from '../lib/store-component';
 import { isDev } from '../config';
 
 let store = null;
 export default function() {
   store = createStore(
-    combineReducers(modules.getReducers()), 
+    combineReducers(Component.getCombineReducers()), 
     composeWithDevTools()
   );
 

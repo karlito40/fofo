@@ -42,7 +42,7 @@ window.addEventListener('message', (e) => {
   
   console.log('frame.app message received', action, e);
 
-  if(action.type === 'INIT') {
+  if(action.type === 'APP.INIT') {
     console.log('send message from app');
     chrome.runtime.sendMessage(action.data.extid, {from: 'popup', method:'ping'}, function(response) { // eslint-disable-line
     

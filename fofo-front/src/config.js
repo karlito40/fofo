@@ -1,14 +1,10 @@
-import VerticalApp from './VerticalApp';
-import HorizontalApp from './HorizontalApp';
+import { availableApps, indexDefaultApp } from './apps';
 
 const config = {
   env: process.env.NODE_ENV,
   app: {
-    selectedDefault: 'horizontal',
-    availables: {
-      horizontal: HorizontalApp,
-      vertical: VerticalApp
-    }
+    selectedDefault: indexDefaultApp,
+    availables: availableApps
   }
 };
 

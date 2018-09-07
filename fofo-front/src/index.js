@@ -31,7 +31,7 @@ registerServiceWorker();
 // store.dispatch(userActions.test('user action send'));
 
 // setInterval(() => {
-//   store.dispatch(appActions.toggleSelected());
+//   store.dispatch(appActions.toggleTheme());
 // }, 1000);
 
 window.addEventListener('message', (e) => {

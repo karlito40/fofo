@@ -1,5 +1,5 @@
-export function setSelected(selected) {
-  return { selected };
+export function setTheme(theme) {
+  return { theme };
 }
 
-export function toggleSelected() {}
+export function toggleTheme() {}

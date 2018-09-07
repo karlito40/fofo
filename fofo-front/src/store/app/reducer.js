@@ -2,34 +2,31 @@ import config from '../../config';
 
 export default {
   _state: {
-    ...select(config.app.selectedDefault),
+    ...selectTheme(config.defaultTheme),
   },
   self: {
-    setSelected(state, data) {
-      return {...state, ...select(data.selected)};
+    setTheme(state, data) {
+      return {...state, ...selectTheme(data.theme)};
     },
-    toggleSelected(state) {
-      let newSelected;
-      for(let selectable in config.app.availables) {
-        if(selectable !== state.selected) {
-          newSelected = selectable;
+    toggleTheme(state) {
+      let newTheme;
+      for(let selectable of config.themes) {
+        if(selectable !== state.theme) {
+          newTheme = selectable;
           break;
         }  
       }
 
-      return {...state, ...select(newSelected)};
+      return {...state, ...selectTheme(newTheme)};
     }
   }
 };
 
 
-function select(type) {
-  if(!config.app.availables[type]) {
-    throw new Error(type + 'is not a usable app type');
+function selectTheme(theme) {
+  if(config.themes.indexOf(theme) === -1) {
+    throw new Error(theme + ' is not a usable theme');
   }
 
-  return {
-    selected: type,
-    component: config.app.availables[type],
-  }
+  return { theme };
 }

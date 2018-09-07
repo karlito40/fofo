@@ -1,16 +1,20 @@
 import React, { Component, Fragment } from 'react';
-import GlobalStyle from './themes/globalStyle';
+import { ThemeProvider } from "styled-components";
 import { connect } from 'react-redux';
+import { GlobalStyle, getTheme } from './themes';
+import Body from './Body';
 
 class App extends Component {
   render() {
     const { app } = this.props;
 
     return (
-      <Fragment>
-        <GlobalStyle/>
-        <app.component/>
-      </Fragment>
+      <ThemeProvider theme={getTheme(app.theme)}>
+        <Fragment>
+          <GlobalStyle/>
+          <Body/>
+        </Fragment>
+      </ThemeProvider>
     );
   }
 }

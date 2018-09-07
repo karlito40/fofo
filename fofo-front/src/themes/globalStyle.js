@@ -1,6 +1,7 @@
-import { injectGlobal } from 'styled-components';
+// import { injectGlobal } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
-export default () => injectGlobal`
+const GlobalStyle = createGlobalStyle`
   html {
     box-sizing: border-box;
     line-height: 1.15; 
@@ -19,3 +20,5 @@ export default () => injectGlobal`
     font-family: sans-serif;
   }
 `;
+
+export default GlobalStyle;

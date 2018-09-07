@@ -1,14 +1,21 @@
 import React, { Component, Fragment } from 'react';
+import GlobalStyle from './themes/globalStyle';
+import { connect } from 'react-redux';
+
 
 class App extends Component {
   render() {
+    const { app } = this.props;
+
     return (
       <Fragment>
-        Lalal
-        {/* <VerticalApp/> */}
+        <GlobalStyle/>
+        <app.component/>
       </Fragment>
     );
   }
 }
 
-export default App;
+const mapStateToProps = ( { app }) => ({ app });
+
+export default connect(mapStateToProps)(App);

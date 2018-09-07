@@ -1,40 +1,35 @@
-import User from './user';
+import config from '../../config';
 
 export default {
-  _dependencies: {
-    user: User,
-  },
   _state: {
-    id: 'x',
-    fakeProps: 'hello',
+    ...select(config.app.selectedDefault),
   },
   self: {
-    // parent: app,
-    setPost(state, data) {
-      // console.log('this', this);
+    setSelected(state, data) {
+      return {...state, ...select(data.selected)};
     },
-    // handle APP.HELLO_WORLD
-    helloWorld(state, data) {
-      return {...state, ...data};
-    },
-    // handle APP.OTHER_EVENT
-    otherEvent(state, data) {
-      console.log('otherEvent', data);
-      return {...state, ...data};
-    },
-  },
-  toto: {
-    // handle TOTO.TEST
-    test(state, data) {
-      return {...state, ...data};
-    },
-  },
-  global: {
-    // handle SIMPLE_TEST
-    simpleTest(state, data) {
-      return {...state, ...data};
-    }  
+    toggleSelected(state) {
+      let newSelected;
+      for(let selectable in config.app.availables) {
+        if(selectable !== state.selected) {
+          newSelected = selectable;
+          break;
+        }  
+      }
+
+      return {...state, ...select(newSelected)};
+    }
   }
-  
 };
 
+
+function select(type) {
+  if(!config.app.availables[type]) {
+    throw new Error(type + 'is not a usable app type');
+  }
+
+  return {
+    selected: type,
+    component: config.app.availables[type],
+  }
+}

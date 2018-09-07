@@ -13,7 +13,7 @@ function onAppLoad() {
   console.log('onAppLoad');
   const action = {
     source: APP_NAME,
-    type: 'INIT',
+    type: 'APP.INIT',
     data: {
       extid: chrome.runtime.id
     }
@@ -203,7 +203,6 @@ const panels = {
   },
   update() {
     this.ensureView();
-
     setStyles(this.containerView, this.getSelected().getBaseStyle());
     if(this.previous) {
       this.getPanel(this.previous).clear();

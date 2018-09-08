@@ -66,7 +66,8 @@ const panels = {
         width: `${this.currentSize}px`,
         top: '0',
         height: 'auto',
-        boxShadow: '10px 0px 30px rgba(211, 215, 221, 0.4)',
+        border: 'O',
+        borderRight: 'rgba(0, 0, 0, 0.04)',
       }
     },
     clear() {
@@ -118,7 +119,8 @@ const panels = {
       return {
         width: '100%',
         top: 'auto',
-        boxShadow: '0px -10px 30px rgba(211, 215, 221, 0.4)',
+        border: 'O',
+        borderTop: 'rgba(0, 0, 0, 0.04)',
       };
     },
     clear() {

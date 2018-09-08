@@ -1,32 +1,33 @@
 import React, { Component } from 'react';
-import styled from "styled-components";
-import { Home as HomeIcon, MoreVert as MoreVertIcon } from 'styled-icons/material';
-import { Search as SearchIcon } from 'styled-icons/feather';
+import styled, { css } from 'styled-components';
+import { Home as HomeIcon } from 'styled-icons/material/Home';
+import { MoreVert as MoreVertIcon } from 'styled-icons/material/MoreVert';
+import { Search as SearchIcon } from 'styled-icons/feather/Search';
 
 export default class extends Component {
   render() {
     const { sites, className } = this.props;
 
     return <Wrapper className={className}>
-      <AutoFlexbox>
+      <Sites>
         <Logo>Fofo</Logo>
         <Icon as={HomeIcon} hideOnVertical/>
         {sites.map((site, i) => <Image key={i} src={site.ico} alt={site.name} hideOnVertical/>)}
-      </AutoFlexbox>
-      <Extras>
+      </Sites>
+      <AutoFlexbox>
         <StrokeIcon as={SearchIcon}/>
         <FillIcon as={MoreVertIcon}/>
-      </Extras>
+      </AutoFlexbox>
     </Wrapper>
   }
 }
 
 const Logo = styled.div`
-  ${p => p.theme.horizontal && `
+  ${p => p.theme.horizontal && css`
     display: none;
   `}
 
-  ${p => p.theme.vertical && `
+  ${p => p.theme.vertical && css`
     font-size: 16px;
     color: ${p.theme.menuColor};
     margin-left: 10px;
@@ -36,13 +37,13 @@ const Image = styled.img`
   width: 15px;
   height: 15px;
   
-  ${p => p.theme.horizontal && `
+  ${p => p.theme.horizontal && css`
     margin-bottom: 15px;
   `}
 
-  ${p => p.theme.vertical && `
+  ${p => p.theme.vertical && css`
     margin-left: 15px;
-    ${p.hideOnVertical && `
+    ${p.hideOnVertical && css`
       display: none;
     `}
   `}
@@ -55,19 +56,19 @@ const Wrapper = styled.div`
   left: 0;
   display: flex;
 
-  ${p => p.theme.vertical && `
+  ${p => p.theme.vertical && css`
     background-color: ${p.theme.menuBgColor};
     width: 100%;
     height: 40px;
     padding: 0 5px;
   `}
 
-  ${p => p.theme.horizontal && `
+  ${p => p.theme.horizontal && css`
     background-color: ${p.theme.secondaryBgColor};
-    width: 40px;
+    width: ${p.theme.menuWidth};
     height: auto;
     bottom: 0;
-    box-shadow: 0px 10px 30px 0px rgba(211, 215, 221, 0.4);
+    box-shadow: ${p.theme.primaryBoxShadow};
     flex-direction: column;
     align-items: center;
     padding: 10px 0 5px 0;
@@ -80,12 +81,12 @@ const Icon = styled.div`
   width: 20px;
   height: 20px;
   
-  ${p => p.theme.horizontal && `
+  ${p => p.theme.horizontal && css`
     margin-bottom: 10px;
   `}
 
-  ${p => p.theme.vertical && `
-    ${p.hideOnVertical && `
+  ${p => p.theme.vertical && css`
+    ${p.hideOnVertical && css`
       display: none;
     `}
     fill: white;
@@ -106,12 +107,13 @@ const FillIcon = styled(Icon)`
 const AutoFlexbox = styled.div`
   display: flex;
   align-items: center;
-  ${p => p.theme.horizontal && `
+  ${p => p.theme.horizontal && css`
     flex-direction: column;
   `}
 `;
 
-const Extras = styled(AutoFlexbox)`
+const Extras = styled(AutoFlexbox)``;
+
+const Sites = styled(AutoFlexbox)`
   flex: 1;
-  justify-content: flex-end;
 `;

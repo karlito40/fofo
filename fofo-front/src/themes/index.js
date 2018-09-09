@@ -3,6 +3,7 @@ export { default as GlobalStyle } from './GlobalStyle';
 const highlightColor = '#39dd92';
 
 const MENU_WIDTH_HORI = 40;
+const MENU_HEIGHT_VERT = 40;
 const SITE_FEED_WIDTH_HORI = 350;
 const FULL_FIXED_PANEL_HORI = MENU_WIDTH_HORI + SITE_FEED_WIDTH_HORI;
 
@@ -23,6 +24,8 @@ const baseStyle = {
 
   titleFontSize: '16px',
   minFontSize: '10px',
+
+  messageFormHeight: '45px',
 };
 
 const themes = {
@@ -43,6 +46,9 @@ const themes = {
     
     menuColor: baseStyle.secondaryBgColor,
     menuBgColor: baseStyle.highlightBgColor,
+    menuHeight: MENU_WIDTH_HORI + 'px',
+
+    contentWrapperTop: MENU_HEIGHT_VERT + 'px',
   }
 };
 

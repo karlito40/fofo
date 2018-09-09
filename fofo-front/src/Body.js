@@ -4,22 +4,23 @@ import MenuContainer from './containers/Menu';
 import SiteFeedContainer from './containers/SiteFeed';
 import PageFeedContainer from './containers/PageFeed';
 import BaseMessageForm from './components/MessageForm';
+import Breadcrumb from './components/Breadcrumb';
 
 export default class extends Component {
   render() {
     return <Fragment>
       <Menu/>
       <SiteFeed/>
-      <PageFeed/>
       <MessageForm/>
+      <Content>
+        <Breadcrumb/>
+        <PageFeed/>
+      </Content>
     </Fragment> 
   }
 }
 
 const PageFeed = styled(PageFeedContainer)`
-  ${p => p.theme.horizontal && css`
-    margin-left: ${p.theme.panelWidth};
-  `}
 `;
 
 const Menu = styled(MenuContainer)`
@@ -33,3 +34,20 @@ const SiteFeed = styled(SiteFeedContainer)`
 const MessageForm = styled(BaseMessageForm)`
   z-index: 2;
 `;
+
+const Content = styled.div`
+  position: relative;
+  padding-bottom: ${p => p.theme.messageFormHeight};
+  background-color: ${p => p.theme.primaryBgColor};
+
+  ${p => p.theme.horizontal && css`
+    margin-left: ${p.theme.panelWidth};
+  `}
+
+  ${p => p.theme.vertical && css`
+    padding-top: ${p.theme.contentWrapperTop};
+  `}
+
+  
+  
+`

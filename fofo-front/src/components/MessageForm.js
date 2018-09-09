@@ -15,7 +15,6 @@ export default class extends Component {
           <SendIcon size={18}/>
         </Interaction>
       </Form>
-      
     </Wrapper>
   }
 }
@@ -23,16 +22,16 @@ export default class extends Component {
 const Wrapper = styled.div`
   position: fixed;
   bottom: 0;
-  height: 45px;
+  height: ${p => p.theme.messageFormHeight};
   padding: 0 25px 0 30px;
   box-shadow: ${p => p.theme.primaryBoxShadow};
   background-color: ${p => p.theme.secondaryBgColor};
   right: 0;
+  left: 0;
 
   ${p => p.theme.horizontal && css`
     left: ${p.theme.panelWidth};
   `}
-   
 `;
 
 const Form = styled.form`

@@ -59,7 +59,7 @@ const Wrapper = styled.div`
   ${p => p.theme.vertical && css`
     background-color: ${p.theme.menuBgColor};
     width: 100%;
-    height: 40px;
+    height: ${p.theme.menuHeight};
     padding: 0 5px;
   `}
 

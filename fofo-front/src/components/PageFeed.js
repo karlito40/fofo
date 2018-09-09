@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
-import Comment from './Comment';
+import BaseComment from './Comment';
 
 export default class extends Component {
   render() {
@@ -13,7 +13,13 @@ export default class extends Component {
 }
 
 const Wrapper = styled.div`
-  padding-bottom: 45px;
-  background-color: ${p => p.theme.primaryBgColor};
+  padding-top: 1px;
 `;
 
+const Comment = styled(BaseComment)`
+  ${p => p.theme.vertical && css`
+    :first-child {
+      margin-top: 0px;
+    }
+  `}
+`;

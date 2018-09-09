@@ -21,12 +21,28 @@ export function getToken() {
   return token;
 }
 
-export default {
-  action(method, route, data = {}, customize = {}) {
-    return (dispatch, getState, extras, createPayload) => {
-      dispatch(createPayload({ status: REQUEST_LOADING }));
+export class ActionAPI {
+  constructor(method, route, data = {}, customize = {}, payloadOrigin = {}) {
+    this.method = method;
+    this.route = route;
+    this.data = data;
+    this.customize = customize;
+    this.payloadOrigin = {};  
+  }
 
-      return axios(createAxiosOptions(method, route, data, customize))
+  with(payloadOrigin) {
+    this.payloadOrigin = payloadOrigin;
+    return this;
+  }
+
+  export() {
+    return (dispatch, getState, extras, createPayload) => {
+      dispatch(createPayload({ 
+        status: REQUEST_LOADING, 
+        payloadOrigin: this.payloadOrigin 
+      }));
+  
+      return axios(createAxiosOptions(this.method, this.route, this.data, this.customize))
         .then(response => {
           const status = (typeof response.data.success != "undefined" && !response.data.success)
             ? REQUEST_ERROR
@@ -35,17 +51,23 @@ export default {
           return dispatch(createPayload({ 
             response: response.data,
             status,
+            payloadOrigin: this.payloadOrigin,
           }));
         })
         .catch(error => {
           return dispatch(createPayload({
             response: error,
             status: REQUEST_ERROR,
+            payloadOrigin: this.payloadOrigin,
           }));
         });
-    };
+    }; 
   }
-};
+}
+
+export default function action(method, route, data = {}, customize = {}, payloadOrigin = {}) {
+  return (new ActionAPI(method, route, data, customize, payloadOrigin)).export();
+}
 
 function createAxiosOptions(method, route, data = {}, customize = {}) {
   const options = {

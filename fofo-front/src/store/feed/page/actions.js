@@ -1,5 +1,9 @@
-import api from '../../api';
+// import api from '../../api';
+import action, { ActionAPI } from '../../api';
 
 export function fetch(href) {
-  return api.action('GET', `/feed/page/${href}`);
+  return (new ActionAPI('GET', `/feed/page/${href}`))
+    .with({href})
+    .export();
+
 }

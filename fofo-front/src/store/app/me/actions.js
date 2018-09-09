@@ -1,11 +1,11 @@
-import api, { getToken } from '../../api';
+import apiCall, { getToken } from '../../api';
 
 export function fetch() {
-  return api.action('GET', '/me');
+  return apiCall('GET', '/me');
 }
 
 export function login(email, password) {
-  return api.action('POST', '/login', {
+  return apiCall('POST', '/login', {
     email,
     password
   });

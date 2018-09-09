@@ -10,9 +10,10 @@ $publicRoutes = function()
 
     // ---------- Feed ---------- //
     Route::get('/feed', 'API\ActivityController@world');
-    Route::get('/feed/{address}', 'API\ActivityController@address')->where('address', '.+');
     Route::get('/feed/site/{domain}', 'API\ActivityController@site');
     Route::get('/feed/page/{address}', 'API\ActivityController@comments')->where('address', '.+');
+    Route::get('/feed/{address}', 'API\ActivityController@address')->where('address', '.+');
+
 };
 
 $restrictedRoutes = function()

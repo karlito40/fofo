@@ -1,12 +1,24 @@
 import queryString from 'query-string';
 import axios from 'axios';
 import { delProperties } from '../lib/Object';
-import { REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from './constants';
 import config from '../config';
+
+export const REQUEST_COMPLETE = 'complete';
+export const REQUEST_ERROR = 'error';
+export const REQUEST_LOADING = 'loading';
 
 let token;
 export function setToken(t) {
   token = t;
+  localStorage.setItem('token', token);
+}
+
+export function getToken() {
+  if(!token) {
+    token = localStorage.getItem('token', token);
+  }
+
+  return token;
 }
 
 export default {
@@ -43,8 +55,8 @@ function createAxiosOptions(method, route, data = {}, customize = {}) {
     ...customize,
   };
 
-  if(token) {
-    options.headers['Authorization'] = `Bearer ${token}`;
+  if(getToken()) {
+    options.headers['Authorization'] = `Bearer ${getToken()}`;
   }
 
   if(data && data._query) {

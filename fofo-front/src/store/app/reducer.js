@@ -7,10 +7,27 @@ export default {
   },
   _state: {
     ...selectTheme(config.defaultTheme),
+    href: null,
+    domain: null,
+    uri: null,
   },
   self: {
-    setTheme(state, data) {
-      return {...state, ...selectTheme(data.theme)};
+    setAddress(state, payload) {
+      const { domain, uri } = payload;
+      const href = domain + uri;
+      if(state.href === href) {
+        return state;
+      }
+
+      return {
+        ...state, 
+        href,
+        domain,
+        uri,
+      };
+    },
+    setTheme(state, payload) {
+      return {...state, ...selectTheme(payload.theme)};
     },
     toggleTheme(state) {
       let newTheme;

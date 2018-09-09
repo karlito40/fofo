@@ -33,7 +33,7 @@ function createAction(namespace, functionName, f) {
       };
     }
 
-    return createPayload(namespace, functionName, f);
+    return createPayload(namespace, functionName, res);
   }
 }
 

@@ -1,4 +1,4 @@
-import api from '../../api';
+import api, { getToken } from '../../api';
 
 export function fetch() {
   return api.action('GET', '/me');
@@ -9,4 +9,12 @@ export function login(email, password) {
     email,
     password
   });
+}
+
+export function restore() {
+  if(!getToken()) {
+    return false;
+  }
+
+  return fetch();
 }

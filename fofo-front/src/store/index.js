@@ -6,6 +6,7 @@ import thunkMiddleware from 'redux-thunk';
 
 // Loadable components
 import './app';
+import './feed';
 
 let store = null;
 export default function() {

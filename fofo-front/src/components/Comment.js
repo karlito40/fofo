@@ -25,7 +25,6 @@ export default (props) => {
       </Header>
       <Content>
         {comment.content} 
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dictum metus ac viverra maximus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque sagittis vestibulum felis non luctus. Phasellus tristique nibh velit, ut egestas velit mattis ut. Aliquam ut gravida enim, eu consectetur leo. Etiam facilisis dui sed nisi pharetra, in varius purus dapibus. Aenean eu euismod lorem.
       </Content>
     </Wrapper>
   )

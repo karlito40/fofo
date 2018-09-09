@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
+import { connect } from 'react-redux';
+import { actions as meActions } from './store/app/me';
 import MenuContainer from './containers/Menu';
 import SiteFeedContainer from './containers/SiteFeed';
 import PageFeedContainer from './containers/PageFeed';
 import BaseMessageForm from './components/MessageForm';
 import Breadcrumb from './components/Breadcrumb';
 
-export default class extends Component {
+export default class Body extends Component {
   render() {
     return <Fragment>
       <Menu/>
@@ -37,7 +39,6 @@ const MessageForm = styled(BaseMessageForm)`
 
 const Content = styled.div`
   position: relative;
-  padding-bottom: ${p => p.theme.messageFormHeight};
   background-color: ${p => p.theme.primaryBgColor};
 
   ${p => p.theme.horizontal && css`

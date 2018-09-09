@@ -3,3 +3,7 @@ export function setTheme(theme) {
 }
 
 export function toggleTheme() {}
+
+export function setAddress(address) {
+  return address;
+}

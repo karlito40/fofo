@@ -1,6 +1,10 @@
 import config from '../../config';
+import Me from './me';
 
 export default {
+  _dependencies: {
+    me: Me,
+  },
   _state: {
     ...selectTheme(config.defaultTheme),
   },

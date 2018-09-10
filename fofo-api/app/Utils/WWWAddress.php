@@ -95,13 +95,13 @@ class WWWAddress
     public function getUri()
     {
         if(!$this->hasUri()) {
-            return '/';
+            return '';
         }
 
         // Laravel does not recognize ending slash
-        if(ends_with($this->uri, '/')) {
+        /*if(ends_with($this->uri, '/')) {
             return substr($this->uri, 0, -1);
-        }
+        }*/
 
         return $this->uri;
 

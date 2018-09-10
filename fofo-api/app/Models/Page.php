@@ -55,12 +55,12 @@ class Page extends Model
             : Comment::whereRaw('1 != 1');
     }
 
-    public static function byLatestActivity($domain = null)
+    public static function byLatestActivity($domain = null) : Builder
     {
         $fromTable = (new static)->getTable();
 
         return static::query()
-            ->select('*', 'pages.id as id')
+            ->select('pages.id', 'pages.uri', 'pages.site_id', 'latest_comments.last_id as last_comment_id')
             ->joinSub(Comment::byLatestOfType(static::class), 'latest_comments', function($join) use($fromTable) {
                 $join->on($fromTable . '.id', 'latest_comments.commentable_id');
             })
@@ -70,7 +70,7 @@ class Page extends Model
                 $query->where($joinTable . '.domain', $domain);
             })
             // ->orderBy('latest_comments.last_comment_created_at', 'desc')
-            ->orderBy('latest_comments.last_id', 'desc');
+            ->orderBy('last_comment_id', 'desc');
     }
 
     public function site()

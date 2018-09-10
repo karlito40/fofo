@@ -12,7 +12,7 @@ export default class extends Component {
       <Sites>
         <Logo>Fofo</Logo>
         <Icon as={HomeIcon} hideOnVertical/>
-        {sites.map((site, i) => <Image key={i} src={site.ico} alt={site.name} hideOnVertical/>)}
+        {this.props.children}
       </Sites>
       <AutoFlexbox>
         <StrokeIcon as={SearchIcon}/>
@@ -33,21 +33,7 @@ const Logo = styled.div`
     margin-left: 10px;
   `}
 `;
-const Image = styled.img`
-  width: 15px;
-  height: 15px;
-  
-  ${p => p.theme.horizontal && css`
-    margin-bottom: 15px;
-  `}
 
-  ${p => p.theme.vertical && css`
-    margin-left: 15px;
-    ${p.hideOnVertical && css`
-      display: none;
-    `}
-  `}
-`;
 
 const Wrapper = styled.div`
   position: fixed;
@@ -77,7 +63,7 @@ const Wrapper = styled.div`
 
 const Icon = styled.div`
   fill: ${p => p.theme.menuColor};
-  stroke: ${p => p.theme.menuBgColor}
+  stroke: ${p => p.theme.menuBgColor};
   width: 20px;
   height: 20px;
   

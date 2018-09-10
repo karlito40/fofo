@@ -14,9 +14,9 @@ class ActivityTest extends TestCase
     /**
      * @test
      *
-     * phpunit --filter GET_feed_root_should_return_the_recent_global_activty ActivityTest tests/Feature/API/ActivityTest.php
+     * phpunit --filter GET_feed_world_should_return_the_recent_global_activty ActivityTest tests/Feature/API/ActivityTest.php
      */
-    public function GET_feed_root_should_return_the_recent_global_activty()
+    public function GET_feed_world_should_return_the_recent_global_activty()
     {
         $domains = collect([
             'domain1.test',
@@ -32,7 +32,7 @@ class ActivityTest extends TestCase
             $comments->push($this->createComment($domains->random(), 'loop' . $i));
         }
 
-        $response = $this->api('GET', '/feed');
+        $response = $this->api('GET', '/feed/world');
         $content = json_decode($response->getContent());
 
         $response->assertJsonStructure([
@@ -57,9 +57,9 @@ class ActivityTest extends TestCase
     /**
      * @test
      *
-     * phpunit --filter GET_feed_domain_should_return_the_recent_domain_activty ActivityTest tests/Feature/API/ActivityTest.php
+     * phpunit --filter GET_feed_site_should_return_the_recent_domain_activty ActivityTest tests/Feature/API/ActivityTest.php
      */
-    public function GET_feed_domain_should_return_the_recent_domain_activty()
+    public function GET_feed_site_should_return_the_recent_domain_activty()
     {
         $domain = 'simple-domain.com';
 
@@ -70,8 +70,8 @@ class ActivityTest extends TestCase
         for($i = 0; $i < 5; $i++) {
             $comments->push($this->createComment($domain, 'loop' . $i));
         }
+        $response = $this->api('GET', "/feed/site?address=$domain");
 
-        $response = $this->api('GET', '/feed/' . $domain);
         $content = json_decode($response->getContent());
         $response->assertJsonStructure([
             'data' => [
@@ -81,7 +81,6 @@ class ActivityTest extends TestCase
                 ]
             ]
         ]);
-
 
         $comments = $comments->sortByDesc('id')
             ->flatten(1);
@@ -108,9 +107,10 @@ class ActivityTest extends TestCase
             $comments->push($this->createComment($domain, $uri));
         }
 
-        $response = $this->api('GET', '/feed/' . $domain . $uri);
+        $response = $this->api('GET', '/feed/page?address=' . $domain . $uri);
 
         $content = json_decode($response->getContent());
+
         $response->assertJsonStructure([
             'data' => [
                 [

@@ -1,10 +1,12 @@
-import Page from './page';
-import Site from './site';
+import page from './page';
+import site from './site';
+import world from './world';
 
 export default {
   _dependencies: {
-    page: Page,
-    site: Site,
+    page,
+    site,
+    world
   },
   _state: {},
   self: {}

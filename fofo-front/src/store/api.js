@@ -81,11 +81,11 @@ function createAxiosOptions(method, route, data = {}, customize = {}) {
     options.headers['Authorization'] = `Bearer ${getToken()}`;
   }
 
-  if(data && data._query) {
-    options.url += '?' + queryString.stringify(data._query);
+  if(data && data.query) {
+    options.url += '?' + queryString.stringify(data.query);
   }
 
-  delProperties(data, ['_query']);
+  delProperties(data, ['query']);
   options.data = (data && data.formData) ? data.formData : data;
 
   return options;

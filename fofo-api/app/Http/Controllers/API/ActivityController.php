@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\AddressRequest;
 use App\Models\Comment;
 use App\Models\Page;
 use App\Models\Site;
 use App\Utils\WWWAddress;
+use Faker\Provider\Address;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ActivityController extends APIController
 {
@@ -19,11 +23,13 @@ class ActivityController extends APIController
      */
     public function world()
     {
-        $pages = Page::byLatestActivity()->paginate();
+        $sites = Site::byLatestActivity()
+            ->paginate();
+
 
         return $this->okRaw(array_merge([
             'type' => 'world',
-        ], $pages->toArray()));
+        ], $sites->toArray()));
     }
 
     /**
@@ -33,11 +39,13 @@ class ActivityController extends APIController
      * @param $host
      * @return \Illuminate\Http\JsonResponse
      */
-    public function site($domain)
+    public function site(AddressRequest $request)
     {
-        $address = WWWAddress::from($domain);
+        $address = $request->get('www');
 
-        $pages = Page::byLatestActivity($address->getDomain())->paginate();
+        $pages = Page::byLatestActivity($address->getDomain())
+            ->paginate()
+            ->appends($request->all());
 
         return $this->okRaw(array_merge([
             'type' => 'site',
@@ -54,10 +62,13 @@ class ActivityController extends APIController
      * @param $uri
      * @return \Illuminate\Http\JsonResponse
      */
-    public function page($domain, $uri)
+    public function page(AddressRequest $request)
     {
-        $comments = Page::findLatestComment($domain, $uri)
+        $address = $request->get('www');
+        
+        $comments = Page::findLatestComment($address->getDomain(), $address->getUri())
             ->paginate()
+            ->appends($request->all())
             ->toArray();
 
         $data = (empty($comments)) ? ['data' => []] : $comments;
@@ -67,7 +78,7 @@ class ActivityController extends APIController
         ], $data));
     }
 
-    public function address($url)
+    /*public function address($url)
     {
         $address = WWWAddress::from($url);
 
@@ -80,10 +91,10 @@ class ActivityController extends APIController
         }
 
         return $this->page($address->getDomain(), $address->getUri());
-    }
+    }*/
 
 
-    public function comments($url)
+    /*public function comments($url)
     {
         $address = WWWAddress::from($url);
 
@@ -92,6 +103,6 @@ class ActivityController extends APIController
         }
 
         return $this->page($address->getDomain(), $address->getUri());
-    }
+    }*/
 
 }

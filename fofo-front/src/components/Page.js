@@ -6,7 +6,7 @@ export default (props) => {
   const { page, className} = props;
   return (
     <BoxStyle className={className}>
-      <Link highlight={page.newMessages}>{page.uri}</Link>
+      <Link highlight={page.newMessages}>{decodeURIComponent(page.uri)}</Link>
       <Title>{page.title}</Title>
     </BoxStyle>
   )

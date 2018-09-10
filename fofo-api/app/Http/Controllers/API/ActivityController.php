@@ -91,7 +91,7 @@ class ActivityController extends APIController
             return $this->err(['code' => 'INVALID_ADDRESS']);
         }
 
-        return $this->page($address->getDomain(), $address->getUri('/'));
+        return $this->page($address->getDomain(), $address->getUri());
     }
 
 }

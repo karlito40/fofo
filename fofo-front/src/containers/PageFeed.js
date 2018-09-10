@@ -5,12 +5,12 @@ import { actions as pageActions } from '../store/feed/page';
 
 class PageFeedContainer extends Component {
   componentDidMount() {
-    this.props.loadPage(this.props.href);
+    this.props.loadFeed(this.props.href);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.href !== prevProps.href) {
-      this.props.loadPage(this.props.href);
+      this.props.loadFeed(this.props.href);
     }
   }
 
@@ -26,7 +26,7 @@ const mapStateToProps = ({ feed, app }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loadPage: (href) => dispatch(pageActions.fetch(href)),
+  loadFeed: (href) => dispatch(pageActions.fetch(href)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageFeedContainer);

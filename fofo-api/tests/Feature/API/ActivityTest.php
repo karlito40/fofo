@@ -139,9 +139,9 @@ class ActivityTest extends TestCase
             ->first();
 
         if(!$page) {
-
             $page = new Page([
                 'uri' => $uri,
+                'title' => 'Test' . $domain . $uri
             ]);
 
             $page->site()->associate($site);

@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import Page from './Page';
+import Loader from './Loader';
 
 export default class extends Component {
   render() {
-    const { pages, className } = this.props;
+    const { pages, className, loading } = this.props;
 
     return <Wrapper className={className}>
-      { pages.map(page => <Page key={page.id} page={page}/>) }
+      {loading 
+          ? <Loader center/>
+          : pages.map(page => <Page key={page.id} page={page}/>)
+        }
     </Wrapper>
   }
 }

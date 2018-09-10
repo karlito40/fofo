@@ -23,8 +23,8 @@ const store = registerStore();
 
 // Init address ---> it will be received from contentScript.js
 store.dispatch(app.setAddress({
-  domain: 'gmail.com', 
-  uri: '/path2.html'
+  domain: 'fr.wikipedia.org', 
+  uri: '/wiki/Emmanuel_Macron'
 })); 
 
 // User restoration

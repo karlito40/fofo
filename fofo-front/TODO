@@ -1,0 +1,1 @@
+Use decodeURIComponent(location.pathname) when sending a new component

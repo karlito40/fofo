@@ -13,7 +13,8 @@ class Page extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'uri'
+        'uri',
+        'title'
     ];
 
     protected $dates = ['deleted_at'];
@@ -31,6 +32,7 @@ class Page extends Model
         if(!$page) {
             $page = new static([
                 'uri' => $address->getUri(),
+                'title' => $address->findTitle()
             ]);
 
             $page->site()->associate($site);

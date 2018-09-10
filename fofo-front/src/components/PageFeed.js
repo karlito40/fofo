@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import Comment from './Comment';
-import Loader from './styled/Loader';
+import Loader from './Loader';
 
 export default class extends Component {
   render() {

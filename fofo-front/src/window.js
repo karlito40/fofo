@@ -7,16 +7,31 @@ window.setAddress = (domain, uri) => {
     uri
   }));
 }
-window.toPath1 = () => {
+
+window.toAllocine = () => {
   store.dispatch(app.setAddress({
-    domain: 'gmail.com',
-    uri: '/path1.html'
+    domain: 'allocine.fr', 
+    uri: '/'
+  }));
+}
+
+window.toAllocineFilm = () => {
+  store.dispatch(app.setAddress({
+    domain: 'allocine.fr', 
+    uri: '/film'
+  }));
+}
+
+window.toMacron = () => {
+  store.dispatch(app.setAddress({
+    domain: 'fr.wikipedia.org', 
+    uri: '/wiki/Emmanuel_Macron'
   }));
 };
-
-window.toPath2 = () => {
+// https://fr.wikipedia.org/wiki/Jean-Luc_M%C3%A9lenchon
+window.toMelenchon = () => {
   store.dispatch(app.setAddress({
-    domain: 'gmail.com',
-    uri: '/path2.html'
+    domain: 'fr.wikipedia.org',
+    uri: '/wiki/Jean-Luc_M%C3%A9lenchon'
   }));
 };

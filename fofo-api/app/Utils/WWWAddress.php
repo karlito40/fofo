@@ -29,6 +29,54 @@ class WWWAddress
         $this->setUri((isset($params['uri'])) ? $params['uri'] : null);
     }
 
+    private function scrap($protocol)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $protocol . '://' . $this->getHref());
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.94 Safari/537.36');
+        $res = curl_exec($ch);
+        curl_close($ch);
+
+        return $res;
+    }
+
+    public function getHtml()
+    {
+        $html = $this->scrap('http');
+
+        if(!$html) {
+            return false;
+        }
+
+        $internalErrors = libxml_use_internal_errors(true);
+
+        $dom  = new \DOMDocument();
+        @$dom->loadHTML($html);
+
+        libxml_use_internal_errors($internalErrors);
+
+        return $dom;
+    }
+
+    public function findTitle()
+    {
+
+        $dom = $this->getHtml();
+
+        if(!$dom || !$dom->childNodes->length) {
+            return $this->getHref();
+        }
+
+        $node = $dom->getElementsByTagName('title');
+        if(!$node) {
+            return $this->getHref();
+        }
+
+        return $node->item(0)->nodeValue;
+    }
+
     public function isOk()
     {
         return $this->hasDomain();
@@ -39,11 +87,24 @@ class WWWAddress
         return $this->domain;
     }
 
-    public function getUri($default = null)
+    public function getHref()
     {
-        return (isset($default) && !$this->hasUri())
-            ? $default
-            : $this->uri;
+        return $this->domain . $this->uri;
+    }
+
+    public function getUri()
+    {
+        if(!$this->hasUri()) {
+            return '/';
+        }
+
+        // Laravel does not recognize ending slash
+        if(ends_with($this->uri, '/')) {
+            return substr($this->uri, 0, -1);
+        }
+
+        return $this->uri;
+
     }
 
     public function hasDomain()

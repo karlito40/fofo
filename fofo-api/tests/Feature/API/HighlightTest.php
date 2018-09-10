@@ -142,8 +142,7 @@ class HighlightTest extends TestCase
         $foreigner = factory(\App\User::class)->create();
         $this->cleanable($foreigner);
 
-        $response = $this->withAuth($foreigner)->api('DELETE', '/comment/' . $highlight->id);
-
+        $response = $this->withAuth($foreigner)->api('DELETE', '/highlight/' . $highlight->id);
         $response->assertJson([
             'success' => false,
             'error' => [
@@ -151,7 +150,7 @@ class HighlightTest extends TestCase
             ]
         ]);
 
-        $this->assertNotEmpty(\App\Models\Comment::find($highlight->id));
+        $this->assertNotEmpty(\App\Models\Highlight::find($highlight->id));
     }
 
     protected function createHighlight($withUser = null)

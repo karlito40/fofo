@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components';
 
 class Loader extends Component {
   render() {
-    console.log('center', this.props.center);
     return (
       <div className={this.props.className}>
         <div className="double-bounce1"></div>

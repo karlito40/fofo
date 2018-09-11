@@ -17,6 +17,7 @@ $publicRoutes = function()
     Route::get('/feed/world', 'API\ActivityController@world');
     Route::get('/feed/site', 'API\ActivityController@site');
     Route::get('/feed/page', 'API\ActivityController@page');
+    Route::post('/visite', 'API\VisiteController@add');
 };
 
 $restrictedRoutes = function()

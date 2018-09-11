@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Exceptions\InvalidCredentialsException;
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\UserResource;
+use App\Models\Visite;
 use App\User;
 use App\Utils\OAuthProxy;
 use Illuminate\Http\Request;
@@ -24,8 +26,14 @@ class LoginController extends APIController
 
         $oauthToken = $oauth->login($email, $password);
 
+        $user = Auth::user();
+
+        Visite::connect($request->ip(), $user);
+
+        $user->load('visites.site');
+
         return $this->ok([
-            'user' => Auth::user(),
+            'user' => new UserResource($user),
             'access_token' => $oauthToken['access_token']
         ]);
     }

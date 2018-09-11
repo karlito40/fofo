@@ -19,7 +19,7 @@ class PageResource extends JsonResource
             'uri' => $this->uri,
             'deleted_at' => $this->deleted_at,
             'title' => $this->title,
-            'site' => new SiteResource($this->site),
+            'site' => new SiteResource($this->whenLoaded('site')),
         ];
     }
 }

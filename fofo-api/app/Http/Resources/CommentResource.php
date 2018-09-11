@@ -20,20 +20,23 @@ class CommentResource extends JsonResource
             'content' => $this->content,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'deleted_at' => $this->deleted_at,
         ];
 
-        $commentable = $this->commentable;
+        if($this->relationLoaded('commentable')) {
+            $commentable = $this->commentable;
 
-        $explodeClass = explode('\\', $this->commentable_type);
-        $commentableModel = $explodeClass[count($explodeClass)-1];
-        $withResource = 'App\\Http\\Resources\\' . $commentableModel . 'Resource';
+            $explodeClass = explode('\\', $this->commentable_type);
+            $commentableModel = $explodeClass[count($explodeClass)-1];
+            $withResource = 'App\\Http\\Resources\\' . $commentableModel . 'Resource';
 
-        $type = strtolower($commentableModel);
-        $res['commentable'] = [
-            'type' => $type,
-            $type => new $withResource($commentable)
-        ];
+            $type = strtolower($commentableModel);
+
+            $res['commentable'] = [
+                'type' => $type,
+                $type => new $withResource($commentable)
+            ];
+        }
+
 
         return $res;
     }

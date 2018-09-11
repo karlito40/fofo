@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Page;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SiteResource extends JsonResource
+class VisiteResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +17,12 @@ class SiteResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'domain' => $this->domain,
-            'pages' =>  PageResource::collection($this->whenLoaded('pages')),
+            'site' => new SiteResource($this->whenLoaded('site')),
+            'user' => new UserResource($this->whenLoaded('user')),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'deleted_at' => $this->deleted_at,
         ];
+
     }
 }

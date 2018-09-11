@@ -15,7 +15,7 @@ class AddressRequest extends APIRequest
 
     public function authorize()
     {
-        $this->request->set('www', WWWAddress::from($this->query('address')));
+        $this->request->set('www', WWWAddress::from($this->input('address')));
         return true;
     }
 

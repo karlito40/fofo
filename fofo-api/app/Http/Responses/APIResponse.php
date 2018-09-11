@@ -34,7 +34,7 @@ class APIResponse
     public static function transformData($data)
     {
         if($data instanceof JsonResource) {
-            $data = $data->toArray((request()));
+            $data = $data->resolve((request()));
         }
 
         return $data;

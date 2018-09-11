@@ -60,7 +60,7 @@ class Page extends Model
         $fromTable = (new static)->getTable();
 
         return static::query()
-            ->select('pages.id', 'pages.uri', 'pages.site_id', 'latest_comments.last_id as last_comment_id')
+            ->select('pages.id', 'pages.title', 'pages.uri', 'pages.site_id', 'latest_comments.last_id as last_comment_id')
             ->joinSub(Comment::byLatestOfType(static::class), 'latest_comments', function($join) use($fromTable) {
                 $join->on($fromTable . '.id', 'latest_comments.commentable_id');
             })

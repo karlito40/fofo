@@ -17,7 +17,9 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'deleted_at' => $this->deleted_at,
+            'highlights' =>  HighlightResource::collection($this->whenLoaded('highlights')),
+            'visites' =>  VisiteResource::collection($this->whenLoaded('visites')),
+            'comments' =>  CommentResource::collection($this->whenLoaded('comments')),
         ];
     }
 }

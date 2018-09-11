@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Models\Comment;
+use App\Models\Highlight;
+use App\Models\Visite;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -31,7 +34,18 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
-    public function highlights() {
-        return $this->hasMany('App\Highlight');
+    public function highlights()
+    {
+        return $this->hasMany(Highlight::class);
+    }
+
+    public function visites()
+    {
+        return $this->hasMany(Visite::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

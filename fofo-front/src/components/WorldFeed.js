@@ -2,17 +2,12 @@ import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import Loader from './Loader';
 
-
-
 export default class extends Component {
   render() {
     const { sites, className, loading } = this.props;
-
     return <Wrapper className={className}>
-      {loading 
-          ? <Loader size={15}/>
-          : sites.map(getFavicon)
-        }
+      { sites && sites.map(getFavicon) }
+      { loading && <Loader size={15}/> }
     </Wrapper>
   }
 }
@@ -20,7 +15,7 @@ export default class extends Component {
 function getFavicon(site) {
   return <Favicon 
     key={site.id}
-    src={`http://s2.googleusercontent.com/s2/favicons?domain=${site.domain}`} 
+    src={`//s2.googleusercontent.com/s2/favicons?domain=${site.domain}`} 
     alt={site.domain}
   />
 }

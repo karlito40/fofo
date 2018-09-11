@@ -7,6 +7,7 @@ use App\Http\Requests\AddressRequest;
 use App\Http\Requests\APIRequest;
 use App\Http\Requests\DeleteCommentRequest;
 use App\Http\Resources\CommentResource;
+use App\Http\Resources\SiteResource;
 use App\Http\Resources\VisiteResource;
 use App\Models\Comment;
 use App\Models\Page;
@@ -17,6 +18,15 @@ use App\Utils\WWWAddress;
 
 class VisiteController extends APIController
 {
+
+    public function listByIp(APIRequest $request)
+    {
+        $sites = Site::whereHas('visites', function($query) use($request) {
+            $query->where('ip', $request->ip());
+        })->get();
+
+        return $this->ok(SiteResource::collection($sites));
+    }
 
     public function add(AddressRequest $request)
     {
@@ -50,5 +60,7 @@ class VisiteController extends APIController
 
         return $this->ok(new VisiteResource($visite));
     }
+
+
 
 }

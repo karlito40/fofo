@@ -21,6 +21,11 @@ const store = registerStore();
 // const domain = window.location.hostname;
 // const uri = window.location.pathname;
 
+store.dispatch(me.addVisite({
+  // domain: 'fr.wikipedia.org', 
+  domain: 'allocine.fr', 
+}));
+
 // Init address ---> it will be received from contentScript.js
 store.dispatch(app.setAddress({
   domain: 'fr.wikipedia.org', 
@@ -36,7 +41,7 @@ ReactDOM.render(
   </Provider>, 
   document.getElementById('root'));
 
-registerServiceWorker();
+// registerServiceWorker();
 
 window.addEventListener('message', (e) => {
   let action = (typeof e.data === 'string') ? JSON.parse(e.data) : e.data;

@@ -1,4 +1,4 @@
-import queryString from 'query-string';
+import querystring from 'querystring';
 import axios from 'axios';
 import { delProperties } from '../lib/Object';
 import config from '../config';
@@ -82,7 +82,7 @@ function createAxiosOptions(method, route, data = {}, customize = {}) {
   }
 
   if(data && data.query) {
-    options.url += '?' + queryString.stringify(data.query);
+    options.url += '?' + querystring.stringify(data.query);
   }
 
   delProperties(data, ['query']);

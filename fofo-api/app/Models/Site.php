@@ -47,4 +47,9 @@ class Site extends Model
     {
         return $this->hasMany(Page::class);
     }
+
+    public function visites()
+    {
+        return $this->hasMany(Visite::class);
+    }
 }

@@ -5,6 +5,7 @@ import { actions as meActions } from './store/app/me';
 import MenuContainer from './containers/Menu';
 import SiteFeedContainer from './containers/SiteFeed';
 import WorldFeed from './containers/WorldFeed';
+import VisiteFeed from './containers/VisiteFeed';
 import PageFeedContainer from './containers/PageFeed';
 import BaseMessageForm from './components/MessageForm';
 import Breadcrumb from './components/Breadcrumb';
@@ -13,7 +14,8 @@ export default class Body extends Component {
   render() {
     return <Fragment>
       <Menu>
-        <WorldFeed/> 
+        <VisiteFeed/>
+        {/* <WorldFeed/>  */}
       </Menu>
       <SiteFeed/>
       <MessageForm/>

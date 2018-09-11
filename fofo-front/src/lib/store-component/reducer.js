@@ -1,3 +1,4 @@
+import clone from 'clone';
 import { createType } from './type';
 
 export function createTemplateFromComponent(component, options) {
@@ -8,13 +9,13 @@ export function createTemplateFromComponent(component, options) {
   });
 }
 
-export function createReducer(options) {
-  const template = createTemplate(options);
+export function createReducer(params) {
+  const template = createTemplate(params);
   return template._execute();
 }
 
-export function createTemplate(options) {
-  const template = {...options};
+export function createTemplate(params) {
+  const template = clone(params);
   bindState(template);
   bindParent(template); 
   bindListeners(template);

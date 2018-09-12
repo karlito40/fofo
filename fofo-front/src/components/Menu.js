@@ -11,7 +11,6 @@ export default class extends Component {
     return <Wrapper className={className}>
       <Sites>
         <Logo>Fofo</Logo>
-        <Icon as={HomeIcon} hideOnVertical/>
         {this.props.children}
       </Sites>
       <AutoFlexbox>

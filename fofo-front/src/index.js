@@ -23,20 +23,11 @@ const store = registerStore();
 // const domain = window.location.hostname;
 // const uri = window.location.pathname;
 
-// store.dispatch(me.addVisite({
-//   // domain: 'fr.wikipedia.org', 
-//   domain: 'allocine.fr', 
-// }));
-store.dispatch(visites.add({
-  // domain: 'fr.wikipedia.org', 
-  domain: 'allocine.fr', 
-}));
+
+
 
 // Init address ---> it will be received from contentScript.js
-store.dispatch(app.setAddress({
-  domain: 'fr.wikipedia.org', 
-  uri: '/wiki/Emmanuel_Macron'
-})); 
+store.dispatch(app.setAddress('fr.wikipedia.org', '/wiki/Emmanuel_Macron')); 
 
 // User restoration
 async function restoreState() {

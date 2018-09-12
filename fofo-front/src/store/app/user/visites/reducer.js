@@ -51,7 +51,7 @@ export default {
             ...state, 
             sites: removeDuplicate(sites, s => s.domain),  
           };
-    
+
         case REQUEST_ERROR:
         default:
           return state;
@@ -87,4 +87,3 @@ function removeDuplicate(arr, withRef) {
   const map = new Map(arr.map(v => [withRef(v), v]));
   return [...map.values()];
 }
-

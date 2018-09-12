@@ -4,7 +4,9 @@ export default {
   _state: {
     loading: false,
     loadingNext: false,
-    comments: []
+    loadingForm: false,
+    comments: [],
+    href: null,
   },
   self: {
     fetch(state, payload) {
@@ -40,11 +42,37 @@ export default {
         default:
           return {...state, loadingNext: false};
       }
+    },
+    sendMessage(state, payload) {
+      if(state.href !== (payload.payloadOrigin.href)) {
+        return {...state, loadingForm: false};
+      }
+
+      switch(payload.status) {
+        case REQUEST_COMPLETE:
+          const comment = payload.response.data;
+          const comments = [
+            ...[comment], 
+            ...state.comments
+          ];
+  
+          return {...state, comments, loadingForm: false};
+        
+        case REQUEST_LOADING:
+          return {...state, loadingForm: true};
+  
+        case REQUEST_ERROR:
+        default:
+          return {...state, loadingForm: true};
+      }
     }
-  }
-  // app: {
-  //   setAddress(state, payload) {
-  //     return {...state, comments: [] };
-  //   },
-  // }
+  },
+  app: {
+    setAddress(state, payload) {
+      const { domain, uri } = payload;
+      const href = domain + uri;
+
+      return {...state, href, loadingForm: false}
+    }
+  } 
 };

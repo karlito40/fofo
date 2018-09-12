@@ -74,11 +74,6 @@ export default {
   }
 };
 
-function removeDuplicate(arr, withRef) {
-  const map = new Map(arr.map(v => [withRef(v), v]));
-  return [...map.values()];
-}
-
 const FetchHandler = {
   with(state, payload, relation) {
     const target = relation || '';

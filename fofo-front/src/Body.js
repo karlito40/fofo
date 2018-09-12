@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
-import MenuContainer from './containers/Menu';
+import BaseMenu from './components/Menu';
 import SiteFeedContainer from './containers/SiteFeed';
 import WorldFeed from './containers/WorldFeed';
 import VisiteFeed from './containers/VisiteFeed';
-import PageFeedContainer from './containers/PageFeed';
-import BaseMessageForm from './components/MessageForm';
+import PageFeed from './containers/PageFeed';
+import BaseMessageForm from './containers/MessageForm';
 import Breadcrumb from './components/Breadcrumb';
 
 export default class Body extends Component {
@@ -26,10 +26,7 @@ export default class Body extends Component {
   }
 }
 
-const PageFeed = styled(PageFeedContainer)`
-`;
-
-const Menu = styled(MenuContainer)`
+const Menu = styled(BaseMenu)`
   z-index: 4;
 `;
 

@@ -24,3 +24,15 @@ export default function() {
 
 export { store }; 
 
+export function getStore() {
+  return store;
+}
+
+export function getState() {
+  return store.getState();
+}
+
+export function dispatch(action) {
+  return store.dispatch(action);
+}
+

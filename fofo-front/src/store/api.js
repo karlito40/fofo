@@ -53,7 +53,7 @@ export class ActionAPI {
         }));
       }
       
-      const status = (typeof response.data.success != "undefined" && !response.data.success)
+      const status = (typeof response.data.success !== "undefined" && !response.data.success)
         ? REQUEST_ERROR
         : REQUEST_COMPLETE;
           

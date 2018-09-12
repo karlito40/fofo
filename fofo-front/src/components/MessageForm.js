@@ -2,14 +2,24 @@ import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import { Smile } from 'styled-icons/fa-regular/Smile';
 import { Send } from 'styled-icons/material/Send';
+import Loader from './Loader';
 
 export default class extends Component {
+
+  input = React.createRef();
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.onSubmit(this.input.current.value);
+  }
+
   render() {
-    const { className } = this.props;
+    const { className, loading } = this.props;
 
     return <Wrapper className={className}>
-      <Form>
-        <Input type="text" name="sendMessage" placeholder="Send a message"/>
+      <Form onSubmit={this.onSubmit}>
+        <Input ref={this.input} type="text" name="sendMessage" placeholder="Send a message"/>
+        { loading && <LoaderStyled size={15}/> }
         <Interaction>
           <SmileyIcon size={16}/>
           <SendIcon size={18}/>
@@ -69,6 +79,8 @@ const SendIcon = styled(Send)`
   fill: ${p => p.theme.highlightColor};
 `;
 
-
+const LoaderStyled = styled(Loader)`
+  margin-top: 2px;
+`;
 
  

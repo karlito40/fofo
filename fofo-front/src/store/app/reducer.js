@@ -18,7 +18,7 @@ export default {
       if(state.href === href) {
         return state;
       }
-
+      
       return {
         ...state, 
         href,

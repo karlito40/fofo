@@ -13,6 +13,7 @@ use App\Models\Comment;
 use App\Models\Page;
 use App\Models\Site;
 use App\Models\Visite;
+use Carbon\Carbon;
 use Validator;
 use App\Utils\WWWAddress;
 
@@ -21,11 +22,12 @@ class VisiteController extends APIController
 
     public function listByIp(APIRequest $request)
     {
-        $sites = Site::whereHas('visites', function($query) use($request) {
-            $query->where('ip', $request->ip());
-        })->get();
+        $visites = Visite::with('site')
+            ->where('ip', $request->ip())
+            ->orderByDesc('viewed_at')
+            ->get();
 
-        return $this->ok(SiteResource::collection($sites));
+        return $this->ok(VisiteResource::collection($visites));
     }
 
     public function add(AddressRequest $request)
@@ -48,15 +50,17 @@ class VisiteController extends APIController
             ]);
 
             $visite->site()->associate($site);
-            if($user) {
-                $visite->user()->associate($user);
-            }
 
-            $visite->save();
-        } elseif (!$visite->user && $user) {
-            $visite->user()->associate($user);
-            $visite->save();
         }
+
+        if($user) {
+            $visite->user()->associate($user);
+        }
+
+        $visite->viewed_at = Carbon::now();
+
+        $visite->save();
+
 
         return $this->ok(new VisiteResource($visite));
     }

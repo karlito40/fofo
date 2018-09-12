@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Requests\RegisterRequest;
+use App\Http\Resources\UserResource;
+use App\Models\Visite;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +16,10 @@ class UserController extends APIController
 
     public function me(Request $request)
     {
-        return $this->ok($request->user());
+        $user = $request->user();
+        $user->load('visites.site');
+
+        return $this->ok(new UserResource($user));
     }
 
     public function register(RegisterRequest $request, OAuthProxy $oauth)
@@ -25,8 +30,12 @@ class UserController extends APIController
         $user = User::create($input);
         $oauthToken = $oauth->login($user->email, $request->input('password'));
 
+        Visite::connect($request->ip(), $user);
+
+        $user->load('visites.site');
+
         return $this->ok([
-            'user' => $user,
+            'user' => new UserResource($user),
             'access_token' => $oauthToken['access_token']
         ]);
     }

@@ -11,10 +11,10 @@ class Visite extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'ip',
+        'ip', 'viewed_at'
     ];
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'viewed_at'];
 
     public static function connect($ip, User $user)
     {

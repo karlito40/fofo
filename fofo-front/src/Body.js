@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
-import { actions as meActions } from './store/app/me';
 import MenuContainer from './containers/Menu';
 import SiteFeedContainer from './containers/SiteFeed';
 import WorldFeed from './containers/WorldFeed';

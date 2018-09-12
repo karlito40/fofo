@@ -41,7 +41,8 @@ class User extends Authenticatable
 
     public function visites()
     {
-        return $this->hasMany(Visite::class);
+        return $this->hasMany(Visite::class)
+            ->orderByDesc('viewed_at');
     }
 
     public function comments()

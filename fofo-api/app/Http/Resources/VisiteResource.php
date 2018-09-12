@@ -15,14 +15,15 @@ class VisiteResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'site' => new SiteResource($this->whenLoaded('site')),
-            'user' => new UserResource($this->whenLoaded('user')),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'deleted_at' => $this->deleted_at,
-        ];
+        if(!$this->relationLoaded('site')) {
+            throw new \Exception('VisiteResource need to be load with site relation');
 
+        }
+
+        return [
+            'id' => $this->site->id,
+            'domain' => $this->site->domain,
+            'viewed_at' => $this->viewed_at
+        ];
     }
 }

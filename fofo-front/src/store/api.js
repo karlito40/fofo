@@ -36,32 +36,33 @@ export class ActionAPI {
   }
 
   export() {
-    return (dispatch, getState, extras, createPayload) => {
+    return async (dispatch, getState, extras, createPayload) => {
       dispatch(createPayload({ 
         status: REQUEST_LOADING, 
         payloadOrigin: this.payloadOrigin 
       }));
-  
-      return axios(createAxiosOptions(this.method, this.route, this.data, this.customize))
-        .then(response => {
-          const status = (typeof response.data.success != "undefined" && !response.data.success)
-            ? REQUEST_ERROR
-            : REQUEST_COMPLETE;
+      
+      let response;
+      try {
+        response = await axios(createAxiosOptions(this.method, this.route, this.data, this.customize));
+      } catch (e) {
+        return dispatch(createPayload({
+          response: e,
+          status: REQUEST_ERROR,
+          payloadOrigin: this.payloadOrigin,
+        }));
+      }
+      
+      const status = (typeof response.data.success != "undefined" && !response.data.success)
+        ? REQUEST_ERROR
+        : REQUEST_COMPLETE;
           
-          return dispatch(createPayload({ 
-            response: response.data,
-            status,
-            payloadOrigin: this.payloadOrigin,
-          }));
-        })
-        .catch(error => {
-          return dispatch(createPayload({
-            response: error,
-            status: REQUEST_ERROR,
-            payloadOrigin: this.payloadOrigin,
-          }));
-        });
-    }; 
+      return dispatch(createPayload({ 
+        response: response.data,
+        status,
+        payloadOrigin: this.payloadOrigin,
+      }));
+    }
   }
 }
 

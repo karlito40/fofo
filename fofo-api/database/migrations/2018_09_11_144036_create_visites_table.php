@@ -19,6 +19,7 @@ class CreateVisitesTable extends Migration
             $table->unsignedInteger('site_id');
 
             $table->string('ip');
+            $table->timestamp('viewed_at');
             $table->softDeletes();
             $table->timestamps();
 

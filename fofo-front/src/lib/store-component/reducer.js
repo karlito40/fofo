@@ -39,8 +39,14 @@ function executeTemplate(template) {
         let newState = state;
         for(let receiver of receivers) {
           let { handler, relation } = receiver;
-          let scope = getScope(relation, newState);
-          newState = replaceScope(relation, newState, handler(scope, action.data));
+          
+          let oldScope = getScope(relation, newState);
+          let newScope = handler(oldScope, action.data);
+
+          let depsScope = getDependenciesByRelation(relation, template._dependencies);
+          newScope = preserveDependencies(depsScope, newScope, oldScope);
+          newState = replaceScope(relation, newState, newScope);
+          
         }
         
         return newState;
@@ -52,14 +58,38 @@ function executeTemplate(template) {
   }
 }
 
-
-function getScope(relation, source) {
-  if(!source || !relation || !relation.length) {
-    return source;
+function preserveDependencies(dependencies, newScope, oldScope) {
+  if(dependencies) {
+    for(let key in dependencies) {
+      newScope[key] = {...oldScope[key]};
+    }
   }
+  
+  return newScope;
+}
 
+function getDependenciesByRelation(relation, dependencies) {
+  relation = relation || [];
   if(!Array.isArray(relation)) {
     relation = relation.split('.');
+  }
+  
+  if(!dependencies || !relation.length) {
+    return dependencies;
+  }
+
+  const key = relation.shift();
+  return getDependenciesByRelation(relation, dependencies[key].template._dependencies);
+}
+
+function getScope(relation, source) {
+  relation = relation || [];
+  if(!Array.isArray(relation)) {
+    relation = relation.split('.');
+  }
+
+  if(!source || !relation.length) {
+    return source;
   }
   
   const key = relation.shift();

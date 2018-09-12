@@ -11,16 +11,6 @@ export function login(email, password) {
   });
 }
 
-export function restore() {
-  if(!getToken()) {
-    return (new ActionAPI('GET', `/visitor/visites`))
-      .with({ targetRelation: 'visites' })
-      .export();
-  }
-
-  return fetch();
-}
-
 export function addVisite(address) {
   return (new ActionAPI('POST', `/visite`, { address: address.domain }))
       .with({ domain: address.domain })

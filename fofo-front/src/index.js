@@ -28,6 +28,7 @@ const store = registerStore();
 
 // Init address ---> it will be received from contentScript.js
 store.dispatch(app.setAddress('fr.wikipedia.org', '/wiki/Emmanuel_Macron')); 
+// store.dispatch(app.setAddress('allocine.fr', '/')); 
 
 // User restoration
 async function restoreState() {

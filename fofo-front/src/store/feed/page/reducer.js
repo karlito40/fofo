@@ -6,6 +6,7 @@ export default {
     loadingNext: false,
     loadingForm: false,
     comments: [],
+    hasMore: true,
     href: null,
   },
   self: {
@@ -27,11 +28,16 @@ export default {
       }
     },
     next(state, payload) {
+      if(state.href !== (payload.payloadOrigin.href)) {
+        return state;
+      }
+
       switch(payload.status) {
         case REQUEST_COMPLETE:
           return {
             ...state, 
             comments: [...state.comments, ...payload.response.data], 
+            hasMore: payload.response.data.length >= payload.response.per_page,
             loadingNext: false
           };
         
@@ -40,7 +46,7 @@ export default {
     
         case REQUEST_ERROR:
         default:
-          return {...state, loadingNext: false};
+          return {...state, loadingNext: false, hasMore: false};
       }
     },
     sendMessage(state, payload) {
@@ -72,7 +78,12 @@ export default {
       const { domain, uri } = payload;
       const href = domain + uri;
 
-      return {...state, href, loadingForm: false}
+      return {...state, 
+        href, 
+        loadingForm: false, 
+        comments: [],
+        hasMore: true
+      }
     }
   } 
 };

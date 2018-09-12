@@ -69,7 +69,7 @@ class Page extends Model
                 $query->join($joinTable, $fromTable . '.site_id', $joinTable . '.id');
                 $query->where($joinTable . '.domain', $domain);
             })
-            // ->orderBy('latest_comments.last_comment_created_at', 'desc')
+            ->orderBy('latest_comments.last_comment_created_at', 'desc')
             ->orderBy('last_comment_id', 'desc');
     }
 

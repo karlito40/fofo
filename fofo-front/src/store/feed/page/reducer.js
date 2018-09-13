@@ -8,6 +8,7 @@ export default {
     comments: [],
     hasMore: true,
     href: null,
+    lastSent: null,
   },
   self: {
     fetch(state, payload) {
@@ -62,7 +63,7 @@ export default {
             ...state.comments
           ];
   
-          return {...state, comments, loadingForm: false};
+          return {...state, comments, loadingForm: false, lastSent: Date.now()};
         
         case REQUEST_LOADING:
           return {...state, loadingForm: true};

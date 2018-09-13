@@ -11,6 +11,7 @@ export default class extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     this.props.onSubmit(this.input.current.value);
+    this.input.current.value = '';
   }
 
   render() {

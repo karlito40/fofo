@@ -24,7 +24,7 @@ class ActivityController extends APIController
     public function world()
     {
         $sites = Site::byLatestActivity()
-            ->paginate();
+            ->simplePaginate();
 
 
         return $this->okRaw(array_merge([
@@ -44,7 +44,7 @@ class ActivityController extends APIController
         $address = $request->get('www');
 
         $pages = Page::byLatestActivity($address->getDomain())
-            ->paginate()
+            ->simplePaginate()
             ->appends($request->all());
 
         return $this->okRaw(array_merge([
@@ -64,18 +64,27 @@ class ActivityController extends APIController
      */
     public function page(AddressRequest $request)
     {
+        $perPage = 15;
         $address = $request->get('www');
-        
-        $comments = Page::findLatestComment($address->getDomain(), $address->getUri())
-            ->paginate()
-            ->appends($request->all())
-            ->toArray();
 
-        $data = (empty($comments)) ? ['data' => []] : $comments;
-        
-        return $this->okRaw(array_merge([
-            'type' => 'page'
-        ], $data));
+        $cursor = (int) $request->query('cursor');
+
+        $comments = Page::findLatestComment($address->getDomain(), $address->getUri())
+            ->when($cursor, function($query, $cursor) {
+                $query->where('id', '<=', $cursor);
+            })
+            ->take($perPage)
+            ->get();
+
+        $lastComment = $comments->last();
+
+        return $this->okRaw([
+            'type' => 'page',
+            'data' => $comments->all(),
+            'next_cursor' => $lastComment ? $lastComment->id - 1 : -1,
+            'has_more' => $comments->count() >= $perPage,
+            'per_page' => $perPage,
+        ]);
     }
 
     /*public function address($url)

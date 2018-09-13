@@ -9,6 +9,7 @@ export default {
     hasMore: true,
     href: null,
     lastSent: null,
+    cursorNext: null,
   },
   self: {
     fetch(state, payload) {
@@ -38,7 +39,8 @@ export default {
           return {
             ...state, 
             comments: [...state.comments, ...payload.response.data], 
-            hasMore: payload.response.data.length >= payload.response.per_page,
+            hasMore: payload.response.has_more,
+            cursorNext: payload.response.next_cursor, 
             loadingNext: false
           };
         
@@ -83,7 +85,8 @@ export default {
         href, 
         loadingForm: false, 
         comments: [],
-        hasMore: true
+        hasMore: true,
+        cursorNext: null,
       }
     }
   } 

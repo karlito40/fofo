@@ -8,9 +8,9 @@ export function fetch(href) {
     .export();
 }
 
-export function next(href, page) {
+export function next(href, cursor) {
   return (new ActionAPI('GET', '/feed/page', {
-      query: { address: href, page }
+      query: { address: href, cursor }
     }))
     .with({href})
     .export();

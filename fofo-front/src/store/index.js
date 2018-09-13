@@ -28,11 +28,28 @@ export function getStore() {
   return store;
 }
 
-export function getState() {
-  return store.getState();
+export function getState(subject) {
+  return (!subject) 
+    ? store.getState()
+    : getDeepValue(subject, store.getState());
 }
 
 export function dispatch(action) {
   return store.dispatch(action);
+}
+
+
+function getDeepValue(subject, source) {
+  subject = subject || [];
+  if(!Array.isArray(subject)) {
+    subject = subject.split('.');
+  }
+
+  if(!source || !subject.length) {
+    return source;
+  }
+  
+  const key = subject.shift();
+  return getDeepValue(subject, source[key]);
 }
 

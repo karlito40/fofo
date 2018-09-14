@@ -27,9 +27,7 @@ class ActivityController extends APIController
             ->simplePaginate();
 
 
-        return $this->okRaw(array_merge([
-            'type' => 'world',
-        ], $sites->toArray()));
+        return $this->okRaw($sites->toArray());
     }
 
     /**
@@ -41,15 +39,25 @@ class ActivityController extends APIController
      */
     public function site(AddressRequest $request)
     {
+        $perPage = 15;
+
+        $sizeRequest = (int) $request->get('size', 1);
         $address = $request->get('www');
 
-        $pages = Page::byLatestActivity($address->getDomain())
-            ->simplePaginate()
-            ->appends($request->all());
+        $take = $perPage * $sizeRequest;
 
-        return $this->okRaw(array_merge([
-            'type' => 'site',
-        ], $pages->toArray()));
+        $pages = Page::byLatestActivity($address->getDomain())
+            ->take($take)
+            ->get();
+
+        $hasMore = $pages->count() >= $take;
+
+        return $this->okRaw([
+            'data' => $pages->all(),
+            'has_more' => $hasMore,
+            'current_size' => $sizeRequest,
+            'next_size' => ($hasMore) ? $sizeRequest + 1 : null,
+        ]);
 
     }
 
@@ -83,7 +91,6 @@ class ActivityController extends APIController
         $lastComment = $comments->last();
 
         return $this->okRaw([
-            'type' => 'page',
             'data' => $comments->all(),
             'next_cursor' => $lastComment ? $lastComment->id - 1 : -1,
             'has_more' => $comments->count() >= $perPage,

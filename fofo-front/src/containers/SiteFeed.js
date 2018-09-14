@@ -1,33 +1,48 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SiteFeed from '../components/SiteFeed';
-
 import { actions as siteActions } from '../store/feed/site';
+import { getState } from '../store';
+import config from '../config';
 
 class SiteFeedContainer extends Component {
-  componentDidMount() {
-    this.props.loadFeed(this.props.domain);
+  async refresh() {
+    this.refreshTimeout = setTimeout(async () => {
+      await this.props.loadRefresh();
+      this.refresh();
+    }, config.siteFeedRefreshTimer);
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.domain !== prevProps.domain) {
-      this.props.loadFeed(this.props.domain);
-    }
+  componentDidMount() {
+    this.refresh();
   }
+
+  componentWillUnmount() {
+    clearTimeout(this.refreshTimeout);
+  }
+
 
   render() {
-    const { feed } = this.props;
-    return <SiteFeed {...this.props} {...feed}/>
+    return <SiteFeed {...this.props}/>
   }
 }
 
 const mapStateToProps = ({ feed, app }) => ({
+  key: app.domain,
   domain: app.domain,
-  feed: feed.site,
+  pages: feed.site.pages,
+  hasMore: feed.site.hasMore,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loadFeed: domain => dispatch(siteActions.fetch(domain)),
+  loadRefresh: () => dispatch(siteActions.refresh(
+    getState('app.domain'),
+    getState('feed.site.currentSizeFetch'), 
+  )),
+  loadMore: (page) => dispatch(siteActions.next(
+    getState('app.domain'), 
+    page
+  ))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiteFeedContainer);

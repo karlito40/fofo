@@ -7,7 +7,8 @@ const config = {
   apiHost: process.env.REACT_APP_API_HOST,
   defaultTheme: availableThemes[0],
   themes: availableThemes,
-  pageRefreshTimer: parseInt(process.env.REACT_APP_PAGE_REFRESH_TIMER, 10)
+  pageFeedRefreshTimer: parseInt(process.env.REACT_APP_PAGE_FEED_REFRESH_TIMER, 10),
+  siteFeedRefreshTimer: parseInt(process.env.REACT_APP_SITE_FEED_REFRESH_TIMER, 10),
 };
 
 export default config;

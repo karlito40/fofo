@@ -10,7 +10,7 @@ class PageFeedContainer extends Component {
     this.refreshTimeout = setTimeout(async () => {
       await this.props.loadRefresh();
       this.refresh();
-    }, config.pageRefreshTimer);
+    }, config.pageFeedRefreshTimer);
   }
 
   componentDidMount() {

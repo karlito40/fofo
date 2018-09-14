@@ -43,7 +43,7 @@ const CommentStyled = styled(Comment)`
 const LoaderStyled = styled(Loader)`
   ${p => !p.center && css`
     left: 50%;
-    margin-left: 20px;
+    margin-left: -20px;
     margin-bottom: 30px;
     margin-top: 15px;
   `}

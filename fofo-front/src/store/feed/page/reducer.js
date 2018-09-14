@@ -15,6 +15,10 @@ export default {
   },
   self: {
     refresh(state, payload) {
+      if(state.href !== (payload.payloadOrigin.href)) {
+        return state;
+      }
+      
       if(payload.status === REQUEST_COMPLETE) {
         const comments = removeDuplicate(
           [...payload.response.data, ...state.comments], 
@@ -101,6 +105,7 @@ export default {
       return {
         ...state, 
         href, 
+        loadingNext: false,
         loadingForm: false, 
         comments: [],
         hasMore: true,

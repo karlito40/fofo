@@ -15,14 +15,16 @@ export function sendMessage(href, message) {
       content: message,
       address: href
     }))
-      .with({ href, content: message })
-      .export();
+    .with({ href, content: message })
+    .export();
 }
 
 export function refresh(href, cursor) {
-  return action('GET', '/feed/page', { 
-    address: href,
-    cursor,
-    prev: 'all',
-  });
+  return (new ActionAPI('GET', '/feed/page', {
+      address: href,
+      cursor,
+      prev: 'all',
+    }))
+    .with({href})
+    .export();;
 }

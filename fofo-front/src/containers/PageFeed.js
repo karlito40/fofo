@@ -3,14 +3,26 @@ import PageFeed from '../components/PageFeed';
 import { connect } from 'react-redux';
 import { actions as pageActions } from '../store/feed/page';
 import { getState } from '../store';
+import config from '../config';
 
 class PageFeedContainer extends Component {
+  async refresh() {
+    this.refreshTimeout = setTimeout(async () => {
+      await this.props.loadRefresh();
+      this.refresh();
+    }, config.pageRefreshTimer);
+  }
+
   componentDidMount() {
-    window.scrollTo(0, 0);
+    this.refresh();
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.refreshTimeout);
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.key !== prevProps.key) {
+    if (this.props.lastCommentSent !== prevProps.lastCommentSent) {
       window.scrollTo(0, 0);
     }
   }
@@ -24,16 +36,18 @@ const mapStateToProps = ({ feed, app }) => ({
   key: app.href,  // Key is important to force the reinitialisation of InfiniteScroll ( page never restart otherwise )
   hasMore: feed.page.hasMore,
   comments: feed.page.comments,
+  lastCommentSent: feed.page.lastSent,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loadMore: (page) => {
-    return dispatch(pageActions.next(
-        getState('app.href'), 
-        getState('feed.page.cursorNext')
-      )
-    )
-  },
+  loadRefresh: () => dispatch(pageActions.refresh(
+    getState('app.href'),
+    getState('feed.page.firstCursor'), 
+  )),
+  loadMore: (page) => dispatch(pageActions.next(
+    getState('app.href'), 
+    getState('feed.page.nextCursor')
+  )),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PageFeed);
+export default connect(mapStateToProps, mapDispatchToProps)(PageFeedContainer);

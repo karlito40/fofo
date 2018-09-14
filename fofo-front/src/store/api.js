@@ -1,6 +1,5 @@
 import querystring from 'querystring';
 import axios from 'axios';
-import { delProperties } from '../lib/Object';
 import config from '../config';
 
 export const REQUEST_COMPLETE = 'complete';
@@ -84,7 +83,7 @@ function createAxiosOptions(method, route, data = {}, customize = {}) {
   const isGet = (method.toUpperCase() === 'GET');
   if(!isGet) {
     options.data = (data && data.formData) ? data.formData : data;
-  } else if(data) {
+  } else if(data && Object.keys(data).length) {
     options.url += '?' + querystring.stringify(data);
   }
 

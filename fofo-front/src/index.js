@@ -50,7 +50,14 @@ ReactDOM.render(
 // registerServiceWorker();
 
 window.addEventListener('message', (e) => {
-  let action = (typeof e.data === 'string') ? JSON.parse(e.data) : e.data;
+  let action;
+  
+  try {
+    action = JSON.parse(e.data);
+  } catch (e) {
+    return;
+  }
+
   if(action.source !== 'parallel-app') {
     return;
   }

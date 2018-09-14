@@ -1,5 +1,6 @@
-import { setToken, REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../../../api';
- 
+import { REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../../../api';
+import { removeDuplicate } from '../../../../lib/Array';
+
 export default {
   _state: {
     loading: false,
@@ -85,7 +86,3 @@ export default {
   }
 };
 
-function removeDuplicate(arr, withRef) {
-  const map = new Map(arr.map(v => [withRef(v), v]));
-  return [...map.values()];
-}

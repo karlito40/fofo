@@ -6,6 +6,10 @@ window.setAddress = (domain, uri) => {
   store.dispatch(app.setAddress(domain, uri));
 }
 
+window.refresh = () => {
+  dispatch(pageActions.refresh(getState('app.href')))
+}
+
 window.toDefault = () => {
   store.dispatch(app.setAddress('fr.wikipedia.org', '/wiki/Emmanuel_Macron')); 
 }

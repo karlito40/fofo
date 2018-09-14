@@ -1,4 +1,5 @@
 import { REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../../api';
+import { removeDuplicate } from '../../../lib/Array';
 
 export default {
   _state: {
@@ -9,25 +10,29 @@ export default {
     hasMore: true,
     href: null,
     lastSent: null,
-    cursorNext: null,
+    nextCursor: null,
+    firstCursor: null,
   },
   self: {
-    fetch(state, payload) {
-      switch(payload.status) {
-        case REQUEST_COMPLETE:
-          return {
-            ...state, 
-            comments: payload.response.data, 
-            loading: false
-          };
-        
-        case REQUEST_LOADING:
-          return {...state, loading: true};
-    
-        case REQUEST_ERROR:
-        default:
-          return {...state, loading: false};
+    refresh(state, payload) {
+      if(payload.status === REQUEST_COMPLETE) {
+        const comments = removeDuplicate(
+          [...payload.response.data, ...state.comments], 
+          s => s.id
+        );
+
+        const nextCursor = (!state.nextCursor)
+          ? payload.response.next_cursor 
+          : state.nextCursor;
+
+        return {
+          ...state, 
+          comments,
+          firstCursor: getFirstCursor(comments),
+          nextCursor
+        };
       }
+      return state;
     },
     next(state, payload) {
       if(state.href !== (payload.payloadOrigin.href)) {
@@ -36,11 +41,13 @@ export default {
 
       switch(payload.status) {
         case REQUEST_COMPLETE:
+          const comments = [...state.comments, ...payload.response.data];
           return {
             ...state, 
-            comments: [...state.comments, ...payload.response.data], 
+            comments, 
             hasMore: payload.response.has_more,
-            cursorNext: payload.response.next_cursor, 
+            nextCursor: payload.response.next_cursor, 
+            firstCursor: getFirstCursor(comments),
             loadingNext: false
           };
         
@@ -71,7 +78,11 @@ export default {
           return {...state, comments, loadingForm: false};
         
         case REQUEST_LOADING:
-          const placeholder = { content: payload.payloadOrigin.content, id: placeholderId};
+          const placeholder = { 
+            id: placeholderId,
+            content: payload.payloadOrigin.content, 
+            isPlaceholder: true
+          };
           comments = [...[placeholder], ...state.comments];
 
           return {...state, comments: comments, loadingForm: true, lastSent: Date.now()};
@@ -87,13 +98,30 @@ export default {
       const { domain, uri } = payload;
       const href = domain + uri;
 
-      return {...state, 
+      return {
+        ...state, 
         href, 
         loadingForm: false, 
         comments: [],
         hasMore: true,
-        cursorNext: null,
+        nextCursor: null,
+        firstCursor: null,
       }
     }
   } 
 };
+
+
+function getFirstCursor(comments) {
+  if(!comments || !comments.length) {
+    return null;
+  }
+
+  for(let comment of comments) {
+    if(!comment.isPlaceholder) {
+      return comment.id;
+    }
+  }
+
+  return null;
+}

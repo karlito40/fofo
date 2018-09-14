@@ -12,14 +12,6 @@ export default {
     isLogged: false,
   },
   self: {
-    // restore(state, payload) {
-    //   if(!payload) {
-    //     console.log('Unable to restore myself');
-    //     return state;
-    //   }
-
-    //   return FetchHandler.with(state, payload);
-    // },
     login(state, payload) {
       switch(payload.status) {
         case REQUEST_COMPLETE:
@@ -41,36 +33,6 @@ export default {
       return FetchHandler.with(state, payload);
     },
 
-    // addVisite(state, payload) {
-    //   let visites;
-    //   const placeholderId = '_' + state.visites.length;
-    //   switch(payload.status) {
-    //     case REQUEST_COMPLETE:
-    //       const { site } = payload.response.data;
-    //       visites = [
-    //         ...[site], 
-    //         ...state.visites.filter(s => s.id !== placeholderId)
-    //       ];
-
-    //       return {
-    //         ...state, 
-    //         visites: removeDuplicate(visites, s => s.domain), 
-    //       };
-        
-    //     case REQUEST_LOADING:
-    //       const placeholder = {...payload.payloadOrigin, id: placeholderId};
-    //       visites = [...[placeholder], ...state.visites];
-
-    //       return {
-    //         ...state, 
-    //         visites: removeDuplicate(visites, s => s.domain),  
-    //       };
-    
-    //     case REQUEST_ERROR:
-    //     default:
-    //       return state;
-    //   }
-    // }
   }
 };
 
@@ -101,17 +63,4 @@ const FetchHandler = {
         return {...state, loading: false};
     }
   },
-  // execVisites(state, payload) {
-  //   if(payload.status !== REQUEST_COMPLETE) {
-  //     return state
-  //   }
-
-  //   return {
-  //     ...state, 
-  //     visites: removeDuplicate(
-  //       [...state.visites, ...payload.response.data], 
-  //       s => s.domain
-  //     ),
-  //   }
-  // }
 }

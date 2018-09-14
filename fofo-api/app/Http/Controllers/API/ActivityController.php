@@ -65,15 +65,19 @@ class ActivityController extends APIController
     public function page(AddressRequest $request)
     {
         $perPage = 15;
-        $address = $request->get('www');
 
+        $address = $request->get('www');
         $cursor = (int) $request->query('cursor');
+        $prev = $request->query('prev');
+
+        $operation = (!$prev) ? '<=' : '>';
+        $take = ($prev && $prev === 'all' && $cursor) ? -1 : $perPage;
 
         $comments = Page::findLatestComment($address->getDomain(), $address->getUri())
-            ->when($cursor, function($query, $cursor) {
-                $query->where('id', '<=', $cursor);
+            ->when($cursor, function($query, $cursor) use($operation) {
+                $query->where('id', $operation, $cursor);
             })
-            ->take($perPage)
+            ->take($take)
             ->get();
 
         $lastComment = $comments->last();

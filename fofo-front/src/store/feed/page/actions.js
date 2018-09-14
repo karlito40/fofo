@@ -1,16 +1,15 @@
 import action, { ActionAPI } from '../../api';
 
 export function fetch(href) {
-  return (new ActionAPI('GET', '/feed/page', {
-      query: { address: href }
-    }))
+  return (new ActionAPI('GET', '/feed/page', {address: href }))
     .with({href})
     .export();
 }
 
 export function next(href, cursor) {
   return (new ActionAPI('GET', '/feed/page', {
-      query: { address: href, cursor }
+      address: href, 
+      cursor
     }))
     .with({href})
     .export();
@@ -22,6 +21,10 @@ export function sendMessage(href, message) {
       content: message,
       address: href
     }))
-      .with({ href, message })
+      .with({ href, content: message })
       .export();
+}
+
+export function refresh() {
+
 }

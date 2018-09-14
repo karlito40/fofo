@@ -41,7 +41,7 @@ function executeTemplate(template) {
           let { handler, relation } = receiver;
           
           let oldScope = getScope(relation, newState);
-          let newScope = handler(oldScope, action.data);
+          let newScope = handler(oldScope, action.data, action.id);
 
           let depsScope = getDependenciesByRelation(relation, template._dependencies);
           newScope = preserveDependencies(depsScope, newScope, oldScope);

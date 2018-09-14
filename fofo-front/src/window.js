@@ -3,10 +3,7 @@ import { actions as app } from './store/app';
 import { actions as pageActions } from './store/feed/page';
 
 window.setAddress = (domain, uri) => {
-  store.dispatch(app.setAddress({
-    domain,
-    uri
-  }));
+  store.dispatch(app.setAddress(domain, uri));
 }
 
 window.toDefault = () => {

@@ -15,25 +15,33 @@ export function createActions(...args) {
   return actions;
 }
 
-export function createPayload(namespace, functionName, data) {
+export function createPayload(namespace, functionName, data, id) {
   return {
     type: createType(namespace, functionName),
     data,
+    id
   };
 }
 
+let actionId = 0;
 function createAction(namespace, functionName, f) {
   return (...args) => {
-    const res = f(...args);
+    actionId++;
+
+    const actionResponse = f(...args);
     
-    if(typeof res === 'function') {
-      const bindCreatePayload = createPayload.bind(null, namespace, functionName);
-      return (...enhancedArgs) => {
-        return res(...enhancedArgs, bindCreatePayload);
+    if(typeof actionResponse === 'function') {
+      const createPayloadExtends = (id => data => {
+        return createPayload(namespace, functionName, data, id);
+      })(actionId);
+
+      return (...actionDefaultArgs) => {
+        return actionResponse(...actionDefaultArgs, createPayloadExtends);
       };
     }
 
-    return createPayload(namespace, functionName, res);
+    return createPayload(namespace, functionName, actionResponse, actionId);
   }
 }
+
 

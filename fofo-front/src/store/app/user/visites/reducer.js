@@ -27,9 +27,9 @@ export default {
       }
     },
 
-    add(state, payload) { 
+    add(state, payload, actionId) { 
       let sites;
-      const placeholderId = '_' + state.sites.length;
+      const placeholderId = '_' + actionId;
       switch(payload.status) {
         case REQUEST_COMPLETE:
           const site = payload.response.data;
@@ -53,6 +53,8 @@ export default {
           };
 
         case REQUEST_ERROR:
+          return {...state, sites: state.sites.filter(s => s.id !== placeholderId) }
+        
         default:
           return state;
       }

@@ -52,23 +52,29 @@ export default {
           return {...state, loadingNext: false, hasMore: false};
       }
     },
-    sendMessage(state, payload) {
+    sendMessage(state, payload, actionId) {
       if(state.href !== (payload.payloadOrigin.href)) {
         return {...state, loadingForm: false};
       }
 
+      const placeholderId = '_' + actionId;
+      let comments;
+
       switch(payload.status) {
         case REQUEST_COMPLETE:
           const comment = payload.response.data;
-          const comments = [
+          comments = [
             ...[comment], 
-            ...state.comments
+            ...state.comments.filter(s => s.id !== placeholderId)
           ];
   
-          return {...state, comments, loadingForm: false, lastSent: Date.now()};
+          return {...state, comments, loadingForm: false};
         
         case REQUEST_LOADING:
-          return {...state, loadingForm: true};
+          const placeholder = { content: payload.payloadOrigin.content, id: placeholderId};
+          comments = [...[placeholder], ...state.comments];
+
+          return {...state, comments: comments, loadingForm: true, lastSent: Date.now()};
   
         case REQUEST_ERROR:
         default:

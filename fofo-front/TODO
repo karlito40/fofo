@@ -1,1 +1,2 @@
 Use decodeURIComponent(location.pathname) when sending a new component
+test error placeholder -> correctly remove from state

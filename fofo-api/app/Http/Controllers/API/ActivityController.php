@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Requests\AddressRequest;
+use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Page;
 use App\Models\Site;
@@ -91,7 +92,7 @@ class ActivityController extends APIController
         $lastComment = $comments->last();
 
         return $this->okRaw([
-            'data' => $comments->all(),
+            'data' => CommentResource::collection($comments),
             'next_cursor' => $lastComment ? $lastComment->id - 1 : -1,
             'has_more' => $comments->count() >= $perPage,
             'per_page' => $perPage,

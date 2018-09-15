@@ -17,7 +17,6 @@ class PageResource extends JsonResource
         return [
             'id' => $this->id,
             'uri' => $this->uri,
-            'deleted_at' => $this->deleted_at,
             'title' => $this->title,
             'site' => new SiteResource($this->whenLoaded('site')),
         ];

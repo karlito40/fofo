@@ -63,7 +63,10 @@ export default {
           return {...state, loadingNext: false, hasMore: false};
       }
     },
-    sendMessage(state, payload, actionId) {
+    
+  },
+  comment: {
+    send(state, payload, actionId) {
       if(state.href !== (payload.payloadOrigin.href)) {
         return {...state, loadingForm: false};
       }
@@ -85,7 +88,8 @@ export default {
           const placeholder = { 
             id: placeholderId,
             content: payload.payloadOrigin.content, 
-            isPlaceholder: true
+            isPlaceholder: true,
+            user: payload.payloadOrigin.user,
           };
           comments = [...[placeholder], ...state.comments];
 

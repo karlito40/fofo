@@ -51,7 +51,7 @@ class Page extends Model
             ->first();
 
         return (!empty($site) && $site->pages->isNotEmpty())
-            ? Comment::byLatestActivity($site->pages[0]->id)
+            ? Comment::byLatestActivity($site->pages[0]->id)->with('user')
             : Comment::whereRaw('1 != 1');
     }
 

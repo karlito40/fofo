@@ -18,7 +18,6 @@ class HighlightResource extends JsonResource
             'id' => $this->id,
             'location' => $this->location,
             'content' => $this->content,
-            'deleted_at' => $this->deleted_at,
             'page' => new PageResource($this->whenLoaded('page')),
             'user' => new UserResource($this->whenLoaded('user')),
         ];

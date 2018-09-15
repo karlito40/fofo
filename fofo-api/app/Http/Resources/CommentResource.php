@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Page;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CommentResource extends JsonResource
@@ -15,11 +16,13 @@ class CommentResource extends JsonResource
      */
     public function toArray($request)
     {
+
         $res = [
             'id' => $this->id,
             'content' => $this->content,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at->toW3cString(),
+            'updated_at' => $this->updated_at->toW3cString(),
+            'user' => new UserResource($this->whenLoaded('user'))
         ];
 
         if($this->relationLoaded('commentable')) {

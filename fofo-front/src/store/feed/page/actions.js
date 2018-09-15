@@ -9,16 +9,6 @@ export function next(href, cursor) {
     .export();
 }
 
-
-export function sendMessage(href, message) {
-  return (new ActionAPI('POST', '/comment', { 
-      content: message,
-      address: href
-    }))
-    .with({ href, content: message })
-    .export();
-}
-
 export function refresh(href, cursor) {
   return (new ActionAPI('GET', '/feed/page', {
       address: href,

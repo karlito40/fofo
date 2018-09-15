@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
+import moment from 'moment';
 import Box from './styled/Box';
 import Avatar from './Avatar';
-import {Reply} from 'styled-icons/material/Reply';
-import {Heart} from 'styled-icons/fa-solid/Heart';
+import { Reply } from 'styled-icons/material/Reply';
+import { Heart } from 'styled-icons/fa-solid/Heart';
 
 export default (props) => {
   const { comment, className } = props;
-
+  
   return (
     <Wrapper className={className}>
       <Header>
         <Avatar user={null}/>
         <Presentation>
           <User>
-            <Pseudo>Sinha</Pseudo>
-            <Date>Feb 18 03:40pm</Date>
+            <Pseudo>{comment.user.name}</Pseudo>
+            <Date>{moment(comment.created_at).fromNow()}</Date>
           </User>
           <Extra>
             <ReplyIcon size={20}/>
@@ -73,7 +74,6 @@ const User = styled.div`
 
 const Pseudo = styled.div`
   font-size: ${p => p.theme.titleFontSize};
-  text-transform: uppercase;
 `;
 
 const Date = styled.div`

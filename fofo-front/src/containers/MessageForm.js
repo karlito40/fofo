@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MessageForm from '../components/MessageForm';
-import { actions as feedPage } from '../store/feed/page';
+import { actions as comment } from '../store/comment';
 import { getState } from '../store';
 
 const mapStateToProps = ({feed}) => ({
@@ -10,7 +10,11 @@ const mapStateToProps = ({feed}) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmit: (message) => dispatch(feedPage.sendMessage(getState('app.href'), message))
+  onSubmit: (content) => dispatch(comment.send(
+    getState('app.href'), 
+    content,
+    getState('app.user'), 
+  ))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessageForm);

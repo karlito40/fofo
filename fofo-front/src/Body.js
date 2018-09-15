@@ -8,23 +8,33 @@ import VisiteFeed from './containers/VisiteFeed';
 import PageFeed from './containers/PageFeed';
 import BaseMessageForm from './containers/MessageForm';
 import Breadcrumb from './components/Breadcrumb';
+import BaseAuthForm from './components/AuthForm';
 
 export default class Body extends Component {
   render() {
     return <Fragment>
       <Menu>
         <VisiteFeed/>
-        {/* <WorldFeed/>  */}
       </Menu>
+      
       <SiteFeed/>
-      <MessageForm/>
+      
       <Content>
         <Breadcrumb/>
         <PageFeed/>
       </Content>
+
+      <MessageForm>
+        <AuthForm/>  
+      </MessageForm>
+      
     </Fragment> 
   }
 }
+
+const AuthForm = styled(BaseAuthForm)`
+  z-index: 5;
+`;
 
 const Menu = styled(BaseMenu)`
   z-index: 4;

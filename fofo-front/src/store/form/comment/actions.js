@@ -1,4 +1,4 @@
-import { ActionAPI } from '../api';
+import { ActionAPI } from '../../api';
 
 export function send(href, content, user) {
   return (new ActionAPI('POST', '/comment', { 

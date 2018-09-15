@@ -32,11 +32,11 @@ class PageFeedContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ feed, app }) => ({
+const mapStateToProps = ({ feed, app, form }) => ({
   key: app.href,  // Key is important to force the reinitialisation of InfiniteScroll ( page never restart otherwise )
   hasMore: feed.page.hasMore,
   comments: feed.page.comments,
-  lastCommentSent: feed.page.lastSent,
+  lastCommentSent: form.comment.lastSent,
 });
 
 const mapDispatchToProps = (dispatch) => ({

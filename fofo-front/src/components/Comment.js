@@ -12,7 +12,7 @@ export default (props) => {
   return (
     <Wrapper className={className}>
       <Header>
-        <Avatar user={null}/>
+        <Avatar user={comment.user}/>
         <Presentation>
           <User>
             <Pseudo>{comment.user.name}</Pseudo>

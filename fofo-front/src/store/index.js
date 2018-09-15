@@ -7,6 +7,7 @@ import thunkMiddleware from 'redux-thunk';
 // Loadable components
 import './app';
 import './feed';
+import './form';
 
 let store = null;
 export default function() {

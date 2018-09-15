@@ -5,11 +5,9 @@ export default {
   _state: {
     loading: false,
     loadingNext: false,
-    loadingForm: false,
     comments: [],
     hasMore: true,
     href: null,
-    lastSent: null,
     nextCursor: null,
     firstCursor: null,
   },
@@ -65,10 +63,10 @@ export default {
     },
     
   },
-  comment: {
+  'form.comment': {
     send(state, payload, actionId) {
       if(state.href !== (payload.payloadOrigin.href)) {
-        return {...state, loadingForm: false};
+        return state;
       }
 
       const placeholderId = '_' + actionId;
@@ -82,7 +80,7 @@ export default {
             ...state.comments.filter(s => s.id !== placeholderId)
           ];
   
-          return {...state, comments, loadingForm: false};
+          return {...state, comments};
         
         case REQUEST_LOADING:
           const placeholder = { 
@@ -93,11 +91,11 @@ export default {
           };
           comments = [...[placeholder], ...state.comments];
 
-          return {...state, comments: comments, loadingForm: true, lastSent: Date.now()};
+          return {...state, comments: comments};
   
         case REQUEST_ERROR:
         default:
-          return {...state, loadingForm: true};
+          return state;
       }
     }
   },
@@ -110,7 +108,6 @@ export default {
         ...state, 
         href, 
         loadingNext: false,
-        loadingForm: false, 
         comments: [],
         hasMore: true,
         nextCursor: null,

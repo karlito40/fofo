@@ -14,18 +14,25 @@ export default class extends Component {
     this.input.current.value = '';
   }
 
+  test = () => {
+    this.props.onFocus();
+  }
+
   render() {
-    const { className, loading } = this.props;
+    const { className, loading, children } = this.props;
 
     return <Wrapper className={className}>
-      <Form onSubmit={this.onSubmit}>
+      <Form onSubmit={this.onSubmit} onFocus={this.onFocus}>
         <Input ref={this.input} type="text" name="sendMessage" placeholder="Send a message"/>
         { loading && <LoaderStyled size={15}/> }
         <Interaction>
           <SmileyIcon size={16}/>
-          <SendIcon size={18}/>
+          <ButtonSubmit>
+            <SendIcon size={18}/>
+          </ButtonSubmit>
         </Interaction>
       </Form>
+      { children }
     </Wrapper>
   }
 }
@@ -84,4 +91,9 @@ const LoaderStyled = styled(Loader)`
   margin-top: 2px;
 `;
 
- 
+const ButtonSubmit = styled.button`
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;  
+`;

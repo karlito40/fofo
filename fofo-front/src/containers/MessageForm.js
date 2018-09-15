@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MessageForm from '../components/MessageForm';
-import { actions as comment } from '../store/comment';
+import { actions as comment } from '../store/form/comment';
 import { getState } from '../store';
 
-const mapStateToProps = ({feed}) => ({
-  loading: feed.page.loadingForm,
-  lastSent: feed.page.lastSent
+const mapStateToProps = ({form}) => ({
+  loading: form.comment.loading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -14,7 +13,8 @@ const mapDispatchToProps = (dispatch) => ({
     getState('app.href'), 
     content,
     getState('app.user'), 
-  ))
+  )),
+  onFocus: () => {}
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessageForm);

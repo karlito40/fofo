@@ -8,3 +8,7 @@ export function send(href, content, user) {
     .with({ href, content, user })
     .export();
 }
+
+export function active(active) {
+  return { active };
+}

@@ -8,7 +8,7 @@ import VisiteFeed from './containers/VisiteFeed';
 import PageFeed from './containers/PageFeed';
 import BaseMessageForm from './containers/MessageForm';
 import Breadcrumb from './components/Breadcrumb';
-import BaseAuthForm from './components/AuthForm';
+import BaseAuthForm from './containers/AuthForm';
 
 export default class Body extends Component {
   render() {

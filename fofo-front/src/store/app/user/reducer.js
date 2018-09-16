@@ -12,29 +12,20 @@ export default {
     isLogged: false,
   },
   self: {
-    login(state, payload) {
-      switch(payload.status) {
-        case REQUEST_COMPLETE:
-          const { user } = payload.response.data;
-    
-          setToken(payload.response.data.access_token);
-    
-          return {...state, ...user, loading: false, isLogged: true};
-        
-        case REQUEST_LOADING:
-          return {...state, loading: true};
-    
-        case REQUEST_ERROR:
-        default:
-          return {...state, loading: false};
-      }
-    },
     fetch(state, payload) {
       return FetchHandler.with(state, payload);
     },
-
+  },
+  'form.auth': {
+    login(state, payload) {
+      return handleLogin(state, payload);      
+    },
+    register(state, payload) {
+      return handleLogin(state, payload);
+    },
   }
 };
+
 
 const FetchHandler = {
   with(state, payload, relation) {
@@ -63,4 +54,19 @@ const FetchHandler = {
         return {...state, loading: false};
     }
   },
+}
+
+function handleLogin(state, payload) {
+  switch(payload.status) {
+    case REQUEST_COMPLETE:
+      const { user } = payload.response.data;
+
+      setToken(payload.response.data.access_token);
+
+      return {...state, ...user, loading: false, isLogged: true};
+    
+    case REQUEST_ERROR:
+    default:
+      return state;
+  }
 }

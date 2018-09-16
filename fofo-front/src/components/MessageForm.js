@@ -14,15 +14,11 @@ export default class extends Component {
     this.input.current.value = '';
   }
 
-  test = () => {
-    this.props.onFocus();
-  }
-
   render() {
     const { className, loading, children } = this.props;
 
     return <Wrapper className={className}>
-      <Form onSubmit={this.onSubmit} onFocus={this.onFocus}>
+      <Form onSubmit={this.onSubmit} onFocus={this.props.onFocus} onBlur={this.props.onBlur}>
         <Input ref={this.input} type="text" name="sendMessage" placeholder="Send a message"/>
         { loading && <LoaderStyled size={15}/> }
         <Interaction>

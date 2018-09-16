@@ -5,6 +5,7 @@ export default {
     lastSent: null,
     loading: false,
     href: null,
+    active: false,
   },
   self: {
     send(state, payload) {
@@ -21,7 +22,9 @@ export default {
         default:
           return {...state, loading: false};
       }
-
+    },
+    active(state, payload) {
+      return {...state, active: payload.active};
     }
   },
   app: {

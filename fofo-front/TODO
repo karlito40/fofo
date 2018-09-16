@@ -1,1 +1,7 @@
 test error placeholder -> correctly remove from state
+auth form
+  check while typing, 
+  handle server error, 
+  handle flash: Correctly logged/registered
+deconnexion
+avatar

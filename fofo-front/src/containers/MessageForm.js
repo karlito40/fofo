@@ -14,7 +14,8 @@ const mapDispatchToProps = (dispatch) => ({
     content,
     getState('app.user'), 
   )),
-  onFocus: () => {}
+  onFocus: () => dispatch(comment.active(true)),
+  onBlur: () => dispatch(comment.active(false)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessageForm);

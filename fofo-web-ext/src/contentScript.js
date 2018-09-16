@@ -190,7 +190,7 @@ const panels = {
 
     this.appView = createElement('iframe', {
       id: APP_NAME,
-      src: chrome.runtime.getURL('/public/frame.csp.html')
+      src: chrome.runtime.getURL('/public/frame.csp.html?extid=' + chrome.runtime.id)
     }, {
       width: '100%',
       height: '100%',

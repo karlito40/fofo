@@ -12,11 +12,12 @@ export default class extends Component {
       <Sites>
         <Logo>Fofo</Logo>
         {this.props.children}
+        <Filter/>
       </Sites>
-      <AutoFlexbox>
+      <Interaction>
         <StrokeIcon as={SearchIcon}/>
         <FillIcon as={MoreVertIcon}/>
-      </AutoFlexbox>
+      </Interaction>
     </Wrapper>
   }
 }
@@ -65,7 +66,8 @@ const Icon = styled.div`
   stroke: ${p => p.theme.menuBgColor};
   width: 20px;
   height: 20px;
-  
+  cursor: pointer;
+
   ${p => p.theme.horizontal && css`
     margin-bottom: 10px;
   `}
@@ -82,11 +84,23 @@ const Icon = styled.div`
 const StrokeIcon = styled(Icon)`
   fill: ${p => p.theme.menuBgColor};
   stroke: ${p => p.theme.menuColor};
+
+  :hover {
+    ${p => p.theme.horizontal && css`
+      stroke: ${p => p.theme.highlightColor};
+    `}
+  }
 `;
 
 const FillIcon = styled(Icon)`
   fill: ${p => p.theme.menuColor};
   stroke: ${p => p.theme.menuBgColor};
+
+  :hover {
+    ${p => p.theme.horizontal && css`
+      fill: ${p => p.theme.highlightColor};
+    `}
+  }
 `;
 
 const AutoFlexbox = styled.div`
@@ -97,8 +111,32 @@ const AutoFlexbox = styled.div`
   `}
 `;
 
-const Extras = styled(AutoFlexbox)``;
+const Interaction = styled(AutoFlexbox)`
+  ${p => p.theme.horizontal && css`
+    margin-top: 10px;
+  `}
+`;
 
 const Sites = styled(AutoFlexbox)`
+  position: relative;
   flex: 1;
+
+  ${p => p.theme.horizontal && css`
+    overflow: scroll;
+    width: 100%;
+  `}
+`;
+
+
+const Filter = styled.div`
+  ${p => p.theme.vertical && css`
+    display: none;
+  `}
+
+  position: absolute;
+  bottom: 0;
+  height: 10px;
+  pointer-events: none;
+  background: linear-gradient(to top,rgba(255, 255, 255) 0%, transparent 100%);
+  width: 100%;
 `;

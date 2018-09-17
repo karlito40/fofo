@@ -9,7 +9,14 @@ class AddressRequest extends APIRequest
     public function rules()
     {
         return [
-            'address' => 'required',
+            'address' => [
+                'required',
+                function($attribute, $value, $fail) {
+                    if(!WWWAddress::ok($value)) {
+                        return $fail($attribute.' is invalid.');
+                    }
+                }
+            ],
         ];
     }
 

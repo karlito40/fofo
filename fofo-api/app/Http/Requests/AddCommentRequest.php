@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Utils\WWWAddress;
 
-class AddCommentRequest extends APIRequest
+class AddCommentRequest extends AddressRequest
 {
 
     /**
@@ -14,17 +14,9 @@ class AddCommentRequest extends APIRequest
      */
     public function rules()
     {
-        return [
+        return array_merge(parent::rules(), [
             'content' => 'required|min:1',
-            'address' => [
-                'required',
-                function($attribute, $value, $fail) {
-                    if(!WWWAddress::ok($value)) {
-                        return $fail($attribute.' is invalid.');
-                    }
-                }
-            ],
-        ];
+        ]);
     }
 
 

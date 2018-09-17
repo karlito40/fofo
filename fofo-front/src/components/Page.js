@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import Box from './styled/Box';
+import * as Uri from '../lib/Uri';
 
 export default class extends Component {
   handleClick = (page) => {
@@ -12,11 +13,32 @@ export default class extends Component {
 
     return (
       <BoxStyled className={className} onClick={this.handleClick.bind(this, page)}>
-        <Link highlight={page.newMessages}>{decodeURIComponent(page.uri)}</Link>
-        <Title>{page.title}</Title>
+        <Link highlight={page.newMessages}>{getLinkName(page)}</Link>
+        <Title>{getTitle(page)}</Title>
       </BoxStyled>
     );
   }
+}
+
+function getLinkName(page) {
+  if(!page.uri) {
+    return 'Accueil';
+  }
+  const channel = Uri.getChannel(page.uri);
+  if(channel) {
+    return '#' + channel;
+  }
+
+  return decodeURIComponent(page.uri);
+}
+
+function getTitle(page) {
+  const channel = Uri.getChannel(page.uri);
+  if(page.isPlaceholder && channel) {
+    return 'Channel ' + channel;
+  }
+
+  return page.title;
 }
 
 const BoxStyled = styled(Box)`

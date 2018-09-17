@@ -8,15 +8,13 @@ use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Page;
 use Validator;
-use App\Utils\WWWAddress;
 
 class CommentController extends APIController
 {
 
     public function add(AddCommentRequest $request)
     {
-
-        $page = Page::findOrCreateWithAddress(WWWAddress::from($request->input('address')));
+        $page = Page::findOrCreateWithAddress($request->get('www'));
 
         $comment = new Comment([
             'content' => $request->input('content')

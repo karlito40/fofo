@@ -36,7 +36,7 @@ async function restoreState() {
     store.dispatch(user.fetch()); 
   }
   
-  store.dispatch(visites.fetch()); 
+  store.dispatch(visites.fetchByIp()); 
 }
 
 restoreState();

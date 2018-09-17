@@ -2,7 +2,7 @@ export { default as GlobalStyle } from './GlobalStyle';
 
 const highlightColor = '#39dd92';
 
-const MENU_WIDTH_HORI = 40;
+const MENU_WIDTH_HORI = 50;
 const MENU_HEIGHT_VERT = 40;
 const SITE_FEED_WIDTH_HORI = 350;
 const FULL_FIXED_PANEL_HORI = MENU_WIDTH_HORI + SITE_FEED_WIDTH_HORI;

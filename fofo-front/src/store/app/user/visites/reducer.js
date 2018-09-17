@@ -5,17 +5,20 @@ export default {
   _state: {
     loading: false,
     sites: [],
+    domain: null,
   },
   self: {
-    fetch(state, payload) {
+    fetchByIp(state, payload) {
       switch(payload.status) {
         case REQUEST_COMPLETE:
+          const sites = removeDuplicate(
+            [...state.sites, ...payload.response.data], 
+            s => s.domain
+          );
+
           return {
             ...state, 
-            sites: removeDuplicate(
-              [...state.sites, ...payload.response.data], 
-              s => s.domain
-            ),
+            sites: setActive(state, sites),
             loading: false,
           };
         
@@ -29,6 +32,10 @@ export default {
     },
 
     add(state, payload, actionId) { 
+      if(payload.payloadOrigin.onlySetActive) {
+        return {...state, sites: setActive(state, state.sites)};
+      }
+
       let sites;
       const placeholderId = '_' + actionId;
       switch(payload.status) {
@@ -38,19 +45,21 @@ export default {
             ...[site], 
             ...state.sites.filter(s => s.id !== placeholderId)
           ];
+          sites = removeDuplicate(sites, s => s.domain);
 
           return {
             ...state, 
-            sites: removeDuplicate(sites, s => s.domain), 
+            sites: setActive(state, sites), 
           };
         
         case REQUEST_LOADING:
           const placeholder = {...payload.payloadOrigin, id: placeholderId};
           sites = [...[placeholder], ...state.sites];
+          sites = removeDuplicate(sites, s => s.domain);
 
           return {
             ...state, 
-            sites: removeDuplicate(sites, s => s.domain),  
+            sites: setActive(state, sites),  
           };
 
         case REQUEST_ERROR:
@@ -66,13 +75,15 @@ export default {
       switch(payload.status) {
         case REQUEST_COMPLETE:
           const { visites } = payload.response.data;
+          const sites = removeDuplicate(
+            [...state.sites, ...visites], 
+            s => s.domain
+          );
+
           return {
             ...state, 
             loading: false,
-            sites: removeDuplicate(
-              [...state.sites, ...visites], 
-              s => s.domain
-            ),
+            sites: setActive(state, sites, true),
           };
       
         case REQUEST_LOADING:
@@ -83,6 +94,15 @@ export default {
           return {...state, loading: false};
       }
     } 
-  }
+  },
+  app: {
+    setAddress(state, payload) {
+      return {...state, domain: payload.domain};
+    }
+  } 
 };
 
+
+function setActive(state, sites, debug) {
+  return sites.map(site => ({...site, active: (site.domain === state.domain)})); 
+}

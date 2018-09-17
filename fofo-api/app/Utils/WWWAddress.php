@@ -7,6 +7,7 @@ class WWWAddress
 {
     protected $domain;
     protected $uri;
+    protected $fragment;
 
     public static function ok($url)
     {
@@ -20,6 +21,7 @@ class WWWAddress
         return new static([
             'domain' => (isset($parts['host'])) ? $parts['host'] : null,
             'uri' => (isset($parts['path'])) ? $parts['path'] : null,
+            'fragment' => (isset($parts['fragment'])) ? $parts['fragment'] : null,
         ]);
     }
 
@@ -27,7 +29,9 @@ class WWWAddress
     {
         $this->setDomain((isset($params['domain'])) ? $params['domain'] : null);
         $this->setUri((isset($params['uri'])) ? $params['uri'] : null);
+        $this->setFragment((isset($params['fragment'])) ? $params['fragment'] : null);
     }
+
 
     private function scrap($protocol)
     {
@@ -62,6 +66,9 @@ class WWWAddress
 
     public function findTitle()
     {
+        if($this->isChannel()) {
+            return 'Channel ' . $this->getChannel();
+        }
 
         $dom = $this->getHtml();
 
@@ -82,6 +89,21 @@ class WWWAddress
         return $this->hasDomain();
     }
 
+    public function isChannel()
+    {
+        return !!$this->getChannel();
+    }
+
+    public function getChannel()
+    {
+        if($this->uri && $this->uri === '/_channel:') {
+            return $this->fragment;
+        }
+
+        return false;
+    }
+
+
     public function getDomain()
     {
         return $this->domain;
@@ -94,6 +116,10 @@ class WWWAddress
 
     public function getUri()
     {
+        if($this->isChannel()) {
+            return $this->uri . '#' .$this->getChannel();
+        }
+
         if(!$this->hasUri()) {
             return '';
         }
@@ -127,6 +153,11 @@ class WWWAddress
     public function setUri($uri)
     {
         $this->uri = $uri;
+    }
+
+    public function setFragment($fragment)
+    {
+        $this->fragment = $fragment;
     }
 
 

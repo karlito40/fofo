@@ -34,7 +34,9 @@ export default {
         hasMore: true,
         loadingNext: false,
         currentSizeFetch: 1,
-        pages: [createPlaceholder(newAddress.uri, 'Loading...')]
+        pages: [
+          createPlaceholder(newAddress.uri, 'Loading...'),
+        ]
       };
     }
   } 

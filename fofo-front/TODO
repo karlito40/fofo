@@ -5,3 +5,4 @@ auth form
   handle flash: Correctly logged/registered
 deconnexion
 avatar
+add message on empty page feed

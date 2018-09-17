@@ -30,6 +30,7 @@ class Page extends Model
             ->first();
 
         if(!$page) {
+
             $page = new static([
                 'uri' => $address->getUri(),
                 'title' => $address->findTitle()

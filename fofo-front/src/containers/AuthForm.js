@@ -4,7 +4,6 @@ import AuthForm from '../components/AuthForm';
 import { actions as auth } from '../store/form/auth';
 
 class AuthFormContainer extends Component {
-
   render() {
     const { display } = this.props;
     return <React.Fragment>

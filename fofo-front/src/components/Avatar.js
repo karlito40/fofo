@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export default (props) => {
   const { user } = props;
-  return <Background src="/images/avatar.png"/>
+  return <Background src={user.avatar}/>;
   
 }
 

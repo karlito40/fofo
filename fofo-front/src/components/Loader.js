@@ -26,7 +26,6 @@ export default styled(Loader)`
     margin-left: -${getSize(p)/2}px;
     margin-top: -${getSize(p)}px;
   `}
-  
 
   .double-bounce1, .double-bounce2 {
     width: 100%;

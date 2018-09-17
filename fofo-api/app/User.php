@@ -34,6 +34,12 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
+    public function getAvatar()
+    {
+        $hash = isset($this->email) ? md5($this->email) : '';
+        return 'https://www.gravatar.com/avatar/' . $hash;
+    }
+
     public function highlights()
     {
         return $this->hasMany(Highlight::class);

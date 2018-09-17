@@ -25,8 +25,8 @@ const Wrapper = styled.div`
 
 
 const Favicon = styled.div`
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
   background: url(${p => p.src}) no-repeat;
   background-size: cover;
   border-radius: 5px;

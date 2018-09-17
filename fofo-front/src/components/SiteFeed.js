@@ -16,7 +16,9 @@ export default class extends Component {
         loader={<LoaderStyled key={0}/>}
         useWindow={false}
       >
-        { pages && pages.map(page => <Page key={page.id} page={page}/>) }
+        { pages && pages.map(page => 
+          <Page key={page.id} page={page} onClick={this.props.onPageClick}/>) 
+        }
       </InfiniteScroll>
     </Wrapper>
   }

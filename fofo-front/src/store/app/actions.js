@@ -8,7 +8,6 @@ export function setTheme(theme) {
 export function toggleTheme() {}
 
 export function setAddress(domain, uri) {
-  
   const address = { domain, uri };
   
   return async (dispatch, getState, extras, createPayload) => {

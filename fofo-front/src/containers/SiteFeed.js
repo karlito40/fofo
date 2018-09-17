@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SiteFeed from '../components/SiteFeed';
 import { actions as siteActions } from '../store/feed/site';
+import { actions as appActions } from '../store/app';
 import { getState } from '../store';
 import config from '../config';
 
@@ -42,7 +43,11 @@ const mapDispatchToProps = (dispatch) => ({
   loadMore: (page) => dispatch(siteActions.next(
     getState('app.domain'), 
     page
-  ))
+  )),
+  onPageClick: (page) => dispatch(appActions.setAddress(
+    getState('app.domain'),
+    page.uri
+  )),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiteFeedContainer);

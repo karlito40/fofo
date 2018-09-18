@@ -13,7 +13,7 @@ export default class extends Component {
 
     return (
       <BoxStyled className={className} onClick={this.handleClick.bind(this, page)}>
-        <Link highlight={page.newMessages}>{getLinkName(page)}</Link>
+        <Link active={page.active}>{getLinkName(page)}</Link>
         <Title>{getTitle(page)}</Title>
       </BoxStyled>
     );
@@ -46,7 +46,7 @@ const BoxStyled = styled(Box)`
 `;
 
 const Link = styled.div`
-  color: ${p => p.highlight ? p.theme.highlightColor : p.theme.strongColor};
+  color: ${p => (p.highlight || p.active) ? p.theme.highlightColor : p.theme.strongColor};
   margin-bottom: 10px;
 
   ${BoxStyled}:hover & {

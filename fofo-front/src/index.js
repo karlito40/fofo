@@ -24,8 +24,6 @@ const store = registerStore();
 // const uri = window.location.pathname;
 
 
-
-
 // Init address ---> it will be received from contentScript.js
 store.dispatch(app.setAddress('fr.wikipedia.org', '/wiki/Emmanuel_Macron')); 
 // store.dispatch(app.setAddress('allocine.fr', '/')); 

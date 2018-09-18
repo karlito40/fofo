@@ -6,13 +6,12 @@ import { Search as SearchIcon } from 'styled-icons/feather/Search';
 
 export default class extends Component {
   render() {
-    const { sites, className } = this.props;
+    const { className } = this.props;
 
     return <Wrapper className={className}>
       <Sites>
         <Logo>Fofo</Logo>
         {this.props.children}
-        <Filter/>
       </Sites>
       <Interaction>
         <StrokeIcon as={SearchIcon}/>
@@ -124,19 +123,17 @@ const Sites = styled(AutoFlexbox)`
   ${p => p.theme.horizontal && css`
     overflow: scroll;
     width: 100%;
+
+    :after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0;
+      height: 10px;
+      pointer-events: none;
+      background: linear-gradient(to top, rgba(255, 255, 255) 0%, transparent 100%);
+      width: 100%;
+    }
+    
   `}
-`;
-
-
-const Filter = styled.div`
-  ${p => p.theme.vertical && css`
-    display: none;
-  `}
-
-  position: absolute;
-  bottom: 0;
-  height: 10px;
-  pointer-events: none;
-  background: linear-gradient(to top,rgba(255, 255, 255) 0%, transparent 100%);
-  width: 100%;
 `;

@@ -1,8 +1,14 @@
-test error placeholder -> correctly remove from state
-auth form
-  check while typing, 
-  handle server error, 
-  handle flash: Correctly logged/registered
-deconnexion
-avatar
-add message on empty page feed
+☐ test error placeholder -> correctly remove from state
+☐ auth form
+  ☐ check while typing, 
+  ☐ handle server error, 
+  ☐ handle flash: Correctly logged/registered
+☐ deconnexion
+✔ avatar @done(18-09-18 14:48)
+☐ add message on empty page feed
+✔ active page indicator @started(18-09-18 14:48) @done(18-09-18 15:08) @lasted(20m32s)
+☐ search: message sent | received
+☐ message form: editeur | markdown
+☐ comment: like | quote | reply
+☐ remove cursor prev & just display a NEW POSTS like linkedin
+☐ i18n

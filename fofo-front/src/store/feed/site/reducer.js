@@ -22,11 +22,19 @@ export default {
     setAddress(state, payload) {
       const newAddress = payload;
       
-      // We click on a link of our own domain, nothing has to be done
+      // Only the uri changes
+      // We just have to update the active page
       if(state.address.domain === newAddress.domain) {
-        return { ...state, address: newAddress, firstUriVisite: newAddress.uri };
+        return { 
+          ...state, 
+          address: newAddress, 
+          pages: setActive({address: newAddress}, state.pages)
+        };
       }
-      
+
+      let pages = [ createPlaceholder(newAddress.uri, 'Loading...') ];
+      pages = setActive({address: newAddress}, pages);
+
       return {
         ...state, 
         address: newAddress,
@@ -34,9 +42,7 @@ export default {
         hasMore: true,
         loadingNext: false,
         currentSizeFetch: 1,
-        pages: [
-          createPlaceholder(newAddress.uri, 'Loading...'),
-        ]
+        pages
       };
     }
   } 
@@ -49,9 +55,11 @@ function handleNext(state, payload) {
 
   switch(payload.status) {
     case REQUEST_COMPLETE:
+      const pages = withFirstVisite(payload.response.data, state.firstUriVisite);
+
       return {
         ...state, 
-        pages: withFirstVisite(payload.response.data, state.firstUriVisite), 
+        pages: setActive(state, pages), 
         hasMore: payload.response.has_more,
         currentSizeFetch: payload.response.current_size,
         loadingNext: false
@@ -84,4 +92,8 @@ function withFirstVisite(pages, firstUriVisite) {
 
   // Replace the placeholder with the correct page
   return [...[currentPage], ...pages.filter(page => page.uri !== firstUriVisite)];
+}
+
+function setActive(state, pages) {
+  return pages.map(page => ({...page, active: (page.uri === state.address.uri)})); 
 }

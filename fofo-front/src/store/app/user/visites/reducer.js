@@ -102,7 +102,6 @@ export default {
   } 
 };
 
-
-function setActive(state, sites, debug) {
+function setActive(state, sites) {
   return sites.map(site => ({...site, active: (site.domain === state.domain)})); 
 }

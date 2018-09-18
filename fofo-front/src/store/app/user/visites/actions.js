@@ -1,4 +1,4 @@
-import apiCall, { getToken, ActionAPI } from '../../../api';
+import apiCall, { ActionAPI } from '../../../api';
 
 export function fetchByIp() {
   return apiCall('GET', '/visitor/visites');

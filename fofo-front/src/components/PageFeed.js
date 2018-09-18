@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import Comment from './Comment';
 import Loader from './Loader';
 import InfiniteScroll from 'react-infinite-scroller';
+import Box from './styled/Box';
 
 export default class extends Component {
   componentDidMount() {
@@ -10,13 +11,17 @@ export default class extends Component {
   }
   
   render() {
-    const { className, comments } = this.props;
+    const { className, comments, loading, hasMore, loadMore } = this.props;
 
     return <Wrapper className={className}>
+      {!hasMore && !comments.length && 
+        <EmptyThred>Be the first to comment this thread.</EmptyThred>
+      }
+
       <InfiniteScroll
         pageStart={0}
-        loadMore={this.props.loadMore}
-        hasMore={this.props.hasMore}
+        loadMore={loadMore}
+        hasMore={hasMore}
         loader={<LoaderStyled center={!this.hasBeenRender} key={0}/>}
         useWindow={true}
       >
@@ -47,5 +52,10 @@ const LoaderStyled = styled(Loader)`
     margin-bottom: 30px;
     margin-top: 15px;
   `}
+`;
+
+const EmptyThred = styled(Box)`
+  margin: 30px;
+  padding: 30px;
 `;
 

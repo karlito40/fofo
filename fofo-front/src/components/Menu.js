@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import { Home as HomeIcon } from 'styled-icons/material/Home';
 import { MoreVert as MoreVertIcon } from 'styled-icons/material/MoreVert';
-import { Search as SearchIcon } from 'styled-icons/feather/Search';
+// import { Search as SearchIcon } from 'styled-icons/feather/Search';
+import { User as UserIcon } from 'styled-icons/fa-solid/User';
 
 export default class extends Component {
   render() {
@@ -14,8 +15,9 @@ export default class extends Component {
         {this.props.children}
       </Sites>
       <Interaction>
-        <StrokeIcon as={SearchIcon}/>
-        <FillIcon as={MoreVertIcon}/>
+        {/* <StrokeIcon as={SearchIcon}/> */}
+        <Icon as={UserIcon} size={15}/>
+        <FillIcon as={MoreVertIcon} size={20}/>
       </Interaction>
     </Wrapper>
   }
@@ -63,12 +65,14 @@ const Wrapper = styled.div`
 const Icon = styled.div`
   fill: ${p => p.theme.menuColor};
   stroke: ${p => p.theme.menuBgColor};
-  width: 20px;
-  height: 20px;
+  color: ${p => p.theme.menuColor};
   cursor: pointer;
 
   ${p => p.theme.horizontal && css`
     margin-bottom: 10px;
+    :hover {
+      color: ${p => p.theme.highlightColor};
+    }
   `}
 
   ${p => p.theme.vertical && css`
@@ -78,6 +82,7 @@ const Icon = styled.div`
     fill: white;
     margin-left: 5px;
   `}
+  
 `;
 
 const StrokeIcon = styled(Icon)`

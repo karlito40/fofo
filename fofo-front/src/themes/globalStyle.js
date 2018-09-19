@@ -37,7 +37,17 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     font-size: ${p => p.theme.primaryFontSize};
-    color: ${p => p.theme.primaryColor}
+    color: ${p => p.theme.primaryColor};
+  }
+
+  strong, b {
+    color: ${p => p.theme.strongColor};
+  }
+
+  blockquote {
+    border-left: 3px solid #e3e4e6;
+    color: #a1a2a2;
+    padding: 4px 13px;
   }
 `;
 

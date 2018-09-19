@@ -12,7 +12,7 @@ export default class extends Component {
     const { page, className} = this.props;
 
     return (
-      <BoxStyled className={className} onClick={this.handleClick.bind(this, page)}>
+      <BoxStyled className={className} onClick={this.handleClick.bind(this, page)} >
         <Link active={page.active}>{getLinkName(page)}</Link>
         <Title>{getTitle(page)}</Title>
       </BoxStyled>
@@ -43,14 +43,19 @@ function getTitle(page) {
 
 const BoxStyled = styled(Box)`
   cursor: pointer;
+  
 `;
 
 const Link = styled.div`
-  color: ${p => (p.highlight || p.active) ? p.theme.highlightColor : p.theme.strongColor};
+  display: inline-block;
+  color: ${p => (p.highlight) ? p.theme.highlightColor : p.theme.strongColor};
   margin-bottom: 10px;
+  ${p => p.active && css`
+    border-bottom: 1px solid ${p.theme.strongColor};
+  `}
 
   ${BoxStyled}:hover & {
-    color: ${p => p.theme.highlightColor};
+    color: ${p => !p.active && p.theme.highlightColor};
   }
 `;
 

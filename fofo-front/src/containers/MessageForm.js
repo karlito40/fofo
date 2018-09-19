@@ -6,6 +6,7 @@ import { getState } from '../store';
 
 const mapStateToProps = ({form}) => ({
   loading: form.comment.loading,
+  active: form.comment.active
 });
 
 const mapDispatchToProps = (dispatch) => ({

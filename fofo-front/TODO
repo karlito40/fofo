@@ -1,18 +1,19 @@
 ☐ test error placeholder -> correctly remove from state
 ☐ auth form
-  ☐ check while typing, 
+  ☐ check while typing,
   ☐ handle server error
   ☐ handle flash: show message info Correctly logged/registered
-☐ deconnexion
+☐ my profile [nb message sent, messages sent, messages received, messages likes, pseudo]
 ☐ dropdown settings
-  ☐ my profile [nb message sent, messages list, messages received]
   ☐ deconnexion
   ☐ panel option -> sidebar | bottom
 ✔ avatar @done(18-09-18 14:48)
 ✔ add message on empty page feed @done(18-09-18 15:24)
 ✔ active page indicator @started(18-09-18 14:48) @done(18-09-18 15:08) @lasted(20m32s)
-☐ search: message sent | received
-☐ message form: editeur | markdown
-☐ comment: like | quote | reply
-☐ remove cursor prev & just display a NEW POSTS like linkedin -> on action refresh page
+☐ search: message sent | received | user
+✔ message form: editeur | markdown @started(18-09-18 15:54) @done(18-09-18 20:06) @lasted(4h12m43s)
+☐ message form: add preview
+☐ comment: like | quote | reply (lottie icons)
+☐ remove prev cursor & display a NEW POSTS like linkedin -> on click refresh page
+☐ display indicator new comments on page & visited sites
 ☐ i18n

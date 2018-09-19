@@ -2,32 +2,72 @@ import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import { Smile } from 'styled-icons/fa-regular/Smile';
 import { Send } from 'styled-icons/material/Send';
+import { Close } from 'styled-icons/material/Close';
 import Loader from './Loader';
 
 export default class extends Component {
+  formRef = React.createRef();
+  textarea = React.createRef();
+  submitButtonRef = React.createRef();
 
-  input = React.createRef();
+  state = { hasContent: false };
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.onSubmit(this.input.current.value);
-    this.input.current.value = '';
+    this.props.onSubmit(this.textarea.current.value);
+    this.close();
+  }
+
+  handleFocus = (e) => {
+    if(e.target !== this.submitButtonRef.current) {
+      this.props.onFocus();
+    }
+  }
+
+  handleChange = (e) => {
+    this.handleContent(e.target.value);
+  }
+
+  handleBlur = (e) => {
+    if(e.relatedTarget === this.submitButtonRef.current || !this.formRef.current.contains(e.relatedTarget)) {
+      this.props.onBlur();
+    } 
+  }
+
+  close = () => {
+    this.textarea.current.value = '';
+    this.handleContent('');
+    this.formRef.current.blur();
+  }
+
+  handleContent = (content) => {
+    this.setState({hasContent: !!content});
   }
 
   render() {
-    const { className, loading, children } = this.props;
+    const { className, loading, children, active } = this.props;
+    const deploy = (active || this.state.hasContent);
 
-    return <Wrapper className={className}>
-      <Form onSubmit={this.onSubmit} onFocus={this.props.onFocus} onBlur={this.props.onBlur}>
-        <Input ref={this.input} type="text" name="sendMessage" placeholder="Send a message"/>
+    return <Wrapper 
+      className={className} 
+      deploy={deploy}
+    >
+      <Form 
+        ref={this.formRef}
+        onSubmit={this.onSubmit} 
+        onBlur={this.handleBlur}
+        onFocus={this.handleFocus}
+        tabIndex="-1">
+        <Textarea ref={this.textarea} name="sendMessage" placeholder="Send a message" onChange={this.handleChange}/>
         { loading && <LoaderStyled size={15}/> }
-        <Interaction>
+        <Interaction deploy={deploy}>
           <SmileyIcon size={16}/>
-          <ButtonSubmit>
+          <SubmitButton ref={this.submitButtonRef}>
             <SendIcon size={18}/>
-          </ButtonSubmit>
+          </SubmitButton>
         </Interaction>
       </Form>
+      <CloseIcon onClick={this.close} deploy={deploy} size={20}/>
       { children }
     </Wrapper>
   }
@@ -42,9 +82,17 @@ const Wrapper = styled.div`
   background-color: ${p => p.theme.secondaryBgColor};
   right: 0;
   left: 0;
-
+  transition: 0.3s height;
   ${p => p.theme.horizontal && css`
     left: ${p.theme.panelWidth};
+  `}
+
+  ${p => p.deploy && css`
+    height: 100%;
+
+    textarea {
+      padding: 25px 0;
+    }
   `}
 `;
 
@@ -54,24 +102,38 @@ const Form = styled.form`
   align-items: center;
 `;
 
-const Input = styled.input`
+const Textarea = styled.textarea`
   outline: 0;
   border: 0;
   height: 100%;
-  font-family: GothamRoundedBook, Roboto, sans-serif;
   flex: 1;
+  font-size: 14px;
+  font-family: Roboto, sans-serif;
+  color: ${p => p.theme.primaryColor};
+  resize: none;
 
   ::placeholder { 
+    font-size: 11px;
+    font-family: GothamRoundedBook, Roboto, sans-serif;
     color: ${p => p.theme.primaryColor};
+    line-height: ${p => p.theme.messageFormHeight};
+  }
+
+  :focus::placeholder {
+    visibility: hidden;
+    color: red;
   }
 `;
 
 const Interaction = styled.div`
   display: flex;
   align-items: center;
+  position: absolute;
+  bottom: 12px;
+  right: 20px;
 `;
 
-const cssIcon = `margin-left: 10px;`;
+const cssIcon = `margin-left: 10px; cursor: pointer;`;
 
 const SmileyIcon = styled(Smile)`
   ${cssIcon}
@@ -87,9 +149,23 @@ const LoaderStyled = styled(Loader)`
   margin-top: 2px;
 `;
 
-const ButtonSubmit = styled.button`
+const SubmitButton = styled.button`
   padding: 0;
   margin: 0;
   border: 0;
   outline: 0;  
+`;
+
+const CloseIcon = styled(Close)`
+  ${cssIcon};
+
+  position: absolute;
+  cursor: pointer;
+  opacity: 0;
+  top: 20px;
+  right: 20px;
+  ${p => p.deploy && css`
+    transition: 0.1s opacity 0.1s;
+    opacity: 1;
+  `}
 `;

@@ -9,7 +9,7 @@ const FULL_FIXED_PANEL_HORI = MENU_WIDTH_HORI + SITE_FEED_WIDTH_HORI;
 
 const baseStyle = {
   primaryColor: '#70727c',
-  strongColor: '#414141',
+  strongColor: 'black',
   highlightColor: highlightColor,
   lightColor: '#c2c4c7',
   
@@ -32,7 +32,7 @@ const themes = {
   horizontal: {
     ...baseStyle,
     
-    menuColor: '#646874',
+    menuColor: 'black',
     menuBgColor: baseStyle.secondaryBgColor,
     menuWidth: MENU_WIDTH_HORI + 'px',
 

@@ -5,30 +5,49 @@ import Box from './styled/Box';
 import Avatar from './Avatar';
 import { Reply } from 'styled-icons/material/Reply';
 import { Heart } from 'styled-icons/fa-solid/Heart';
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+// import loadLanguages from 'prismjs/components/index';
+import 'prismjs/components/prism-javascript.min.js';
+import 'prismjs/components/prism-c.min.js';
+import 'prismjs/components/prism-css.min.js';
+import 'prismjs/components/prism-typescript.min.js';
+import 'prismjs/components/prism-java.min.js';
+import 'prismjs/components/prism-python.min.js';
+import 'prismjs/components/prism-go.min.js';
+import 'prismjs/components/prism-swift.min.js';
 
-export default (props) => {
-  const { comment, className } = props;
+export default class extends Component {
+  contentRef = React.createRef();
+
+  componentDidMount() {
+    this.contentRef.current.querySelectorAll('code')
+      .forEach(el => Prism.highlightElement(el));
+  }
+
+  render() {
+    const { comment, className } = this.props;
+
+    return (
+      <Wrapper className={className}>
+        <Header>
+          <Avatar user={comment.user}/>
+          <Presentation>
+            <User>
+              <Pseudo>{comment.user.name}</Pseudo>
+              <Date>{moment(comment.created_at).fromNow()}</Date>
+            </User>
+            <Extra>
+              <ReplyIcon size={20}/>
+              <HeartIcon size={15} like={comment.like}/>
+            </Extra>
+          </Presentation>
+        </Header>
+        <Content ref={this.contentRef} dangerouslySetInnerHTML={{__html: comment.content}}/>
+      </Wrapper>
+    );
+  }
   
-  return (
-    <Wrapper className={className}>
-      <Header>
-        <Avatar user={comment.user}/>
-        <Presentation>
-          <User>
-            <Pseudo>{comment.user.name}</Pseudo>
-            <Date>{moment(comment.created_at).fromNow()}</Date>
-          </User>
-          <Extra>
-            <ReplyIcon size={20}/>
-            <HeartIcon size={15} like={comment.like}/>
-          </Extra>
-        </Presentation>
-      </Header>
-      <Content>
-        {comment.content} 
-      </Content>
-    </Wrapper>
-  )
 }
 
 const cssIcon = `margin-left: 10px;`;
@@ -81,4 +100,9 @@ const Date = styled.div`
   color: ${p => p.theme.lightColor};
 `;
 
-const Content = styled.div``;
+const Content = styled.div`
+  p, blockquote, pre {
+    & { margin: 0 !important; margin-bottom: 15px !important; }
+    &:last-child { margin-bottom: 0 !important; }
+  }
+`;

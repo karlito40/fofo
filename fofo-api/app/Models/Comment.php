@@ -46,7 +46,10 @@ class Comment extends Model
 
     public function setContentAttribute($content)
     {
-        $this->attributes['content'] = trim($content);
+        $parsedown = new \Parsedown;
+        $parsedown->setSafeMode(true);
+
+        $this->attributes['content'] = $parsedown->text($content);
     }
 
     public function commentable()

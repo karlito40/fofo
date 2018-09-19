@@ -46,11 +46,11 @@ export default class extends Component {
 
   render() {
     const { className, loading, children, active } = this.props;
-    const deploy = (active || this.state.hasContent);
+    const unfold = (active || this.state.hasContent);
 
     return <Wrapper 
       className={className} 
-      deploy={deploy}
+      unfold={unfold}
     >
       <Form 
         ref={this.formRef}
@@ -60,14 +60,14 @@ export default class extends Component {
         tabIndex="-1">
         <Textarea ref={this.textarea} name="sendMessage" placeholder="Send a message" onChange={this.handleChange}/>
         { loading && <LoaderStyled size={15}/> }
-        <Interaction deploy={deploy}>
+        <Interaction unfold={unfold}>
           <SmileyIcon size={16}/>
           <SubmitButton ref={this.submitButtonRef}>
             <SendIcon size={18}/>
           </SubmitButton>
         </Interaction>
       </Form>
-      <CloseIcon onClick={this.close} deploy={deploy} size={20}/>
+      <CloseIcon onClick={this.close} unfold={unfold} size={20}/>
       { children }
     </Wrapper>
   }
@@ -87,7 +87,7 @@ const Wrapper = styled.div`
     left: ${p.theme.panelWidth};
   `}
 
-  ${p => p.deploy && css`
+  ${p => p.unfold && css`
     height: 100%;
 
     textarea {
@@ -164,7 +164,7 @@ const CloseIcon = styled(Close)`
   opacity: 0;
   top: 20px;
   right: 20px;
-  ${p => p.deploy && css`
+  ${p => p.unfold && css`
     transition: 0.1s opacity 0.1s;
     opacity: 1;
   `}

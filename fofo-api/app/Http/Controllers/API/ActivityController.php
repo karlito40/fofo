@@ -22,9 +22,12 @@ class ActivityController extends APIController
      * @param $host
      * @return \Illuminate\Http\JsonResponse
      */
-    public function world()
+    public function world(Request $request)
     {
-        $sites = Site::byLatestActivity()
+        $user = $request->user('api');
+        $userOrIp = ($user) ? $user : $request->ip();
+
+        $sites = Site::byLatestActivity($userOrIp)
             ->simplePaginate();
 
 
@@ -47,7 +50,10 @@ class ActivityController extends APIController
 
         $take = $perPage * $sizeRequest;
 
-        $pages = Page::byLatestActivity($address->getDomain())
+        $user = $request->user('api');
+        $userOrIp = ($user) ? $user : $request->ip();
+
+        $pages = Page::byLatestActivity($userOrIp, $address->getDomain())
             ->take($take)
             ->get();
 

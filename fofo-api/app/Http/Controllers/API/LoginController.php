@@ -30,7 +30,7 @@ class LoginController extends APIController
 
         Visite::connect($request->ip(), $user);
 
-        $user->load('visites.site');
+        $user->load('visites');
 
         return $this->ok([
             'user' => new UserResource($user),

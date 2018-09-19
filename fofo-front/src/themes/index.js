@@ -10,9 +10,10 @@ const FULL_FIXED_PANEL_HORI = MENU_WIDTH_HORI + SITE_FEED_WIDTH_HORI;
 const baseStyle = {
   primaryColor: '#70727c',
   strongColor: 'black',
-  highlightColor: highlightColor,
   lightColor: '#c2c4c7',
-  
+  highlightColor: highlightColor,
+  notifColor: '#eb6d58',
+
   primaryBgColor: '#fbfbfb',
   secondaryBgColor: '#ffffff',
   highlightBgColor: highlightColor,

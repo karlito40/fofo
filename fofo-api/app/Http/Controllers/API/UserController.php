@@ -17,7 +17,7 @@ class UserController extends APIController
     public function me(Request $request)
     {
         $user = $request->user();
-        $user->load('visites.site');
+        $user->load('visites');
 
         return $this->ok(new UserResource($user));
     }
@@ -32,7 +32,7 @@ class UserController extends APIController
 
         Visite::connect($request->ip(), $user);
 
-        $user->load('visites.site');
+        $user->load('visites');
 
         return $this->ok([
             'user' => new UserResource($user),

@@ -9,6 +9,7 @@ use App\Http\Requests\DeleteCommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\SiteResource;
 use App\Http\Resources\VisiteResource;
+use App\Http\Resources\VisiteSiteResource;
 use App\Models\Comment;
 use App\Models\Page;
 use App\Models\Site;
@@ -22,25 +23,21 @@ class VisiteController extends APIController
 
     public function listByIp(APIRequest $request)
     {
-        $visites = Visite::with('site')
+        $visites = Visite::bySites()
             ->where('ip', $request->ip())
-            ->orderByDesc('viewed_at')
             ->get();
 
-        return $this->ok(VisiteResource::collection($visites));
+        return $this->ok(VisiteSiteResource::collection($visites));
     }
 
     public function add(AddressRequest $request)
     {
         $user = $request->user('api');
-        $address = $request->get('www');
 
-        $site = Site::firstOrCreate([
-            'domain' => $address->getDomain(),
-        ]);
+        $page = Page::findOrCreateWithAddress($request->get('www'));
 
-        $visite = Visite::with(['user', 'site'])
-            ->where('site_id', $site->id)
+        $visite = Visite::with('page')
+            ->where('page_id', $page->id)
             ->where('ip', $request->ip())
             ->first();
 
@@ -49,18 +46,17 @@ class VisiteController extends APIController
                 'ip' => $request->ip(),
             ]);
 
-            $visite->site()->associate($site);
-
+            $visite->page()->associate($page);
         }
 
         if($user) {
             $visite->user()->associate($user);
         }
 
+        $visite->load('page.site');
+
         $visite->viewed_at = Carbon::now();
-
         $visite->save();
-
 
         return $this->ok(new VisiteResource($visite));
     }

@@ -16,7 +16,7 @@ class CreateVisitesTable extends Migration
         Schema::create('visites', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->nullable();
-            $table->unsignedInteger('site_id');
+            $table->unsignedInteger('page_id');
 
             $table->string('ip');
             $table->timestamp('viewed_at');
@@ -27,8 +27,8 @@ class CreateVisitesTable extends Migration
                 ->references('id')->on('users')
                 ->onDelete('cascade')->onUpdate('cascade');
 
-            $table->foreign('site_id')
-                ->references('id')->on('sites')
+            $table->foreign('page_id')
+                ->references('id')->on('pages')
                 ->onDelete('cascade')->onUpdate('cascade');
         });
     }

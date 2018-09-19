@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use App\Models\Page;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class VisiteResource extends JsonResource
+class VisiteSiteResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,15 +15,11 @@ class VisiteResource extends JsonResource
      */
     public function toArray($request)
     {
-        if(!$this->relationLoaded('page')) {
-            throw new \Exception('VisiteResource need to be load with page relation');
-
-        }
-
         return [
             'id' => $this->id,
+            'domain' => $this->domain,
             'viewed_at' => $this->viewed_at->toW3cString(),
-            'page' => new PageResource($this->page),
+            'has_new_comment' => $this->has_new_comment
         ];
     }
 }

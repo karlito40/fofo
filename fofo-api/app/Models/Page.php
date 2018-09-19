@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Utils\WWWAddress;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -30,8 +32,7 @@ class Page extends Model
             ->first();
 
         if(!$page) {
-
-            $page = new static([
+            $page = new Page([
                 'uri' => $address->getUri(),
                 'title' => $address->findTitle()
             ]);
@@ -56,15 +57,39 @@ class Page extends Model
             : Comment::whereRaw('1 != 1');
     }
 
-    public static function byLatestActivity($domain = null) : Builder
+    public static function byLatestActivity($userOrIp = null, $domain = null) : Builder
     {
         $fromTable = (new static)->getTable();
 
         return static::query()
-            ->select('pages.id', 'pages.title', 'pages.uri', 'pages.site_id', 'latest_comments.last_id as last_comment_id')
+            ->select(
+                'pages.id',
+                'pages.title',
+                'pages.uri',
+                'pages.site_id',
+                'latest_comments.last_id AS last_comment_id',
+                'comments.id AS has_new_comment'
+            )
             ->joinSub(Comment::byLatestOfType(static::class), 'latest_comments', function($join) use($fromTable) {
                 $join->on($fromTable . '.id', 'latest_comments.commentable_id');
             })
+            ->when($userOrIp, function($query, $userOrIp) {
+                $query->leftJoin('comments', function ($join) use($userOrIp) {
+                    $where = ' AND visites.';
+                    $where .= (is_string($userOrIp)) ? "ip = '$userOrIp" : 'user_id = ' . $userOrIp->id;
+
+                    $join->on('comments.commentable_id', '=', 'pages.id')
+                        ->where('comments.commentable_type', '=', static::class)
+                        ->whereRaw('comments.created_at > (' .
+                            DB::raw('
+                              SELECT viewed_at FROM visites 
+                              WHERE visites.page_id = pages.id ' . $where
+                                . ' LIMIT 1')
+                        . ')');
+
+                });
+            })
+
             ->when($domain, function ($query, $domain) use($fromTable) {
                 $joinTable = (new Site)->getTable();
                 $query->join($joinTable, $fromTable . '.site_id', $joinTable . '.id');
@@ -89,5 +114,9 @@ class Page extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
+    public function visites()
+    {
+        return $this->hasMany(Visite::class);
+    }
 
 }

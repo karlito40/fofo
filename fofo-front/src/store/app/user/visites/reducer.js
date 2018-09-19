@@ -40,7 +40,7 @@ export default {
       const placeholderId = '_' + actionId;
       switch(payload.status) {
         case REQUEST_COMPLETE:
-          const site = payload.response.data;
+          const site = payload.response.data.page.site;
           sites = [
             ...[site], 
             ...state.sites.filter(s => s.id !== placeholderId)

@@ -19,7 +19,8 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'avatar' => $this->getAvatar(),
             'highlights' =>  HighlightResource::collection($this->whenLoaded('highlights')),
-            'visites' =>  VisiteResource::collection($this->whenLoaded('visites')),
+            //'visites' =>  VisiteResource::collection($this->whenLoaded('visites')),
+            'visites' =>  VisiteSiteResource::collection($this->whenLoaded('visites')),
             'comments' =>  CommentResource::collection($this->whenLoaded('comments')),
         ];
     }

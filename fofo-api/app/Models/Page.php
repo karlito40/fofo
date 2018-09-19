@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use App\Utils\WWWAddress;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -76,7 +77,9 @@ class Page extends Model
             ->when($userOrIp, function($query, $userOrIp) {
                 $query->leftJoin('comments', function ($join) use($userOrIp) {
                     $where = ' AND visites.';
-                    $where .= (is_string($userOrIp)) ? "ip = '$userOrIp" : 'user_id = ' . $userOrIp->id;
+                    $where .= (!$userOrIp instanceof User)
+                        ? "ip = '$userOrIp'"
+                        : 'user_id = ' . $userOrIp->id;
 
                     $join->on('comments.commentable_id', '=', 'pages.id')
                         ->where('comments.commentable_type', '=', static::class)
@@ -89,7 +92,6 @@ class Page extends Model
 
                 });
             })
-
             ->when($domain, function ($query, $domain) use($fromTable) {
                 $joinTable = (new Site)->getTable();
                 $query->join($joinTable, $fromTable . '.site_id', $joinTable . '.id');

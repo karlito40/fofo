@@ -23,7 +23,7 @@ class VisiteController extends APIController
 
     public function listByIp(APIRequest $request)
     {
-        $visites = Visite::bySites()
+        $visites = Visite::visitedSites()
             ->where('ip', $request->ip())
             ->get();
 

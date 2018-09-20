@@ -5,7 +5,7 @@ export function fetchByIp() {
 }
 
 export function add(address, onlySetActive) {
-  return (new ActionAPI('POST', `/visite`, { address: address.domain }))
-      .with({ domain: address.domain, onlySetActive })
+  return (new ActionAPI('POST', `/visite`, { address: address.domain + address.uri }))
+      .with({ address, onlySetActive })
       .export();
 }

@@ -58,7 +58,11 @@ export default class extends Component {
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
         tabIndex="-1">
-        <Textarea ref={this.textarea} name="sendMessage" placeholder="Send a message" onChange={this.handleChange}/>
+        <Textarea 
+          ref={this.textarea} 
+          name="sendMessage" 
+          placeholder={unfold ? '' : "Send a message"} 
+          onChange={this.handleChange}/>
         { loading && <LoaderStyled size={15}/> }
         <Interaction unfold={unfold}>
           <SmileyIcon size={16}/>
@@ -121,7 +125,6 @@ const Textarea = styled.textarea`
 
   :focus::placeholder {
     visibility: hidden;
-    color: red;
   }
 `;
 
@@ -153,7 +156,8 @@ const SubmitButton = styled.button`
   padding: 0;
   margin: 0;
   border: 0;
-  outline: 0;  
+  outline: 0;
+  background-color: ${p => p.theme.secondaryBgColor};
 `;
 
 const CloseIcon = styled(Close)`

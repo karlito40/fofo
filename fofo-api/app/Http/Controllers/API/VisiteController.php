@@ -38,7 +38,12 @@ class VisiteController extends APIController
 
         $visite = Visite::with('page')
             ->where('page_id', $page->id)
-            ->where('ip', $request->ip())
+            ->when($user, function($query, $user) {
+                $query->where('user_id', $user->id);
+            })
+            ->when(!$user, function($query) use($request) {
+                $query->where('ip', $request->ip());
+            })
             ->first();
 
         if(!$visite) {

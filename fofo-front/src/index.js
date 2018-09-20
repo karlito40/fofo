@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import registerStore from './store';
+import registerStore, { getState } from './store';
 
 import { actions as user } from './store/app/user';
 import { actions as visites } from './store/app/user/visites';
@@ -31,10 +31,15 @@ store.dispatch(app.setAddress('fr.wikipedia.org', '/wiki/Emmanuel_Macron'));
 // User restoration
 async function restoreState() {
   if(getToken()) {
-    store.dispatch(user.fetch()); 
+    await store.dispatch(user.fetch()); 
+    if(!getState('app.user.isLogged')) {
+      store.dispatch(visites.fetchByIp());   
+    }
+  } else {
+    store.dispatch(visites.fetchByIp()); 
   }
   
-  store.dispatch(visites.fetchByIp()); 
+  
 }
 
 restoreState();

@@ -51,7 +51,7 @@ class User extends Authenticatable
     public function visites()
     {
         return $this->hasMany(Visite::class)
-            ->visitedSites();
+            ->visitedSites($this);
     }
 
     public function comments()

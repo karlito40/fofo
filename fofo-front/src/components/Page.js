@@ -12,7 +12,7 @@ export default class extends Component {
     const { page, className} = this.props;
 
     return (
-      <BoxStyled className={className} onClick={this.handleClick.bind(this, page)} hasNew={true}>
+      <BoxStyled className={className} onClick={this.handleClick.bind(this, page)} hasNew={page.has_new_comment}>
         <Link active={page.active}>{getLinkName(page)}</Link>
         <Title>{getTitle(page)}</Title>
       </BoxStyled>
@@ -44,7 +44,6 @@ function getTitle(page) {
 const BoxStyled = styled(Box)`
   cursor: pointer;
   position: relative;
-  /* overflow: hidden; */
 
   ${p => p.hasNew && css`
     :after {

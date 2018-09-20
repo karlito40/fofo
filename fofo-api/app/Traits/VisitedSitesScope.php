@@ -8,7 +8,7 @@ use App\Models\Page;
 trait VisitedSitesScope
 {
 
-    public function scopeVisitedSites($query)
+    public function scopeVisitedSites($query, $user = null)
     {
         return $query->select(
             'sites.id',
@@ -19,10 +19,13 @@ trait VisitedSitesScope
         )
             ->join('pages', 'pages.id', '=', 'visites.page_id')
             ->join('sites', 'sites.id', '=', 'pages.site_id')
-            ->leftJoin('comments', function ($join) {
+            ->leftJoin('comments', function ($join) use($user) {
                 $join->on('comments.commentable_id', '=', 'pages.id')
                     ->where('comments.commentable_type', '=', Page::class)
-                    ->whereRaw('comments.created_at > visites.viewed_at');
+                    ->whereRaw('comments.created_at > visites.viewed_at')
+                    ->when($user, function($query, $user) {
+                        $query->where('comments.user_id', '!=', $user->id);
+                    });
 
             })
             ->groupBy('sites.id')

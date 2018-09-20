@@ -18,6 +18,16 @@ export default {
       return handleNext(state, payload);
     },
   },
+  'app.user.visites': {
+    add(state, payload) {
+      if(state.address.domain === payload.payloadOrigin.address.domain
+        && payload.status === REQUEST_LOADING
+      ) {
+        return {...state, pages: removeNotif(state.pages, payload.payloadOrigin.address.uri)}
+      }
+      return state;
+    }
+  },
   app: {
     setAddress(state, payload) {
       const newAddress = payload;
@@ -96,4 +106,10 @@ function withFirstVisite(pages, firstUriVisite) {
 
 function setActive(state, pages) {
   return pages.map(page => ({...page, active: (page.uri === state.address.uri)})); 
+}
+
+function removeNotif(pages, uri) {
+  return pages.map(page => {
+    return (page.uri === uri) ? {...page, has_new_comment: false} : page;
+  });
 }

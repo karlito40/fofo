@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Requests\AddressRequest;
+use App\Http\Requests\APIRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Page;
@@ -22,7 +23,7 @@ class ActivityController extends APIController
      * @param $host
      * @return \Illuminate\Http\JsonResponse
      */
-    public function world(Request $request)
+    public function world(APIRequest $request)
     {
         $user = $request->user('api');
         $userOrIp = ($user) ? $user : $request->ip();

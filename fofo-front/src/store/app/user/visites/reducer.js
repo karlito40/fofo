@@ -53,7 +53,7 @@ export default {
           };
         
         case REQUEST_LOADING:
-          const placeholder = {...payload.payloadOrigin, id: placeholderId};
+          const placeholder = {...payload.payloadOrigin.address, id: placeholderId};
           sites = [...[placeholder], ...state.sites];
           sites = removeDuplicate(sites, s => s.domain);
 

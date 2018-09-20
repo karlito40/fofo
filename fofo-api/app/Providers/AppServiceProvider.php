@@ -18,7 +18,6 @@ class AppServiceProvider extends ServiceProvider
         //
         DB::listen(function ($query) {
             Log::debug('SQL: ' . $query->sql);
-            Log::debug('Bindings: ', $query->bindings);
         });
     }
 

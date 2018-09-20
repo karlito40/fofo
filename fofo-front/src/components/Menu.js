@@ -4,6 +4,7 @@ import { Home as HomeIcon } from 'styled-icons/material/Home';
 import { MoreVert as MoreVertIcon } from 'styled-icons/material/MoreVert';
 // import { Search as SearchIcon } from 'styled-icons/feather/Search';
 import { User as UserIcon } from 'styled-icons/fa-solid/User';
+import Hint from './Hint';
 
 export default class extends Component {
   render() {
@@ -15,9 +16,15 @@ export default class extends Component {
         {this.props.children}
       </Sites>
       <Interaction>
-        {/* <StrokeIcon as={SearchIcon}/> */}
-        <Icon as={UserIcon} size={15}/>
-        <FillIcon as={MoreVertIcon} size={20}/>
+        <IconContainer>
+          <Hint>Profile</Hint>
+          <Icon as={UserIcon} size={15}/>
+        </IconContainer>
+        
+        <IconContainer>
+          <Hint>Settings</Hint>
+          <FillIcon as={MoreVertIcon} size={20}/>
+        </IconContainer>
       </Interaction>
     </Wrapper>
   }
@@ -58,53 +65,33 @@ const Wrapper = styled.div`
     box-shadow: ${p.theme.primaryBoxShadow};
     flex-direction: column;
     align-items: center;
-    padding: 10px 0 5px 0;
+    padding: 10px 0 0 0;
   `}
 `;
+
+const IconContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  cursor: pointer;
+`;
+
 
 const Icon = styled.div`
   fill: ${p => p.theme.menuColor};
   stroke: ${p => p.theme.menuBgColor};
   color: ${p => p.theme.menuColor};
-  cursor: pointer;
-
-  ${p => p.theme.horizontal && css`
-    margin-bottom: 10px;
-    :hover {
-      color: ${p => p.theme.highlightColor};
-    }
-  `}
-
-  ${p => p.theme.vertical && css`
-    ${p.hideOnVertical && css`
-      display: none;
-    `}
-    fill: white;
-    margin-left: 5px;
-  `}
-  
 `;
 
 const StrokeIcon = styled(Icon)`
   fill: ${p => p.theme.menuBgColor};
   stroke: ${p => p.theme.menuColor};
-
-  :hover {
-    ${p => p.theme.horizontal && css`
-      stroke: ${p => p.theme.highlightColor};
-    `}
-  }
 `;
 
 const FillIcon = styled(Icon)`
   fill: ${p => p.theme.menuColor};
   stroke: ${p => p.theme.menuBgColor};
-
-  :hover {
-    ${p => p.theme.horizontal && css`
-      fill: ${p => p.theme.highlightColor};
-    `}
-  }
 `;
 
 const AutoFlexbox = styled.div`
@@ -117,7 +104,7 @@ const AutoFlexbox = styled.div`
 
 const Interaction = styled(AutoFlexbox)`
   ${p => p.theme.horizontal && css`
-    margin-top: 10px;
+    width: 100%;
   `}
 `;
 

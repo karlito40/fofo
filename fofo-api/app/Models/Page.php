@@ -76,17 +76,21 @@ class Page extends Model
             })
             ->when($userOrIp, function($query, $userOrIp) {
                 $query->leftJoin('comments', function ($join) use($userOrIp) {
-                    $where = ' AND visites.';
-                    $where .= (!$userOrIp instanceof User)
-                        ? "ip = '$userOrIp'"
-                        : 'user_id = ' . $userOrIp->id;
+                    $user = ($userOrIp instanceof User) ? $userOrIp : null;
+
+                    $whereVisite = ' AND visites.';
+                    $whereVisite .= (!$user) ? "ip = '$userOrIp'" : 'user_id = ' . $userOrIp->id;
 
                     $join->on('comments.commentable_id', '=', 'pages.id')
                         ->where('comments.commentable_type', '=', static::class)
+                        ->where('comments.commentable_type', '=', static::class)
+                        ->when($user, function($query, $user) {
+                            $query->where('comments.user_id', '!=', $user->id);
+                        })
                         ->whereRaw('comments.created_at > (' .
                             DB::raw('
                               SELECT viewed_at FROM visites 
-                              WHERE visites.page_id = pages.id ' . $where
+                              WHERE visites.page_id = pages.id ' . $whereVisite
                                 . ' LIMIT 1')
                         . ')');
 

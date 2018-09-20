@@ -22,6 +22,10 @@ window.toAllocineFilm = () => {
   store.dispatch(app.setAddress('allocine.fr', '/film'));
 }
 
+window.toGoogle = () => {
+  store.dispatch(app.setAddress('google.com', '/_channel:#general'));
+}
+
 window.toMacron = () => {
   store.dispatch(app.setAddress('fr.wikipedia.org', '/wiki/Emmanuel_Macron'));
 };

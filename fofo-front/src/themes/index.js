@@ -13,6 +13,7 @@ const baseStyle = {
   lightColor: '#c2c4c7',
   highlightColor: highlightColor,
   notifColor: '#eb6d58',
+  errorColor: '#eb6d58',
 
   primaryBgColor: '#fbfbfb',
   secondaryBgColor: '#ffffff',

@@ -7,6 +7,7 @@ $publicRoutes = function()
 
     // ---------- User ---------- //
     Route::post('/register', 'API\UserController@register');
+    Route::get('/user', 'API\UserController@find');
 
     // ---------- Feed ---------- //
     /*Route::get('/feed', 'API\ActivityController@world');
@@ -29,7 +30,7 @@ $restrictedRoutes = function()
     Route::post('/logout', 'API\LoginController@logout');
 
     // ---------- User ---------- //
-    Route::get('/me', 'API\UserController@me')->middleware('auth:api');
+    Route::get('/me', 'API\UserController@me');
 
     // ---------- Highlight ---------- //
     Route::post('/highlight', 'API\HighlightController@add');

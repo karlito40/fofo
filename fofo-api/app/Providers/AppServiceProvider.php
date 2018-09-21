@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -15,10 +16,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-        DB::listen(function ($query) {
-            Log::debug('SQL: ' . $query->sql);
-        });
+        if(!App::environment('production')) {
+            DB::listen(function ($query) {
+                Log::debug('SQL: ' . $query->sql);
+            });
+        }
+
     }
 
     /**

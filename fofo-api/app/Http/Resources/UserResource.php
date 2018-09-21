@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Log;
 
 class UserResource extends JsonResource
 {
@@ -14,14 +15,19 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
+        $user = $request->user('api');
+
+        $belongToSelf = $user && $user->id === $this->id;
+
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'avatar' => $this->getAvatar(),
-            'highlights' =>  HighlightResource::collection($this->whenLoaded('highlights')),
-            //'visites' =>  VisiteResource::collection($this->whenLoaded('visites')),
-            'visites' =>  VisiteSiteResource::collection($this->whenLoaded('visites')),
-            'comments' =>  CommentResource::collection($this->whenLoaded('comments')),
+            $this->mergeWhen($belongToSelf, [
+                'name' => $this->name,
+                'avatar' => $this->getAvatar(),
+                'highlights' =>  HighlightResource::collection($this->whenLoaded('highlights')),
+                'visites' =>  VisiteSiteResource::collection($this->whenLoaded('visites')),
+                'comments' =>  CommentResource::collection($this->whenLoaded('comments')),
+            ])
         ];
     }
 }

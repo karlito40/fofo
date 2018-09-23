@@ -9,6 +9,6 @@ main(() => {
     console.log('app.loaded');
   }});
   
-  // panelScene.setSelected('sidebar');
-  panelScene.setSelected('bottom');
+  // panelScene.select('sidebar');
+  panelScene.select('bottom');
 });

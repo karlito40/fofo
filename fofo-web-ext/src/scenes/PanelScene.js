@@ -24,21 +24,6 @@ export default class PanelScene {
     this.panels.set('bottom', new BottomPanel(this, MIN_BOTTOM_HEIGHT));
   }
 
-  resizeStart() {
-    this.appView.style.pointerEvents = 'none';
-    this.getPanelSelected().resizing = true;
-  }
-
-  resizeEnd() {
-    this.appView.style.pointerEvents = 'auto';
-    this.getPanelSelected().resizing = false;
-    this.render();
-  }
-
-  resize(rect) {
-    this.getPanelSelected().setSize(rect);
-  }
-
   create() {
     this.view = createElement('div', {
       id: `root-${APP_NAME}`,
@@ -79,11 +64,20 @@ export default class PanelScene {
   render() {
     this.ensureCreate();
     
-    if(this.previous) {
-      this.getPanel(this.previous).clear();
+    if(this.previousPanel) {
+      this.previousPanel.clear();
     }
     
-    this.getPanelSelected().render();
+    this.selectedPanel.render();
+  }
+
+  select(panelIndex) {
+    if(this.selectedPanel) {
+      this.previousPanel = this.selectedPanel;
+    }
+
+    this.selectedPanel = this.getPanel(panelIndex);
+    this.render();
   }
 
   ensureCreate() {
@@ -100,7 +94,7 @@ export default class PanelScene {
           outer: 'parent',
           endOnly: true,
         },
-        restrictSize: this.getPanelSelected().restrict(),
+        restrictSize: this.selectedPanel.restrict(),
       })
       .on('resizestart', this.resizeStart.bind(this))
       .on('resizeend', this.resizeEnd.bind(this))
@@ -109,28 +103,25 @@ export default class PanelScene {
       });
   }
 
-  togglePanel() {
-    const type = (!this.selected || this.selected == 'bottom') ? 'sidebar' : 'bottom';
-    this.setSelected(type);
+  resizeStart() {
+    this.appView.style.pointerEvents = 'none';
+    this.selectedPanel.resizing = true;
   }
 
-  getPanel(panel) {
-    return this.panels.get(panel);
-  }
-
-  getPanelSelected() {
-    return this.getPanel(this.selected);
-  }
-
-  setSelected(panel) {
-    if(this.selected) {
-      this.previous = this.selected;
-    }
-
-    this.selected = panel;
+  resizeEnd() {
+    this.appView.style.pointerEvents = 'auto';
+    this.selectedPanel.resizing = false;
     this.render();
   }
-  
+
+  resize(rect) {
+    this.selectedPanel.setSize(rect);
+  }
+
+  getPanel(panelIndex) {
+    return this.panels.get(panelIndex);
+  }
+
 }
 
 

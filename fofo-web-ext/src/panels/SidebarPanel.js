@@ -12,15 +12,14 @@ export default class SidebarPanel extends BasePanel {
       top: '0',
       height: 'auto',
       border: 'O',
-      borderRight: 'rgba(0, 0, 0, 0.04)',
+      borderRight: '1px solid rgba(0, 0, 0, 0.04)',
     }
   }
 
   render() {
     setStyles(this.scene.view, this.getBaseStyle());
+
     this.scene.body.setPosition('relative');
-      
-    this.scene.view.style.width  = `${this.currentSize}px`;
     this.scene.root.style.marginLeft = `${this.currentSize}px`;
 
     if(!this.resizing) {

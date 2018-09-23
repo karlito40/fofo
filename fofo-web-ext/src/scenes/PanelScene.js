@@ -8,7 +8,6 @@ const APP_NAME = 'parallel-app';
 const MIN_SIDEBAR_WIDTH = 450;
 const MIN_BOTTOM_HEIGHT = 250;
 
-
 export default class PanelScene {
   constructor(params = {}) {
     this.root = document.documentElement;
@@ -80,8 +79,6 @@ export default class PanelScene {
   render() {
     this.ensureCreate();
     
-    setStyles(this.view, this.getPanelSelected().getBaseStyle());
-
     if(this.previous) {
       this.getPanel(this.previous).clear();
     }

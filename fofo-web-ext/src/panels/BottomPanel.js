@@ -8,15 +8,17 @@ export default class BottomPanel extends BasePanel {
 
   getBaseStyle() {
     return {
+      height: `${this.currentSize}px`,
       width: '100%',
       top: 'auto',
       border: 'O',
-      borderTop: 'rgba(0, 0, 0, 0.04)',
+      borderTop: '1px solid rgba(0, 0, 0, 0.04)',
     }
   }
 
   render() {
-    this.scene.view.style.height  = `${this.currentSize}px`;
+    setStyles(this.scene.view, this.getBaseStyle());
+
     this.scene.root.style.paddingBottom = `${this.currentSize}px`;
 
     if(!this.resizing) {

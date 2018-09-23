@@ -21,13 +21,14 @@ class UserResource extends JsonResource
 
         return [
             'id' => $this->id,
+            'name' => $this->name,
             $this->mergeWhen($belongToSelf, [
-                'name' => $this->name,
-                'avatar' => $this->getAvatar(),
-                'highlights' =>  HighlightResource::collection($this->whenLoaded('highlights')),
-                'visites' =>  VisiteSiteResource::collection($this->whenLoaded('visites')),
-                'comments' =>  CommentResource::collection($this->whenLoaded('comments')),
-            ])
+                'email' => $this->email
+            ]),
+            'avatar' => $this->getAvatar(),
+            'highlights' =>  HighlightResource::collection($this->whenLoaded('highlights')),
+            'visites' =>  VisiteSiteResource::collection($this->whenLoaded('visites')),
+            'comments' =>  CommentResource::collection($this->whenLoaded('comments')),
         ];
     }
 }

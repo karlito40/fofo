@@ -1,39 +1,49 @@
-import {store, getState, dispatch} from './store';
+import { isDev } from './config';
+import { store, getStore, getState, dispatch } from './store';
 import { actions as app } from './store/app';
 import { actions as pageActions } from './store/feed/page';
+import { actions as flashActions } from './store/flash';
 
-window.setAddress = (domain, uri) => {
-  store.dispatch(app.setAddress(domain, uri));
-}
+if(isDev()) {
 
-window.refresh = () => {
-  dispatch(pageActions.refresh(getState('app.href')))
-}
+  window.addFlash = (text, type, timeout) => {
+    store.dispatch(flashActions.add(text, type, timeout));
+  }
 
-window.toDefault = () => {
-  store.dispatch(app.setAddress('fr.wikipedia.org', '/wiki/Emmanuel_Macron')); 
-}
+  window.shiftFlash = () => {
+    store.dispatch(flashActions.shift());
+  }
 
-window.toAllocine = () => {
-  store.dispatch(app.setAddress('allocine.fr', '/'));
-}
+  window.setAddress = (domain, uri) => {
+    store.dispatch(app.setAddress(domain, uri));
+  }
 
-window.toAllocineFilm = () => {
-  store.dispatch(app.setAddress('allocine.fr', '/film'));
-}
+  window.refresh = () => {
+    dispatch(pageActions.refresh(getState('app.href')))
+  }
 
-window.toGoogle = () => {
-  store.dispatch(app.setAddress('google.com', '/_channel:#general'));
-}
+  window.toDefault = () => {
+    store.dispatch(app.setAddress('fr.wikipedia.org', '/wiki/Emmanuel_Macron')); 
+  }
 
-window.toMacron = () => {
-  store.dispatch(app.setAddress('fr.wikipedia.org', '/wiki/Emmanuel_Macron'));
-};
-// https://fr.wikipedia.org/wiki/Jean-Luc_M%C3%A9lenchon
-window.toMelenchon = () => {
-  store.dispatch(app.setAddress('fr.wikipedia.org', '/wiki/Jean-Luc_M%C3%A9lenchon'));
-};
+  window.toAllocine = () => {
+    store.dispatch(app.setAddress('allocine.fr', '/'));
+  }
 
-window.next = () => {
-  dispatch(pageActions.next(getState().app.href, 0));
+  window.toAllocineFilm = () => {
+    store.dispatch(app.setAddress('allocine.fr', '/film'));
+  }
+
+  window.toGoogle = () => {
+    store.dispatch(app.setAddress('google.com', '/_channel:#general'));
+  }
+
+  window.toMacron = () => {
+    store.dispatch(app.setAddress('fr.wikipedia.org', '/wiki/Emmanuel_Macron'));
+  };
+  // https://fr.wikipedia.org/wiki/Jean-Luc_M%C3%A9lenchon
+  window.toMelenchon = () => {
+    store.dispatch(app.setAddress('fr.wikipedia.org', '/wiki/Jean-Luc_M%C3%A9lenchon'));
+  };
+
 }

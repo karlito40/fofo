@@ -10,6 +10,8 @@ const config = {
   themes: availableThemes,
   pageFeedRefreshTimer: parseInt(process.env.REACT_APP_PAGE_FEED_REFRESH_TIMER, 10),
   siteFeedRefreshTimer: parseInt(process.env.REACT_APP_SITE_FEED_REFRESH_TIMER, 10),
+
+  flashTimeout: 5000,
 };
 
 export default config;

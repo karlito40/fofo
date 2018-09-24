@@ -10,7 +10,7 @@ import { actions as visites } from './store/app/user/visites';
 import { actions as app } from './store/app';
 import { getToken } from './store/api';
 
-import './window'; // Simple test exportation
+import './window';
 
 const store = registerStore();
 

@@ -88,12 +88,5 @@ const Wrapper = styled.div`
   z-index: 9999;
   padding: 3px 14px;
   border-radius: 25px;
-  
-  /* opacity: 0;
-
-  &.active {
-    opacity: 1;
-  } */
-
 `;
 

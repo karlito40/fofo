@@ -18,6 +18,8 @@
 ☐ remove prev cursor & display a NEW POSTS like linkedin -> on click refresh page
 ☐ display indicator new comments on page & visited sites
 ☐ i18n
+☐ cliping form auth
+☐ use hint css on error form
 
 Test API ip behind load balancer
 Test bootstrap cond !user.isLogged fetchByIp

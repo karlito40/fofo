@@ -74,7 +74,7 @@ export default class extends Component {
 
   handleAfterValidation = (name, value) => {
     if(!this.props.filterValidateInput || this.props.filterValidateInput.includes(name)) {
-      this.props.onValidateInput(name, value);
+      this.props.onValidateInput(name, value, this.state.type);
     }
   }
 

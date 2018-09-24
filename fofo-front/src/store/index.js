@@ -8,6 +8,7 @@ import thunkMiddleware from 'redux-thunk';
 import './app';
 import './feed';
 import './form';
+import './flash';
 
 let store = null;
 export default function() {

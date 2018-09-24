@@ -34,7 +34,13 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(auth.reset());
   },
   onSubmit: (data) => dispatch(auth[data.type](data)),
-  onValidateInput: debounce((name, value) => dispatch(auth.findUser({[name]: value})), 200)
+  onValidateInput: debounce((name, value, type) => {
+    if(type === 'login' && name === 'email') {
+      return true;
+    }
+    
+    return dispatch(auth.findUser({[name]: value}));
+  }, 200)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthFormContainer);

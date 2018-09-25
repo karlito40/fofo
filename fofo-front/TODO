@@ -2,7 +2,7 @@
 ✔ auth form @done(18-09-21 20:44)
   ✔ check while typing, @done(18-09-21 20:44)
   ✔ handle server error @done(18-09-21 20:44)
-  ☐ handle flash: show message info Correctly logged/registered
+  ✔ handle flash: show message info Correctly logged/registered @done(18-09-25 21:28)
 ☐ my profile [nb message sent, messages sent, messages received, messages likes, pseudo]
 ☐ dropdown settings
   ☐ deconnexion

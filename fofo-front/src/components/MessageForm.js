@@ -4,13 +4,38 @@ import { Smile } from 'styled-icons/fa-regular/Smile';
 import { Send } from 'styled-icons/material/Send';
 import { Close } from 'styled-icons/material/Close';
 import Loader from './Loader';
+import EmojiPicker from './EmojiPicker';
 
 export default class extends Component {
   formRef = React.createRef();
   textarea = React.createRef();
   submitButtonRef = React.createRef();
+  emojiActionRef = React.createRef();
+  smileyRef = React.createRef();
 
-  state = { hasContent: false };
+  state = { hasContent: false, showEmojiPicker: false };
+
+  selectEmoji = (emoji) => {
+    const newContent = this.textarea.current.value + emoji;
+    this.textarea.current.value = newContent;
+    this.setContent(newContent);
+  }
+
+  onEmojiActionClick = (e) => {
+    // On toggle le selecteur d'emoji lorsque le smiley est cliqué
+    // C'est à dire quand la cible est à l'intérieur du bouton emojiAction
+    // ou quand la cible est le bouton lui même
+    if([this.smileyRef.current].includes(e.target)
+      || this.smileyRef.current.contains(e.target)
+      || e.target === this.emojiActionRef
+    ) {
+      this.setState({showEmojiPicker: !this.state.showEmojiPicker});
+    } 
+  }
+
+  onEmojiActionBlur = (e) => {
+    this.setState({showEmojiPicker: false});
+  }
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -19,59 +44,79 @@ export default class extends Component {
   }
 
   handleFocus = (e) => {
+    // On ne prend pas en compte le focus sur le bouton submit
+    // pour pouvoir replier le formulaire
     if(e.target !== this.submitButtonRef.current) {
       this.props.onFocus();
     }
   }
 
-  handleChange = (e) => {
-    this.handleContent(e.target.value);
-  }
-
   handleBlur = (e) => {
-    if(e.relatedTarget === this.submitButtonRef.current || !this.formRef.current.contains(e.relatedTarget)) {
+    // Quand le blur tombe sur le bouton submit on autorise
+    // le trigger du onBlur puisque le formulaire est envoyé.
+    if(e.relatedTarget === this.submitButtonRef.current 
+      || !this.formRef.current.contains(e.relatedTarget)
+    ) {
       this.props.onBlur();
     } 
   }
 
+  handleChange = (e) => {
+    this.setContent(e.target.value);
+  }
+
   close = () => {
     this.textarea.current.value = '';
-    this.handleContent('');
+    this.setContent('');
     this.formRef.current.blur();
   }
 
-  handleContent = (content) => {
+  setContent = (content) => {
     this.setState({hasContent: !!content});
   }
 
   render() {
     const { className, loading, children, active } = this.props;
+    const { showEmojiPicker } = this.state;
     const unfold = (active || this.state.hasContent);
 
-    return <Wrapper 
-      className={className} 
-      unfold={unfold}
-    >
+    return <Wrapper className={className} unfold={unfold}>
+
+      <CloseIcon onClick={this.close} unfold={unfold} size={20}/>
+
       <Form 
         ref={this.formRef}
         onSubmit={this.onSubmit} 
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
         tabIndex="-1">
+
         <Textarea 
           ref={this.textarea} 
           name="sendMessage" 
           placeholder={unfold ? '' : "Send a message"} 
           onChange={this.handleChange}/>
+
         { loading && <LoaderStyled size={15}/> }
+
         <Interaction unfold={unfold}>
-          <SmileyIcon size={16}/>
+          <EmojiAction 
+            ref={this.emojiActionRef}
+            onClick={this.onEmojiActionClick} 
+            onBlur={this.onEmojiActionBlur}
+            tabIndex="-1"
+          >
+            <SmileyIcon ref={this.smileyRef} size={16}/>
+            { showEmojiPicker && <EmojiPicker onSelect={this.selectEmoji}/> }
+          </EmojiAction>
+          
           <SubmitButton ref={this.submitButtonRef}>
             <SendIcon size={18}/>
           </SubmitButton>
         </Interaction>
+
       </Form>
-      <CloseIcon onClick={this.close} unfold={unfold} size={20}/>
+      
       { children }
     </Wrapper>
   }
@@ -104,6 +149,7 @@ const Form = styled.form`
   display: flex;
   height: 100%;
   align-items: center;
+  outline: 0;
 `;
 
 const Textarea = styled.textarea`
@@ -136,15 +182,17 @@ const Interaction = styled.div`
   right: 20px;
 `;
 
-const cssIcon = `margin-left: 10px; cursor: pointer;`;
+const cssIconContainer = `
+  margin-left: 10px; 
+  cursor: pointer;
+  display: flex;
+`;
 
 const SmileyIcon = styled(Smile)`
-  ${cssIcon}
   color: ${p => p.theme.lightColor};
 `;
 
 const SendIcon = styled(Send)`
-  ${cssIcon}
   fill: ${p => p.theme.highlightColor};
 `;
 
@@ -152,17 +200,21 @@ const LoaderStyled = styled(Loader)`
   margin-top: 2px;
 `;
 
+const EmojiAction = styled.div`
+  ${cssIconContainer};
+  outline: 0;
+  position: relative;
+`;
+
 const SubmitButton = styled.button`
+  ${cssIconContainer};
   padding: 0;
-  margin: 0;
   border: 0;
   outline: 0;
   background-color: ${p => p.theme.secondaryBgColor};
 `;
 
 const CloseIcon = styled(Close)`
-  ${cssIcon};
-
   position: absolute;
   cursor: pointer;
   opacity: 0;

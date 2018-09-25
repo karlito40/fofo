@@ -10,13 +10,8 @@ export default {
     currentSizeFetch: 1, 
   },
   self: {
-    refresh(state, payload) {
-      return handleNext(state, payload);
-    },
-
-    next(state, payload) {
-      return handleNext(state, payload);
-    },
+    refresh: handleNext,
+    next: handleNext,
   },
   'app.user.visites': {
     add(state, payload) {

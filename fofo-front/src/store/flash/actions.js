@@ -5,5 +5,5 @@ export function add(text, type = MESSAGE_SUCCESS, timeout = config.flashTimeout)
   return { text, type, timeout };
 }
 
-export function shift() {}
+export function next() {}
 

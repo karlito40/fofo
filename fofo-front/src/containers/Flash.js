@@ -8,7 +8,7 @@ const mapStateToProps = ({flash}) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onComplete: () => dispatch(flashActions.shift()), 
+  onComplete: () => dispatch(flashActions.next()), 
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Flash);

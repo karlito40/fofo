@@ -1,19 +1,8 @@
-import moment from "moment";
 import * as validatorStrategy from 'validator';
 
 export const IsIn = (hasToContains) => (value) => {
   return {
     isValid: hasToContains.includes(value)
-  };
-}
-
-export const IsDate = () => (value) => {
-  const isValid = (value)
-          ? moment(value, "YYYY-MM-DD").isValid()
-          : false;
-  return {
-    isValid,
-    message: 'Date invalide'
   };
 }
 

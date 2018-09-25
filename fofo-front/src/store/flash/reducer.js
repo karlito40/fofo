@@ -7,20 +7,14 @@ export default {
     messages: []
   },
   self: {
-    add(state, payload) {
-      return addMessage(state, payload);
-    },
-    shift(state, payload) {
+    add: addMessage,
+    next(state, payload) {
       return { messages: state.messages.slice(1) };
     }
   },
   'form.auth': {
-    login(state, payload) {
-      return handleAuth(state, payload);
-    },
-    register(state, payload) {
-      return handleAuth(state, payload);
-    },  
+    login: handleAuth,
+    register: handleAuth,  
   }
 };
 

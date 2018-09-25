@@ -86,6 +86,7 @@ export default {
           const placeholder = { 
             id: placeholderId,
             content: payload.payloadOrigin.content, 
+            created_at: new Date(),
             isPlaceholder: true,
             user: payload.payloadOrigin.user,
           };

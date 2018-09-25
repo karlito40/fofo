@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
-import moment from 'moment';
+import { formatDistance } from 'date-fns'
 import Box from './styled/Box';
 import Avatar from './Avatar';
 import { Reply } from 'styled-icons/material/Reply';
@@ -27,7 +27,12 @@ export default class extends Component {
 
   render() {
     const { comment, className } = this.props;
-
+    const since = formatDistance(
+      new Date(comment.created_at), 
+      new Date(), 
+      {addSuffix: true}
+    );
+    
     return (
       <Wrapper className={className}>
         <Header>
@@ -35,7 +40,7 @@ export default class extends Component {
           <Presentation>
             <User>
               <Pseudo>{comment.user.name}</Pseudo>
-              <Date>{moment(comment.created_at).fromNow()}</Date>
+              <DateDistance>{since}</DateDistance>
             </User>
             <Extra>
               <ReplyIcon size={20}/>
@@ -95,7 +100,7 @@ const Pseudo = styled.div`
   font-size: ${p => p.theme.titleFontSize};
 `;
 
-const Date = styled.div`
+const DateDistance = styled.div`
   font-size: ${p => p.theme.minFontSize};
   color: ${p => p.theme.lightColor};
 `;

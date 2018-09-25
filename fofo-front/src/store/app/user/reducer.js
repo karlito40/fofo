@@ -13,48 +13,25 @@ export default {
   },
   self: {
     fetch(state, payload) {
-      return FetchHandler.with(state, payload);
-    },
-  },
-  'form.auth': {
-    login(state, payload) {
-      return handleLogin(state, payload);      
-    },
-    register(state, payload) {
-      return handleLogin(state, payload);
-    },
-  }
-};
+      switch(payload.status) {
+        case REQUEST_COMPLETE:
+          return {...state, ...payload.response.data, loading: false, isLogged: true};
 
-
-const FetchHandler = {
-  with(state, payload, relation) {
-    const target = relation || '';
+        case REQUEST_LOADING:
+          return {...state, loading: true};
     
-    const handler = this[`exec${ucfirst(target)}`];
-    const res = handler ? handler(state, payload) : {};
+        case REQUEST_ERROR:
+        default:
+          return {...state, loading: false};
 
-    const loadingRelation = `loading${ucfirst(target)}`;
-    return {
-      ...res, 
-      [loadingRelation]: (payload.status === REQUEST_LOADING)
-    };
-
-  },
-  exec(state, payload) {
-    switch(payload.status) {
-      case REQUEST_COMPLETE:
-        return {...state, ...payload.response.data, loading: false, isLogged: true};
-
-      case REQUEST_LOADING:
-        return {...state, loading: true};
-  
-      case REQUEST_ERROR:
-      default:
-        return {...state, loading: false};
+      }
     }
   },
-}
+  'form.auth': {
+    login: handleLogin,
+    register: handleLogin,
+  }
+};
 
 function handleLogin(state, payload) {
   switch(payload.status) {

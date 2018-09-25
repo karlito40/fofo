@@ -25,7 +25,15 @@ function handleAuth(state, payload) {
   }
 
   if(payload.status === REQUEST_ERROR) {
-    return addMessage(state, { text: 'Something weird happened', type: MESSAGE_ERROR }); 
+    const responseError = payload.response && payload.response.error;
+    if (responseError && responseError.code === 'INVALID_CREDENTIALS') {
+      return addMessage(state, { text: 'Login failed', type: MESSAGE_ERROR });   
+    }
+    
+    if (!responseError || responseError.code !== 'INVALID_INPUTS') {
+      return addMessage(state, { text: 'Something weird happened', type: MESSAGE_ERROR }); 
+    }
+    
   }
 
   return state;

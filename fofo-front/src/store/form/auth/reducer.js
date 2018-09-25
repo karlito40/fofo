@@ -9,14 +9,10 @@ const defaultState = {
 export default {
   _state: {...defaultState},
   self: {
+    login: handleRequest,
+    register: handleRequest, 
     active(state, payload) {
       return {...state, active: payload.active};
-    },
-    login(state, payload) {
-      return handleRequest(state, payload);
-    },
-    register(state, payload) {
-      return handleRequest(state, payload);
     },
     reset() {
       return {...defaultState};
@@ -85,12 +81,9 @@ function handleRequest(state, payload) {
   switch(payload.status) {
     case REQUEST_ERROR:
       const responseError = payload.response && payload.response.error;
-      let errors = null;
-      if(responseError && responseError.code === 'INVALID_INPUTS') {
-        errors = {...responseError.validator};
-      } else if(responseError && responseError.code === 'INVALID_CREDENTIALS') {
-        errors = {email: ['Login fail']};
-      }
+      let errors = (responseError && responseError.code === 'INVALID_INPUTS') 
+        ? {...responseError.validator}
+        : null;
       
       return {...state, errors, loading: false};
 

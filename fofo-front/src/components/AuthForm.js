@@ -110,7 +110,9 @@ export default class extends Component {
     if(!message) { message = this.getErrorFromFinder(inputName); }
     if(!message) { message = this.getErrorFromState(inputName); }
 
-    return <Error>{message}</Error>
+    return <Error>
+      {message && <ErrorContent>{message}</ErrorContent>}
+    </Error>
   }
 
   render() {
@@ -264,13 +266,17 @@ const ErrorContainer = styled.div`
 `;
 
 const Error = styled.div`
-  padding-left: 10px;
   margin-right: 15px;
   margin-left: 5px;
-  font-family: GothamRoundedBook,Roboto,sans-serif;
   width: 170px;
+`;
+
+const ErrorContent = styled.div`
   font-size: 11px;
-  color: ${p => p.theme.errorColor};
+  color: white;
+  padding: 3px 14px;
+  border-radius: 25px;
+  background-color: ${p => p.theme.errorColor};
 `;
 
 const ContentContainer = styled.div`

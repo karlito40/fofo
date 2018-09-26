@@ -15,11 +15,10 @@
 ☐ message form: add preview
 ☐ comment: like | quote | reply (lottie icons)
 ☐ comment: edit
-☐ remove prev cursor & display a NEW POSTS like linkedin -> on click refresh page
-☐ display indicator new comments on page & visited sites
+✔ display indicator new comments on page & visited sites @done(18-09-26 14:07)
 ☐ i18n
-☐ cliping form auth
-☐ use hint css on error form
-
-Test API ip behind load balancer
-Test bootstrap cond !user.isLogged fetchByIp
+✔ use hint css on error form @done(18-09-26 17:18)
+☐ button: add active state 
+☐ Test API ip behind load balancer
+☐ Ajouter la popup de notification avec le nombre de nouveaux commentaires sur la page courante
+☐ Vérifier si revenir a props comment plutot que d'utiliser le spread soulagerait les renders

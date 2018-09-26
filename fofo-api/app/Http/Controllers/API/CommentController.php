@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\AddCommentRequest;
 use App\Http\Requests\DeleteCommentRequest;
+use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Page;
@@ -22,6 +23,14 @@ class CommentController extends APIController
 
         $comment->commentable()->page()->associate($page);
         $comment->user()->associate($request->user());
+        $comment->save();
+
+        return $this->ok(new CommentResource($comment));
+    }
+
+    public function update(UpdateCommentRequest $request, Comment $comment)
+    {
+        $comment->fill($request->all());
         $comment->save();
 
         return $this->ok(new CommentResource($comment));

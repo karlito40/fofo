@@ -11,22 +11,33 @@ export default class extends Component {
   }
   
   render() {
-    const { className, comments, loading, hasMore, loadMore } = this.props;
+    const { className, comments, hasMore, loading, loadMore } = this.props;
 
     return <Wrapper className={className}>
       {!hasMore && !comments.length && 
         <EmptyThred>Be the first to comment this thread.</EmptyThred>
       }
+      {/*  */}
 
       <InfiniteScroll
         pageStart={0}
         loadMore={loadMore}
-        hasMore={hasMore}
-        loader={<LoaderStyled center={!this.hasBeenRender} key={0}/>}
+        // loading est important pour éviter d'envoyer des requêtes lorsqu'une est déjà présente
+        hasMore={!loading && hasMore} 
+        // On préfère gérer le loader nous même
+        loader={null}
         useWindow={true}
       >
-        {comments.map(comment => <CommentStyled key={comment.id} comment={comment}/>)}
+        {comments.map(comment => 
+          <CommentStyled 
+            key={comment.id} 
+            {...comment}
+            onLike={this.props.onLike}
+            onEdit={this.props.onEdit}
+          />)}
       </InfiniteScroll>
+
+      {loading && <LoaderStyled center={!comments.length}/>}
     </Wrapper>
   }
 }

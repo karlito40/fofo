@@ -30,7 +30,7 @@ class VisiteController extends APIController
         return $this->ok(VisiteSiteResource::collection($visites));
     }
 
-    public function add(AddressRequest $request)
+    public function patch(AddressRequest $request)
     {
         $user = $request->user('api');
 

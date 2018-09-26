@@ -10,5 +10,4 @@ class DeleteCommentRequest extends APIRequest
         return $this->user()->can('delete', $this->route('comment'));
     }
 
-
 }

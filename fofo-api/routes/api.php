@@ -20,7 +20,7 @@ $publicRoutes = function()
     Route::get('/feed/page', 'API\ActivityController@page');
 
     Route::get('/visitor/visites', 'API\VisiteController@listByIp');
-    Route::post('/visite', 'API\VisiteController@add');
+    Route::patch('/visite', 'API\VisiteController@patch');
 
 };
 
@@ -38,11 +38,12 @@ $restrictedRoutes = function()
 
     // ---------- Comment ---------- //
     Route::post('/comment', 'API\CommentController@add');
+    Route::put('/comment/{comment}', 'API\CommentController@update');
     Route::delete('/comment/{comment}', 'API\CommentController@delete');
 
     // ---------- Like ---------- //
-    Route::post('/like', 'API\LikeController@add');
-    Route::delete('/like/{id}', 'API\LikeController@delete');
+    // Route::post('/like', 'API\LikeController@add');
+    // Route::delete('/like/{id}', 'API\LikeController@delete');
 
     // ---------- Favorite ---------- //
     Route::get('/favs', 'API\FavoriteController@feed');

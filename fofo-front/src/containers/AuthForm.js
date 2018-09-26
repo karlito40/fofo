@@ -18,7 +18,7 @@ class AuthFormContainer extends Component {
 }
 
 const mapStateToProps = ({app, form}) => ({
-  display: !app.user.isLogged && (form.comment.active || form.auth.active),
+  display: !app.user.isLogged && (form.comment.create.active || form.auth.active),
   loading: form.auth.loading,
   finder: form.auth.finder,
   errors: form.auth.errors,

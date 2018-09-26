@@ -1,4 +1,4 @@
-// Following the emoji unicode table https://apps.timwhitlock.info/emoji/tables/unicode
+// Based on the emoji unicode table https://apps.timwhitlock.info/emoji/tables/unicode
 const sections = {
   emoticons: ['😁', '🙏'],
   additionalEmoticons: ['😀', '😶'],

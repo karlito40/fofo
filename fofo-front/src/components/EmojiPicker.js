@@ -76,16 +76,10 @@ const Wrapper = styled.div`
   box-shadow: ${p => p.theme.primaryBoxShadow};
 `;
 
-const Title = styled.div`
-  font-size: 16px;
-  font-family: GothamRoundedBook,Roboto,sans-serif;
-`;
-
 const EmojiContainer = styled.div`
   font-size: 18px;
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */ 
 `;
 
 const Emoji = styled.div`

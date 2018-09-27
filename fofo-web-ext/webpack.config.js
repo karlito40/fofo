@@ -5,7 +5,7 @@ module.exports = {
   entry: {
     contentScript: './src/content-script/index.js',
     background: './src/background/index.js',
-    popup: './src/popup.js',
+    popup: './src/popup/index.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist')

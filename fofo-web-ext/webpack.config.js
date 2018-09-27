@@ -3,8 +3,9 @@ const path = require('path');
 module.exports = {
   devtool: 'inline-source-map',
   entry: {
-    contentScript: './src/contentScript.js',
-    background: './src/background.js',
+    contentScript: './src/content-script/index.js',
+    background: './src/background/index.js',
+    popup: './src/popup.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist')

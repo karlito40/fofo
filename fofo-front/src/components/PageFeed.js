@@ -17,7 +17,6 @@ export default class extends Component {
       {!hasMore && !comments.length && 
         <EmptyThred>Be the first to comment this thread.</EmptyThred>
       }
-      {/*  */}
 
       <InfiniteScroll
         pageStart={0}
@@ -31,7 +30,8 @@ export default class extends Component {
         {comments.map(comment => 
           <CommentStyled 
             key={comment.id} 
-            {...comment}
+            // {...comment}
+            comment={comment}
             onLike={this.props.onLike}
             onEdit={this.props.onEdit}
           />)}

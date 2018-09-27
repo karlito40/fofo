@@ -6,6 +6,19 @@
   "permissions": [
     "tabs"
   ],
+  "icons": {
+    "48": "icons/border-48.png",
+    "128": "icons/border-128.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "icons/border-16.png",
+      "24": "icons/border-24.png",
+      "32": "icons/border-32.png"
+    },
+    "default_title": "Whereami?",
+    "default_popup": "popup.html"
+  },
   "background": {
     "scripts":["background.js"]
   },

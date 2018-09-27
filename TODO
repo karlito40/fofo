@@ -1,12 +1,9 @@
-☐ test error placeholder -> correctly remove from state
 ✔ auth form @done(18-09-21 20:44)
   ✔ check while typing, @done(18-09-21 20:44)
   ✔ handle server error @done(18-09-21 20:44)
   ✔ handle flash: show message info Correctly logged/registered @done(18-09-25 21:28)
-☐ my profile [nb message sent, messages sent, messages received, messages likes, pseudo]
-☐ dropdown settings
-  ☐ deconnexion
-  ☐ panel option -> sidebar | bottom
+☐ my profile (nb message sent, messages sent, messages received, messages likes, pseudo)
+☐ dropdown settings (deconnexion, panel option -> sidebar | bottom)
 ✔ avatar @done(18-09-18 14:48)
 ✔ add message on empty page feed @done(18-09-18 15:24)
 ✔ active page indicator @started(18-09-18 14:48) @done(18-09-18 15:08) @lasted(20m32s)
@@ -14,11 +11,13 @@
 ✔ message form: editeur | markdown @started(18-09-18 15:54) @done(18-09-18 20:06) @lasted(4h12m43s)
 ☐ message form: add preview
 ☐ comment: like | quote | reply (lottie icons)
-☐ comment: edit
+✔ comment: edit @done(18-09-27 14:46)
 ✔ display indicator new comments on page & visited sites @done(18-09-26 14:07)
 ☐ i18n
 ✔ use hint css on error form @done(18-09-26 17:18)
 ☐ button: add active state 
 ☐ Test API ip behind load balancer
-☐ Ajouter la popup de notification avec le nombre de nouveaux commentaires sur la page courante
-☐ Vérifier si revenir a props comment plutot que d'utiliser le spread soulagerait les renders
+☐ Ajouter le nombre de nouveaux commentaires sur la page courante dans la popup
+☐ Ajouter les options de configuration dans la popup (cacher/déplacer panel)
+☐ Backend like
+☐ Intégrer message spécifiant une nouvelle maj disponible

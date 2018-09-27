@@ -40,7 +40,7 @@ export default class extends Component {
   }
 
   saveChange = () => {
-    this.props.onEdit(this.props.id, this.textarea.current.value);
+    this.props.onEdit(this.props.comment.id, this.textarea.current.value);
     this.setState({isEditing: false});
   }
 
@@ -62,8 +62,9 @@ export default class extends Component {
     } 
     // On sort du mode edition 
     // ou le contenu a changé
-    else if(!this.state.isEditing && prevState.isEditing 
-      || this.props.content !== prevProps.content
+    else if(
+      !this.state.isEditing && prevState.isEditing 
+      || this.props.comment.content !== prevProps.comment.content
     ) { 
       this.codeHighlighting();
     }
@@ -71,7 +72,8 @@ export default class extends Component {
   }
 
   render() {
-    const { id, user, isEditable, like, created_at, content, className/*, loading*/ } = this.props;
+    const { className, comment } = this.props;
+    const { id, user, isEditable, like, created_at, content } = comment;
     const { isEditing } = this.state;
 
     const since = formatDistance(
@@ -92,7 +94,7 @@ export default class extends Component {
             <Extra>
               {/* <ReplyIcon size={20}/> */}
               {isEditable && <EditIcon size={17} onClick={this.startEdit}/>}
-              <HeartIcon size={15} like={like} onClick={this.props.onLike.bind(null, id, !like)}/>
+              {/* <HeartIcon size={15} like={like} onClick={this.props.onLike.bind(null, id, !like)}/> */}
             </Extra>
           </Presentation>
         </Header>

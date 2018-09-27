@@ -5,12 +5,12 @@
   "main": "background.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode=development && npm run cp && npm run inject-vars",
-    "build-prod": "webpack --mode=production && npm run cp && npm run inject-vars-prod",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && webpack --mode=development && npm run cp && npm run inject-vars",
+    "build-prod": "npm run clean && webpack --mode=production && npm run cp && npm run inject-vars-prod",
     "inject-vars": "NODE_ENV=development node replace.js",
     "inject-vars-prod": "NODE_ENV=production node replace.js",
-    "cp": "cp manifest.json dist/manifest.json && cp -R src/public dist",
-    "serve-test": "http-server --cors -p 3001"
+    "cp": "cp -R extension/* dist"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +26,7 @@
     "replace-in-file": "^3.4.2"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "interactjs": "^1.3.4"
   }
 }

@@ -4,27 +4,59 @@ export function listen(options = {}) {
   chrome.runtime[listenOn].addListener(listener(options));
 }
 
-function createAction(cmd, ...args) {
-  return { cmd, args };
+const serviceContent = {
+  // Target tab
+  get(tabId) {
+    return new Proxy({}, {
+      get(obj, cmd) {
+        return (...args) => callContent(tabId, cmd, ...args);
+      }
+    });
+  }  
+};
+
+const serviceBackground = new Proxy({}, {
+  get(obj, cmd) {
+    return (...args) => callBackground(cmd, ...args);
+  }
+});
+
+export const service = {
+  content: serviceContent,
+  background: serviceBackground,
+};
+
+export default service;
+
+export function getCurrentTab() {
+  return new Promise((resolve, reject) => {
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+      resolve(tabs[0]);
+    });
+  });
 }
 
 export function send(...args) {
   return (typeof args[0] === 'number')
-    ? sendToContent(...args)
-    : sendToBackground(...args);
+    ? callContent(...args)
+    : callBackground(...args);
 }
 
-export function sendToContent(tabId, cmd, ...args) {
+export function callContent(tabId, cmd, ...args) {
   return executeMessage(clean => 
     chrome.tabs.sendMessage(tabId, createAction(cmd, ...args), clean)
   );
-  
 }
 
-export function sendToBackground(cmd, ...args) {
+export function callBackground(cmd, ...args) {
   return executeMessage(clean => 
     chrome.runtime.sendMessage(createAction(cmd, ...args), clean)
   );
+}
+
+
+function createAction(cmd, ...args) {
+  return { cmd, args };
 }
 
 function executeMessage(toScript) {

@@ -1,24 +1,26 @@
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createElement } from '../shared/dom';
-import * as ipc from '../shared/ipc';
+import ServiceIPC, * as IPC from '../shared/ipc';
 import App from './App';
+
+console.log('popup.js');
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
-// console.log('popup.js');
+const button = createElement('button', {}, {
+  backgroundColor: 'red',
+  color: 'green',
+});
 
-// const buttonToogle = createElement('button', {}, {
-//   backgroundColor: 'red',
-//   color: 'green',
-// });
+button.addEventListener('click', async () => {
+  const tab = await IPC.getCurrentTab();
+  console.log('tab.id', tab.id);
+  const response = await ServiceIPC.content.get(tab.id).setConfig({panel: 'sidebar', d: Date.now()});
+  console.log('response', response);
+});
 
-// button.addEventListener('click', () => {
-//   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-//     ipc.send(tabs[0].id, 'setConfig', {panel: 'sidebar'});
-//   });
-// });
+button.appendChild(document.createTextNode('Button'));
 
-// button.appendChild(document.createTextNode('Button'));
-
-// document.body.appendChild(button);
+document.body.appendChild(button);

@@ -1,5 +1,5 @@
 import * as commands from '../commands';
-import * as ipc from '../../shared/ipc';
+import * as IPC from '../../shared/ipc';
 
-ipc.listen({commands});
-ipc.listen({commands, external: true});
+IPC.listen({commands});
+IPC.listen({commands, external: true});

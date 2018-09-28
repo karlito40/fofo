@@ -28,20 +28,6 @@ export const service = {
 
 export default service;
 
-export function getCurrentTab() {
-  return new Promise((resolve, reject) => {
-    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-      resolve(tabs[0]);
-    });
-  });
-}
-
-export function send(...args) {
-  return (typeof args[0] === 'number')
-    ? callContent(...args)
-    : callBackground(...args);
-}
-
 export function callContent(tabId, cmd, ...args) {
   return executeMessage(clean => 
     chrome.tabs.sendMessage(tabId, createAction(cmd, ...args), clean)
@@ -54,6 +40,13 @@ export function callBackground(cmd, ...args) {
   );
 }
 
+export function getCurrentTab() {
+  return new Promise((resolve, reject) => {
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+      resolve(tabs[0]);
+    });
+  });
+}
 
 function createAction(cmd, ...args) {
   return { cmd, args };

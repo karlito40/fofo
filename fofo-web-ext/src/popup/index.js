@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createElement } from '../shared/dom';
-import ServiceIPC, * as IPC from '../shared/ipc';
+import serviceIPC, * as ipc from '../shared/ipc';
 import App from './App';
 
 console.log('popup.js');
@@ -15,9 +15,9 @@ const button = createElement('button', {}, {
 });
 
 button.addEventListener('click', async () => {
-  const tab = await IPC.getCurrentTab();
+  const tab = await ipc.getCurrentTab();
   console.log('tab.id', tab.id);
-  const response = await ServiceIPC.content.get(tab.id).setConfig({panel: 'sidebar', d: Date.now()});
+  const response = await serviceIPC.content.get(tab.id).setConfig({panel: 'sidebar', d: Date.now()});
   console.log('response', response);
 });
 

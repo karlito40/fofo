@@ -23,6 +23,7 @@ export function getFixedNode(filter) {
   const cond = filter || (() => true); 
   const nodes = [...document.querySelectorAll('*')];
   const list = [];
+  
   nodes.forEach(node => {
     const style = window.getComputedStyle(node);
     if(style.position === 'fixed' && cond(node, style)) {

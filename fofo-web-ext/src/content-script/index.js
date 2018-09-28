@@ -1,15 +1,12 @@
 import PanelScene from './scenes/PanelScene';
 import main from './utils/main';
+import * as ipc from '../shared/ipc';
+import * as commands from './commands';
 
 main(() => {
-  const action = {
-    cmd: 'setBadge',
-    args: ['#'],
-  };
+  ipc.listen({commands});
 
-  chrome.runtime.sendMessage(action, function(response) {
-    console.log('content script', response);
-  });
+  ipc.send('setBadge', '#')
 
   const panelScene = new PanelScene({onload: () => {
     console.log('app.loaded');

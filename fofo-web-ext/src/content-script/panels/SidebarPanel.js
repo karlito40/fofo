@@ -1,5 +1,5 @@
 import BasePanel from './BasePanel';
-import { setStyles, getFixedNode } from '../utils/dom';
+import { setStyles, getFixedNode } from '../../shared/dom';
 
 export default class SidebarPanel extends BasePanel {
   restrict() {

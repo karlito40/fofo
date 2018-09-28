@@ -1,5 +1,5 @@
 import interact from 'interactjs';
-import { createElement, setStyles } from '../utils/dom';
+import { createElement, setStyles } from '../../shared/dom';
 import Body from '../elements/Body';
 import SidebarPanel from '../panels/SidebarPanel';
 import BottomPanel from '../panels/BottomPanel';

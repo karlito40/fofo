@@ -15,10 +15,8 @@ const button = createElement('button', {}, {
 });
 
 button.addEventListener('click', async () => {
-  const tab = await ipc.getCurrentTab();
-  console.log('tab.id', tab.id);
-  const response = await serviceIPC.content.get(tab.id).setConfig({panel: 'sidebar', d: Date.now()});
-  console.log('response', response);
+  const response = await serviceIPC.content.current().setConfig({panel: 'sidebar', d: Date.now()});
+  console.log('-->response', response);
 });
 
 button.appendChild(document.createTextNode('Button'));

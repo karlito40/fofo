@@ -5,6 +5,17 @@ export function listen(options = {}) {
 }
 
 const serviceContent = {
+  // Current tab
+  current() {
+    return new Proxy({}, {
+      get(obj, cmd) {
+        return async (...args) => {
+          const tab = await getCurrentTab();
+          return callContent(tab.id, cmd, ...args);
+        }
+      }
+    });
+  },
   // Target tab
   get(tabId) {
     return new Proxy({}, {

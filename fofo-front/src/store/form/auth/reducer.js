@@ -1,4 +1,5 @@
 import { REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../../api';
+import { response } from '../../../lib/store-component';
 
 const defaultState = {
   active: false,
@@ -33,11 +34,9 @@ export default {
         return state;
       }
 
-      let finder;
-
-      switch(payload.status) {
-        case REQUEST_COMPLETE:
-          finder = {
+      return response({
+        [REQUEST_COMPLETE]: () => {
+          const finder = {
             ...state.finder, 
             [findByKey]: {
               id: actionId,
@@ -46,10 +45,11 @@ export default {
             }
           }; 
 
-          return {...state,  finder};
+          return { finder };
+        },
 
-        case REQUEST_LOADING:
-          finder = {
+        [REQUEST_LOADING]: () => {
+          const finder = {
             ...state.finder, 
             [findByKey]: {
               id: actionId,
@@ -57,11 +57,11 @@ export default {
               exist: false,
             }
           }; 
-          return {...state,  finder};
+          return { finder };
+        },
 
-        case REQUEST_ERROR:
-        default:
-          finder = {
+        default: () => {
+          const finder = {
             ...state.finder, 
             [findByKey]: {
               id: actionId,
@@ -69,8 +69,9 @@ export default {
               exist: false,
             }
           }; 
-          return {...state, finder};
-      }
+          return { finder };
+        }
+      });
     }
   },
   
@@ -78,21 +79,16 @@ export default {
 
 
 function handleRequest(state, payload) {
-  switch(payload.status) {
-    case REQUEST_ERROR:
+  return response({
+    [REQUEST_COMPLETE]: () => {
       const responseError = payload.response && payload.response.error;
       let errors = (responseError && responseError.code === 'INVALID_INPUTS') 
         ? {...responseError.validator}
         : null;
       
-      return {...state, errors, loading: false};
-
-    case REQUEST_LOADING:
-      return {...state,  loading: true};
-
-    case REQUEST_COMPLETE:  
-    default:
-      return {...state, loading: false};
-
-  }
+      return {errors, loading: false};
+    },
+    [REQUEST_LOADING]:  () => ({loading: true}),
+    default:            () => ({loading: false})
+  });
 }

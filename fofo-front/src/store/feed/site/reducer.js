@@ -1,4 +1,5 @@
 import { REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../../api';
+import { response } from '../../../lib/store-component';
 
 export default {
   _state: {
@@ -58,25 +59,20 @@ function handleNext(state, payload) {
     return state;
   }
 
-  switch(payload.status) {
-    case REQUEST_COMPLETE:
+  return response({
+    [REQUEST_COMPLETE]: () => {
       const pages = withFirstVisite(payload.response.data, state.firstUriVisite);
 
       return {
-        ...state, 
         pages: setActive(state, pages), 
         hasMore: payload.response.has_more,
         currentSizeFetch: payload.response.current_size,
         loadingNext: false
       };
-    
-    case REQUEST_LOADING:
-      return {...state, loadingNext: true};
-
-    case REQUEST_ERROR:
-    default:
-      return {...state, loadingNext: false};
-  }
+    },
+    [REQUEST_LOADING]:  () => ({loadingNext: true}),
+    default:            () => ({loadingNext: false})
+  });
 }
 
 function createPlaceholder(uri, title) {

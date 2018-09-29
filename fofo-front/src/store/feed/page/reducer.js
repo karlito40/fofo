@@ -1,5 +1,6 @@
 import { REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../../api';
 import { removeDuplicate } from '../../../lib/Array';
+import { response } from '../../../lib/store-component';
 import marked from 'marked';
 
 export default {
@@ -44,27 +45,22 @@ export default {
         return state;
       }
 
-      switch(payload.status) {
-        case REQUEST_COMPLETE:
+      return response({
+        [REQUEST_COMPLETE]: () => {
           let comments = [...state.comments, ...payload.response.data];
           comments = addOwnerAttribute(state, comments);
 
           return {
-            ...state, 
             comments, 
             hasMore: payload.response.has_more,
             nextCursor: payload.response.next_cursor, 
             firstCursor: getFirstCursor(comments),
             loadingNext: false
           };
-        
-        case REQUEST_LOADING:
-          return {...state, loadingNext: true };
-    
-        case REQUEST_ERROR:
-        default:
-          return {...state, loadingNext: false, hasMore: false};
-      }
+        },
+        [REQUEST_LOADING]:  () => ({loadingNext: true}),
+        default:            () => ({loadingNext: false, hasMore: false})
+      });
     },
     
   },
@@ -75,20 +71,19 @@ export default {
       }
 
       const placeholderId = '_' + actionId;
-      let comments;
 
-      switch(payload.status) {
-        case REQUEST_COMPLETE:
+      return response({
+        [REQUEST_COMPLETE]: () => {
           const comment = payload.response.data;
-          comments = [
+          let comments = [
             ...[comment], 
             ...state.comments.filter(s => s.id !== placeholderId)
           ];
           comments = addOwnerAttribute(state, comments);
 
-          return {...state, comments};
-        
-        case REQUEST_LOADING:
+          return { comments };
+        },
+        [REQUEST_LOADING]:  () => {
           const placeholder = { 
             id: placeholderId,
             content: marked(payload.payloadOrigin.content), 
@@ -96,29 +91,23 @@ export default {
             isPlaceholder: true,
             user: payload.payloadOrigin.user,
           };
-          comments = [...[placeholder], ...state.comments];
 
-          return {...state, comments: comments};
-  
-        case REQUEST_ERROR: // TODO: REMOVE PLACEHOLDER AND DISPLAY FLASH ERROR
-        default:
-          return state;
-      }
+          return { comments: [...[placeholder], ...state.comments] };
+        }
+      });
     },
     update(state, payload, actionId) {
-      let comments;
-      switch(payload.status) {
-        case REQUEST_COMPLETE:
+      return response({
+        [REQUEST_COMPLETE]: () => {
           const comment = payload.response.data;
           const change = { ...comment, loading: false }; 
+          const comments = updateComment(state.comments, change, actionId);
 
-          comments = updateComment(state.comments, change, actionId);
-          return {...state, comments: comments};
-        
-        case REQUEST_LOADING:
+          return { comments };
+        },
+        [REQUEST_LOADING]:  () => {
           const { payloadOrigin } = payload;
           const { content } = payloadOrigin;
-
           const body = {
             ...payloadOrigin,
             loading: true,
@@ -126,15 +115,11 @@ export default {
               content: marked(content)
             })
           };
+          const comments = updateComment(state.comments, body, actionId);
 
-          comments = updateComment(state.comments, body, actionId);
-          return {...state, comments: comments};
-        
-        // TODO HANDLE ERROR
-        case REQUEST_ERROR:
-        default:
-          return state;
-      }
+          return { comments };
+        }
+      });
     },
   },
   'app.user': {

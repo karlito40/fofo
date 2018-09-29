@@ -1,8 +1,10 @@
 import config from '../../config';
-import user from './user';
+import User from './user';
 
 export default {
-  _dependencies: { user },
+  _dependencies: {
+    user: User,
+  },
   _state: {
     ...selectTheme(config.defaultTheme),
     href: null,
@@ -17,7 +19,12 @@ export default {
         return state;
       }
       
-      return { ...state, href, domain, uri };
+      return {
+        ...state, 
+        href,
+        domain,
+        uri,
+      };
     },
     setTheme(state, payload) {
       return {...state, ...selectTheme(payload.theme)};

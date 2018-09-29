@@ -1,20 +1,30 @@
 import { setToken, REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../../api';
-import { response } from '../../../lib/store-component';
-import visites from './visites';
+import { ucfirst } from '../../../lib/String';
+import Visites from './visites';
 
+const dependencies = {
+  visites: Visites,
+};
 export default {
-  _dependencies: { visites },
+  _dependencies: dependencies,
   _state: {
     loading: false,
     isLogged: false,
   },
   self: {
     fetch(state, payload) {
-      return response({
-        [REQUEST_COMPLETE]: () => ({...payload.response.data, loading: false, isLogged: true}),
-        [REQUEST_LOADING]:  () => ({loading: true}),
-        default:            () => ({loading: false})
-      });
+      switch(payload.status) {
+        case REQUEST_COMPLETE:
+          return {...state, ...payload.response.data, loading: false, isLogged: true};
+
+        case REQUEST_LOADING:
+          return {...state, loading: true};
+    
+        case REQUEST_ERROR:
+        default:
+          return {...state, loading: false};
+
+      }
     }
   },
   'form.auth': {
@@ -24,12 +34,16 @@ export default {
 };
 
 function handleLogin(state, payload) {
-  if(payload.status === REQUEST_COMPLETE) {
-    setToken(payload.response.data.access_token);
+  switch(payload.status) {
+    case REQUEST_COMPLETE:
+      const { user } = payload.response.data;
 
-    const { user } = payload.response.data;
-    return {...state, ...user, loading: false, isLogged: true};
+      setToken(payload.response.data.access_token);
+
+      return {...state, ...user, loading: false, isLogged: true};
+    
+    case REQUEST_ERROR:
+    default:
+      return state;
   }
-
-  return null;
 }

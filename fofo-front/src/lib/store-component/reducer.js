@@ -1,6 +1,5 @@
 import clone from 'clone';
 import { createType } from './type';
-import ResponseReducer from './response';
 
 export function createTemplateFromComponent(component, options) {
   return createTemplate({
@@ -43,15 +42,11 @@ function executeTemplate(template) {
           
           let oldScope = getScope(relation, newState);
           let newScope = handler(oldScope, action.data, action.id);
-          if(newScope instanceof ResponseReducer) {
-            newScope = newScope.execute(oldScope, action.data);
-          }
 
-          if(newScope) {
-            let depsScope = getDependenciesByRelation(relation, template._dependencies);
-            newScope = preserveDependencies(depsScope, newScope, oldScope);
-            newState = replaceScope(relation, newState, newScope);
-          }
+          let depsScope = getDependenciesByRelation(relation, template._dependencies);
+          newScope = preserveDependencies(depsScope, newScope, oldScope);
+          newState = replaceScope(relation, newState, newScope);
+          
         }
         
         return newState;

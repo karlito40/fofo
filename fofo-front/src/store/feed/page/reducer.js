@@ -43,7 +43,7 @@ export default {
       if(state.href !== (payload.payloadOrigin.href)) {
         return state;
       }
-
+      
       switch(payload.status) {
         case REQUEST_COMPLETE:
           let comments = [...state.comments, ...payload.response.data];

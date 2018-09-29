@@ -93,7 +93,7 @@ export default {
         default:
           return {...state, loading: false};
       }
-    } 
+    }
   },
   app: {
     setAddress(state, payload) {

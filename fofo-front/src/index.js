@@ -1,15 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-import registerStore, { getState } from './store';
 
+import App from './App';
+import registerStore, { getState } from './store';
 import { actions as user } from './store/app/user';
 import { actions as visites } from './store/app/user/visites';
 import { actions as app } from './store/app';
 import { getToken } from './store/api';
-
 import './window';
 
 const store = registerStore();

@@ -108,7 +108,10 @@
     ]
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "default-case": "off"
+    }
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.6.0",

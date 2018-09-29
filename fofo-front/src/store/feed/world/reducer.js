@@ -1,3 +1,4 @@
+import { merge } from '../../../lib/store-component';
 import { REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../../api';
 
 export default {
@@ -7,22 +8,18 @@ export default {
     sites: []
   },
   self: {
-    fetch(state, payload) {
+    fetch: (state, payload) => merge(state, () => {
       switch(payload.status) {
         case REQUEST_COMPLETE:
-          return {
-            ...state, 
-            sites: payload.response.data, 
-            loading: false
-          };
+          return { sites: payload.response.data, loading: false };
         
         case REQUEST_LOADING:
-          return {...state, loading: true};
+          return { loading: true };
     
         case REQUEST_ERROR:
         default:
-          return {...state, loading: false};
+          return { loading: false };
       }
-    },
+    }),
   }
 };

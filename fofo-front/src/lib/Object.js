@@ -1,4 +1,4 @@
-export const delProperties = (o, keys = []) => {
+export function delProperties(o, keys = []) {
   if(!o) {
     return;
   }

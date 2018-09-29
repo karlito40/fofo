@@ -1,7 +1,11 @@
 export function listen(options = {}) {
-  console.log('listen options', options);
   const listenOn = getListenOn(options);
   chrome.runtime[listenOn].addListener(listener(options));
+}
+
+export function listenExternal(options = {}) {
+  options = {...options, external: true};
+  listen(options);
 }
 
 const serviceContent = {

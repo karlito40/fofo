@@ -42,11 +42,11 @@ function executeTemplate(template) {
           
           let oldScope = getScope(relation, newState);
           let newScope = handler(oldScope, action.data, action.id);
-
-          let depsScope = getDependenciesByRelation(relation, template._dependencies);
-          newScope = preserveDependencies(depsScope, newScope, oldScope);
-          newState = replaceScope(relation, newState, newScope);
-          
+          if(newScope !== oldScope) {
+            let depsScope = getDependenciesByRelation(relation, template._dependencies);
+            newScope = preserveDependencies(depsScope, newScope, oldScope);
+            newState = replaceScope(relation, newState, newScope);
+          }
         }
         
         return newState;

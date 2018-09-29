@@ -22,3 +22,5 @@
 ☐ Backend like
 ☐ Intégrer message spécifiant une nouvelle maj disponible
 ☐ update styled-component to last beta
+☐ generer action -> component.proxy.getX()
+✔ reducer component = replace if newScope !== oldScope @done(18-09-29 21:34)

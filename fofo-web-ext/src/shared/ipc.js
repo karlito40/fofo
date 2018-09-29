@@ -39,16 +39,34 @@ export const service = {
 
 export default service;
 
-export function callContent(tabId, cmd, ...args) {
-  return executeMessage(clean => 
-    chrome.tabs.sendMessage(tabId, createAction(cmd, ...args), clean)
-  );
+export async function callContent(tabId, cmd, ...args) {
+  return sendMessage(tabId, createAction(cmd, ...args));
 }
 
 export function callBackground(cmd, ...args) {
-  return executeMessage(clean => 
-    chrome.runtime.sendMessage(createAction(cmd, ...args), clean)
-  );
+  return sendMessage(createAction(cmd, ...args));
+}
+
+export function sendMessage(...args) {
+  return new Promise((resolve, reject) => {
+    let running = setTimeout(() => {
+      reject(new Error('Timeout exceed'));
+      running = null;
+    }, 5000);
+
+    const onReceipt = (response) => {
+      if(running) {
+        resolve(response);
+        clearTimeout(running);
+      }
+    };
+
+    if(typeof args[0] === 'number') {
+      chrome.tabs.sendMessage(...args, onReceipt);
+    } else {
+      chrome.runtime.sendMessage(...args, onReceipt)  
+    }
+  }); 
 }
 
 export function getCurrentTab() {
@@ -61,24 +79,6 @@ export function getCurrentTab() {
 
 function createAction(cmd, ...args) {
   return { cmd, args };
-}
-
-function executeMessage(toScript) {
-  return new Promise((resolve, reject) => {
-    // On envoi une erreur lorsque la réponse prend trop de temps
-    let running = setTimeout(() => {
-      reject(new Error('Timeout exceed'));
-      running = null;
-    }, 5000);
-
-    toScript((response) => {
-      if(running) {
-        resolve(response);
-        clearTimeout(running);
-      }
-    });
-
-  });
 }
 
 function listener(options = {}) {

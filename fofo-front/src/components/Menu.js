@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import { Home as HomeIcon } from 'styled-icons/material/Home';
+import { Settings as SettingsIcon } from 'styled-icons/material/Settings';
 import { MoreVert as MoreVertIcon } from 'styled-icons/material/MoreVert';
 // import { Search as SearchIcon } from 'styled-icons/feather/Search';
 import { User as UserIcon } from 'styled-icons/fa-solid/User';
 import Hint from './Hint';
+import Avatar from './Avatar';
 
 export default class extends Component {
   render() {
-    const { className } = this.props;
+    const { className, user } = this.props;
 
     return <Wrapper className={className}>
       <Sites>
@@ -18,12 +20,12 @@ export default class extends Component {
       <Interaction>
         <IconContainer>
           <Hint>Profile</Hint>
-          <Icon as={UserIcon} size={15}/>
+          <Avatar user={user} size={20}/>
         </IconContainer>
         
         <IconContainer>
           <Hint>Settings</Hint>
-          <FillIcon as={MoreVertIcon} size={20}/>
+          <FillIcon as={SettingsIcon} size={20}/>
         </IconContainer>
       </Interaction>
     </Wrapper>
@@ -41,7 +43,6 @@ const Logo = styled.div`
     margin-left: 10px;
   `}
 `;
-
 
 const Wrapper = styled.div`
   position: fixed;
@@ -73,10 +74,9 @@ const IconContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 10px 0;
+  padding: 7px 0;
   cursor: pointer;
 `;
-
 
 const Icon = styled.div`
   fill: ${p => p.theme.menuColor};
@@ -105,6 +105,7 @@ const AutoFlexbox = styled.div`
 const Interaction = styled(AutoFlexbox)`
   ${p => p.theme.horizontal && css`
     width: 100%;
+    padding-bottom: 5px;
   `}
 `;
 

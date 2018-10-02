@@ -2,10 +2,13 @@ import { themes } from './themes';
 
 const availableThemes = Object.keys(themes);
 
+const params = new URLSearchParams(window.location.search)
+const withTheme = params.get('theme');
+
 const config = {
   env: process.env.NODE_ENV,
   apiHost: process.env.REACT_APP_API_HOST,
-  defaultTheme: availableThemes[0],
+  defaultTheme: withTheme || availableThemes[0],
   // defaultTheme: availableThemes[1],
   themes: availableThemes,
   pageFeedRefreshTimer: parseInt(process.env.REACT_APP_PAGE_FEED_REFRESH_TIMER, 10),

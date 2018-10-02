@@ -3,16 +3,22 @@ import PanelScene from './scenes/PanelScene';
 import main from './utils/main';
 import serviceIPC, * as ipc from '../shared/ipc';
 import * as commands from './commands';
+import * as StorageSync from '../shared/storage-sync';
+import config from './config';
 
-main(() => {
+main(async () => {
   ipc.listen({commands});
 
-  // ipc.send('setBadge', '#')
   serviceIPC.background.setBadge('#');
 
-  const panelScene = new PanelScene({onload: () => {
-    console.log('app.loaded');
-  }});
+  const panel = (await StorageSync.get()).panel;
   
-  panelScene.select('bottom');
+  const panelScene = new PanelScene();
+  panelScene.select(
+    (typeof panel !== 'undefined') ? panel : config.defaultPanel
+  );
+
+  StorageSync.events.on('sync', storage => {
+    panelScene.select(storage.panel);
+  });
 });

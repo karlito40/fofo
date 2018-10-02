@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import styled, { css } from 'styled-components';
-import { connect } from 'react-redux';
-import BaseMenu from './components/Menu';
+import BaseMenu from './containers/Menu';
 import BaseFlash from './containers/Flash';
 import SiteFeedContainer from './containers/SiteFeed';
 import VisiteFeed from './containers/VisiteFeed';
@@ -65,7 +64,4 @@ const Content = styled.div`
   ${p => p.theme.vertical && css`
     padding-top: ${p.theme.contentWrapperTop};
   `}
-
-  
-  
-`
+`;

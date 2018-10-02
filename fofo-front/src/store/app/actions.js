@@ -1,4 +1,3 @@
-import apiCall, { ActionAPI } from '../api';
 import { actions as visites } from './user/visites';
 
 export function setTheme(theme) {

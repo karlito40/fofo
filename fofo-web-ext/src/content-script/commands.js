@@ -1,4 +1,6 @@
-export function setConfig(data) {
-  console.log('setConfig', data);
-  return {yes: 'done'};
+// import { EventEmitter } from 'events'
+import { sync } from '../shared/storage-sync';
+
+export function syncStorage(storage) {
+  return sync(storage);
 }

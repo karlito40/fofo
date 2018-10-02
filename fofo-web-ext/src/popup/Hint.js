@@ -33,7 +33,7 @@ export default class extends Component {
     if(!this.wrapperRef.current) {
       return;
     }
-
+    
     const { dir } = this.props;
     
     const wrapperRect = this.wrapperRef.current.getBoundingClientRect();
@@ -46,6 +46,7 @@ export default class extends Component {
       this.wrapperRef.current.style.left = `${e.pageX - wrapperRect.width - 13}px`;
       this.wrapperRef.current.style.top = `${e.pageY - middle}px`;
     }
+    
   }
 
   componentDidMount() {
@@ -97,4 +98,3 @@ const Wrapper = styled.div`
   padding: 3px 14px;
   border-radius: 25px;
 `;
-

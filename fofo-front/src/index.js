@@ -6,9 +6,11 @@ import App from './App';
 import registerStore, { getState } from './store';
 import { actions as user } from './store/app/user';
 import { actions as visites } from './store/app/user/visites';
-import { actions as app } from './store/app';
+import { actions as appActions } from './store/app';
 import { getToken } from './store/api';
 import './window';
+
+const APP_NAME = 'parallel-app';
 
 const store = registerStore();
 
@@ -23,8 +25,8 @@ const store = registerStore();
 
 
 // Init address ---> it will be received from contentScript.js
-store.dispatch(app.setAddress('fr.wikipedia.org', '/wiki/Emmanuel_Macron')); 
-// store.dispatch(app.setAddress('allocine.fr', '/')); 
+store.dispatch(appActions.setAddress('fr.wikipedia.org', '/wiki/Emmanuel_Macron')); 
+// store.dispatch(appActions.setAddress('allocine.fr', '/')); 
 
 // User restoration
 async function restoreState() {
@@ -59,17 +61,15 @@ window.addEventListener('message', (e) => {
   } catch (e) {
     return;
   }
-
-  if(action.source !== 'parallel-app') {
+  console.log('message frame', action);
+  if(action.source !== APP_NAME) {
     return;
   }
-  
+
   console.log('frame.app message received', action, e);
 
-  // if(action.type === 'APP.INIT') {
-  //   console.log('send message from app');
-  //   chrome.runtime.sendMessage(action.data.extid, {from: 'popup', method:'ping'}, function(response) { // eslint-disable-line
-    
-  //   });
-  // }
+  if(action.type === 'SET_THEME') {
+    store.dispatch(appActions.setTheme(action.data.theme));
+  }
+
 });

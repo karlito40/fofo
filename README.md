@@ -1,8 +1,8 @@
 Fofo is a WebExtension which aim to create communities around websites. Ever dream to discuss and share your opinion with people browsing the same page as you ? 
 
-You don't have access to reviews on Netflix anymore ? Fine, just open Fofo on your Netflix movie and browse other people reaction.
 
-There is no comment section on this debatable news ? Fine, just open Fofo and share your sentiment on it.
+- No reviews on Netflix ? Fine, just open Fofo on your Netflix movie and browse other people reaction.
+- No comment section on this debatable news ? Fine, just open Fofo and share your feelings on it.
 
 ---
 
@@ -86,6 +86,7 @@ Next, go to **[chrome://extensions/](chrome://extensions/)**, active the develop
 
 ## Some work to do...
 
+- [ ] I18N
 - [ ] Refactoring & Documentation
 - [ ] Automate test on fofo-front & fofo-web-ext
 - [ ] Create a logo and switch to a different name

@@ -1,4 +1,4 @@
-Fofo is a WebExtension which aim to create communities around website. Ever dream to discuss and share your opinion with people browsing the same page as you ? 
+Fofo is a WebExtension which aim to create communities around websites. Ever dream to discuss and share your opinion with people browsing the same page as you ? 
 
 You don't have access to reviews on Netflix anymore ? Fine, just open Fofo on the Netflix movie and browse other people reaction.
 

@@ -67,7 +67,7 @@ You may import `fofo-api.postman_collection.json` into postman to check the api.
 
 ### Front
 
-The front can be run independently from the WebExtension. It's a simple create-react-app so may run:
+The front can be run independently from the WebExtension. 
 
 `cd fofo-front && npm run start`
 

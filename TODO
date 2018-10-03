@@ -26,4 +26,5 @@
 ✔ reducer component = replace if newScope !== oldScope @done(18-09-29 21:34)
 ☐ add animation
 ☐ detach settings on blur
-
+☐ add settings => deconnexion, connexion, display only on browserAction
+☐ ignore fofo-web-ext/shared directory

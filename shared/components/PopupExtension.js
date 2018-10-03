@@ -4,7 +4,7 @@ import { Sidebar as PanelIcon } from 'styled-icons/feather/Sidebar';
 import { EyeOff as PanelCloseIcon } from 'styled-icons/feather/EyeOff';
 import serviceIPC from '../ipc';
 import * as StorageSync from '../storage-sync';
-import Hint from '../shared/components/Hint';
+import Hint from './Hint';
 
 export default class Body extends Component {
   state = { loading: true, currentPanel: false };

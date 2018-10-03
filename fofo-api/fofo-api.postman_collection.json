@@ -1,0 +1,424 @@
+{
+	"variables": [],
+	"info": {
+		"name": "fofo-api",
+		"_postman_id": "5eab22da-c573-e5be-8d86-89ae297e3eaf",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/login",
+			"request": {
+				"url": "http://fofo-api.local/api/v1/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "karlito40@gmail.com",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "toto",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/register",
+			"request": {
+				"url": "http://fofo-api.local/api/v1/register",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "X-Requested-With",
+						"value": "XMLHttpRequest",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "password",
+							"value": "toto",
+							"description": ""
+						},
+						{
+							"key": "c_password",
+							"value": "toto",
+							"description": ""
+						},
+						{
+							"key": "email",
+							"value": "karlito40@gmail.com",
+							"description": ""
+						},
+						{
+							"key": "name",
+							"value": "karlito40",
+							"description": ""
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/logout",
+			"request": {
+				"url": "http://fofo-api.local/api/v1/logout",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/me",
+			"request": {
+				"url": "http://fofo-api.local/api/v1/me",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/comment",
+			"request": {
+				"url": "http://fofo-api.local/api/v1/comment",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "address",
+							"value": "stackoverflow.com/questions/19335305/composer-install-error-requires-ext-curl-when-its-actually-enabled",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "LAallaa",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/highlight",
+			"request": {
+				"url": "http://fofo-api.local/api/v1/highlight",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "address",
+							"value": "gmail.com/path.html",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "je suis un contenu",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "location",
+							"value": "lalalal",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/oauth/token",
+			"request": {
+				"url": "http://fofo-api.local/oauth/token",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "3",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "f5UKK8hwtqNxKVQta4FitxspQZDBRqasChXofZap",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "karlito40@gmail.com",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "toto",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/comment/:id",
+			"request": {
+				"url": "http://fofo-api.local/api/v1/comment/1018",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "address",
+							"value": "gmail.com/path.html",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "je suis un contenu",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/highlight/:id",
+			"request": {
+				"url": "http://fofo-api.local/api/v1/highlight/86",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "address",
+							"value": "gmail.com/path.html",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "je suis un contenu",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/feed/*",
+			"request": {
+				"url": "http://fofo-api.local/api/v1/feed/gmail.com",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/feed/page/*",
+			"request": {
+				"url": "http://fofo-api.local/api/v1/feed/gmail.com",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/feed/site",
+			"request": {
+				"url": "",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/visite",
+			"request": {
+				"url": "https://fofo-api.local/api/v1/visite",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "address",
+							"value": "stackoverflow.com",
+							"description": ""
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/visitor/visites",
+			"request": {
+				"url": "https://fofo-api.local/api/v1/visitor/visites",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/user",
+			"request": {
+				"url": "",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/comment",
+			"request": {
+				"url": "",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

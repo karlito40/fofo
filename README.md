@@ -24,9 +24,9 @@ There is no comment section on this debatable news ? Fine, just open Fofo and sh
 
 ### Api
 
-First make sure to follow the **[laravel installation](https://laravel.com/docs/5.6/homestead)** and install all the dependencies.
+First make sure to follow the [laravel installation](https://laravel.com/docs/5.6/homestead) and install all the dependencies.
 
-`cd fofo-api/ && composer install`
+`cd fofo-api && composer install`
 
 Next, create the database.
 
@@ -51,7 +51,7 @@ OAUTH_PASSWORD_CLIENT_ID=2
 OAUTH_PASSWORD_CLIENT_SECRET=YOUR_SECRET_KEY_HERE
 ```
 
-Follow this **[tutorial](https://medium.com/@adnanxteam/how-to-setup-https-with-laravel-homestead-ad7915470fa8)** to make the https works on your server. Next, go to https://your-local-api-domain and accept the certificate.
+Follow this [tutorial](https://medium.com/@adnanxteam/how-to-setup-https-with-laravel-homestead-ad7915470fa8) to make the https works on your server. Next, go to https://your-local-api-domain and accept the certificate.
 
 Now, run the seeder to add some data to your database.
 

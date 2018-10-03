@@ -24,3 +24,6 @@
 ☐ update styled-component to last beta
 ☐ generer action -> component.proxy.getX()
 ✔ reducer component = replace if newScope !== oldScope @done(18-09-29 21:34)
+☐ add animation
+☐ detach settings on blur
+

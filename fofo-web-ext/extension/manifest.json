@@ -17,7 +17,7 @@
       "32": "icons/border-32.png"
     },
     "default_title": "Whereami?",
-    "default_popup": "popup.html"
+    "default_popup": "public/popup.html"
   },
   "background": {
     "scripts":["background.js"]

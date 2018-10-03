@@ -2,15 +2,15 @@ import React, { Component, Fragment } from 'react';
 import styled, { css } from 'styled-components';
 import { Sidebar as PanelIcon } from 'styled-icons/feather/Sidebar';
 import { EyeOff as PanelCloseIcon } from 'styled-icons/feather/EyeOff';
-import * as actions from './actions';
-import * as StorageSync from '../shared/storage-sync';
-import Hint from './Hint';
+import serviceIPC from '../ipc';
+import * as StorageSync from '../storage-sync';
+import Hint from '../shared/components/Hint';
 
 export default class Body extends Component {
   state = { loading: true, currentPanel: false };
 
   handlePanel(panel) {
-    actions.selectPanel(panel);
+    serviceIPC.background.selectPanel(panel);
     this.setState({ currentPanel: panel });
   }
 

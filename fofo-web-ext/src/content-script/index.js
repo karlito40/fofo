@@ -1,10 +1,11 @@
 import 'babel-polyfill';
 import PanelScene from './scenes/PanelScene';
 import main from './utils/main';
-import serviceIPC, * as ipc from '../shared/ipc';
 import * as commands from './commands';
-import * as StorageSync from '../shared/storage-sync';
 import config from './config';
+import serviceIPC, * as ipc from '../shared/ipc';
+import * as StorageSync from '../shared/storage-sync';
+import { createElement } from '../shared/dom';
 
 main(async () => {
   ipc.listen({commands});
@@ -21,4 +22,5 @@ main(async () => {
   StorageSync.events.on('sync', storage => {
     panelScene.select(storage.panel);
   });
+
 });

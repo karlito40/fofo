@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import Loader from './Loader';
-import Hint from './Hint';
+import Hint from '../shared/components/Hint';
 
 export default class extends Component {
 

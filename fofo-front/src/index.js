@@ -8,6 +8,7 @@ import { actions as user } from './store/app/user';
 import { actions as visites } from './store/app/user/visites';
 import { actions as appActions } from './store/app';
 import { getToken } from './store/api';
+import * as ipc from './shared/ipc';
 import './window';
 
 const APP_NAME = 'parallel-app';
@@ -39,19 +40,19 @@ async function restoreState() {
     store.dispatch(visites.fetchByIp()); 
   }
   
-  
 }
 
 restoreState();
+
+const params = new URLSearchParams(window.location.search)
+const extid = params.get('extid');
+ipc.withExtension(extid);
 
 ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>, 
   document.getElementById('root'));
-
-// registerServiceWorker();
-// console.log('search --->', window.location.search);
 
 window.addEventListener('message', (e) => {
   let action;

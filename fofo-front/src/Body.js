@@ -8,13 +8,25 @@ import PageFeed from './containers/PageFeed';
 import BaseMessageForm from './containers/MessageForm';
 import Breadcrumb from './components/Breadcrumb';
 import BaseAuthForm from './containers/AuthForm';
+import BaseSettings from './components/Settings';
 
 export default class Body extends Component {
+  state = { showSettings: false }
+
+  toggleSettings = () => {
+    this.setState({showSettings: !this.state.showSettings});
+  }
+
   render() {
+    const { showSettings } = this.state;
+
     return <Fragment>
+      
+      {showSettings && <Settings/>}
+
       <Flash/>
 
-      <Menu>
+      <Menu onSettingsClick={this.toggleSettings}>
         <VisiteFeed/>
       </Menu>
       
@@ -32,6 +44,10 @@ export default class Body extends Component {
     </Fragment> 
   }
 }
+
+const Settings = styled(BaseSettings)`
+  z-index: 8;
+`;
 
 const Flash = styled(BaseFlash)`
   z-index: 6;

@@ -5,7 +5,7 @@ import { Settings as SettingsIcon } from 'styled-icons/material/Settings';
 import { MoreVert as MoreVertIcon } from 'styled-icons/material/MoreVert';
 // import { Search as SearchIcon } from 'styled-icons/feather/Search';
 import { User as UserIcon } from 'styled-icons/fa-solid/User';
-import Hint from './Hint';
+import Hint from '../shared/components/Hint';
 import Avatar from './Avatar';
 
 export default class extends Component {
@@ -23,7 +23,7 @@ export default class extends Component {
           <Avatar user={user} size={20}/>
         </IconContainer>
         
-        <IconContainer>
+        <IconContainer onClick={this.props.onSettingsClick}>
           <Hint>Settings</Hint>
           <FillIcon as={SettingsIcon} size={20}/>
         </IconContainer>

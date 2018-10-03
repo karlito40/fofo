@@ -17,3 +17,9 @@ export function selectPanel(panel) {
 export function getStorage() {
   return Storage.get();
 }
+
+export async function getPopup() {
+  return new Promise((resolve, reject) => {
+    chrome.browserAction.getPopup({}, resolve);
+  });
+}

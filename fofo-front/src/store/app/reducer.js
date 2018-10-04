@@ -1,10 +1,8 @@
 import config from '../../config';
-import User from './user';
+import user from './user';
 
 export default {
-  _dependencies: {
-    user: User,
-  },
+  _dependencies: { user },
   _state: {
     ...selectTheme(config.defaultTheme),
     href: null,

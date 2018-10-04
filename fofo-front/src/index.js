@@ -1,58 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-
-import App from './App';
-import registerStore, { getState } from './store';
-import { actions as user } from './store/app/user';
-import { actions as visites } from './store/app/user/visites';
+import { Provider as StoreProvider } from 'react-redux';
+import { bootstrap } from './app';
 import { actions as appActions } from './store/app';
-import { getToken } from './store/api';
-import * as ipc from './shared/ipc';
+import App from './containers/App';
+
 import './window';
 
-const APP_NAME = 'parallel-app';
+const AppData = bootstrap();
 
-const store = registerStore();
+ReactDOM.render((
+  <StoreProvider store={AppData.store}>
+    <App/>
+  </StoreProvider>
+), document.getElementById('root'));
 
-// (async function() {
-//   await store.dispatch(me.login('karlito40@gmail.com', 'toto'));
-//   await store.dispatch(me.fetch());
-// })();
-
-// store.dispatch(me.login('karlito40@gmail.com', 'toto'));
-// const domain = window.location.hostname;
-// const uri = window.location.pathname;
-
-
-// Init address ---> it will be received from contentScript.js
-store.dispatch(appActions.setAddress('fr.wikipedia.org', '/wiki/Emmanuel_Macron')); 
-// store.dispatch(appActions.setAddress('allocine.fr', '/')); 
-
-// User restoration
-async function restoreState() {
-  if(getToken()) {
-    await store.dispatch(user.fetch()); 
-    if(!getState('app.user.isLogged')) {
-      store.dispatch(visites.fetchByIp());   
-    }
-  } else {
-    store.dispatch(visites.fetchByIp()); 
-  }
-  
-}
-
-restoreState();
-
-const params = new URLSearchParams(window.location.search)
-const extid = params.get('extid');
-ipc.withExtension(extid);
-
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>, 
-  document.getElementById('root'));
 
 window.addEventListener('message', (e) => {
   let action;
@@ -62,15 +24,16 @@ window.addEventListener('message', (e) => {
   } catch (e) {
     return;
   }
+  
   console.log('message frame', action);
-  if(action.source !== APP_NAME) {
+  if(action.source !== AppData.name) {
     return;
   }
 
   console.log('frame.app message received', action, e);
 
   if(action.type === 'SET_THEME') {
-    store.dispatch(appActions.setTheme(action.data.theme));
+    AppData.store.dispatch(appActions.setTheme(action.data.theme));
   }
 
 });

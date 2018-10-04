@@ -1,7 +1,7 @@
-Fofo is a WebExtension which aim to create communities around websites. Ever dream to discuss and share your opinion with people browsing the same page as you ? 
+Fofo aims to build a community around your favorite websites. Ever dream to discuss and share your opinion with people browsing the same page as you ? 
 
 
-- No reviews on Netflix ? Fine, just open Fofo on your Netflix movie and browse other people reaction.
+- No reviews on Netflix anymore ? Fine, just open Fofo and discover what others are saying.
 - No comment section on this debatable news ? Fine, just open Fofo and share your feelings on it.
 
 ---
@@ -32,7 +32,7 @@ Next, create the database.
 
 `php artisan migrate`
 
-Generate the oauth tables and encryption keys.
+Generate oauth tables and encryption keys.
 
 `php artisan passport:install`
 
@@ -40,11 +40,11 @@ Generate a password oauth client.
 
 `php artisan passport:client --password`
 
-Create the .env
+Create the .env file
 
 `cp .env.development .env`
 
-Edit and add to `.env` your fresh oauth client_id and secret.
+Add your fresh oauth client_id and secret in it.
 
 ```
 OAUTH_PASSWORD_CLIENT_ID=2
@@ -53,11 +53,11 @@ OAUTH_PASSWORD_CLIENT_SECRET=YOUR_SECRET_KEY_HERE
 
 Follow this [tutorial](https://medium.com/@adnanxteam/how-to-setup-https-with-laravel-homestead-ad7915470fa8) to make the https works on your server. Next, go to https://your-local-api-domain and accept the certificate.
 
-Now, run the seeder to add some data to your database.
+Now, run the seeder.
 
 `php artisan db:seed`
 
-You may import `fofo-api.postman_collection.json` into postman to check the api.
+You may import `fofo-api.postman_collection.json` into postman to have an understanding of the api.
 
 ---
 
@@ -67,7 +67,7 @@ You may import `fofo-api.postman_collection.json` into postman to check the api.
 
 ### Front
 
-The front can be run independently from the WebExtension. 
+The front project run independently from the WebExtension. 
 
 `cd fofo-front && npm run start`
 
@@ -87,6 +87,7 @@ Next, go to **[chrome://extensions/](chrome://extensions/)**, active the develop
 ## Some work to do...
 
 - [ ] I18N
+- [ ] Highlight content
 - [ ] Refactoring & Documentation
 - [ ] Automate test on fofo-front & fofo-web-ext
 - [ ] Create a logo and switch to a different name

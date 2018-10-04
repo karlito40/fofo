@@ -5,7 +5,7 @@ import user from './store/app/user';
 import visites from './store/app/user/visites';
 import { getToken } from './store/api';
 import * as ipc from './shared/ipc';
-import { importDefaults } from './lib/Context';
+import { importDefaults } from './utils/Context';
 
 const AppData = {
   name: 'parallel-app',

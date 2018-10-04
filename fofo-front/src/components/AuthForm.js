@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Box from './styled/Box';
 import Loader from './Loader';
-import { ucfirst } from '../lib/String';
+import { ucfirst } from '../utils/String';
 import { IsEmail, Required, validateChange, emulateChangeEvent } from '../lib/Validator';
 
 const LOGIN_TYPE = 'login';

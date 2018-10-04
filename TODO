@@ -13,7 +13,8 @@
 ☐ comment: like | quote | reply (lottie icons)
 ✔ comment: edit @done(18-09-27 14:46)
 ✔ display indicator new comments on page & visited sites @done(18-09-26 14:07)
-☐ i18n
+✔ i18n lib @done(18-10-04 20:04)
+☐ add translations
 ✔ use hint css on error form @done(18-09-26 17:18)
 ☐ button: add active state 
 ☐ Test API ip behind load balancer

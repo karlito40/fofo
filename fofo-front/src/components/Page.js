@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import Box from './styled/Box';
-import * as Uri from '../lib/Uri';
+import * as Uri from '../utils/Uri';
 
 export default class extends Component {
   handleClick = (page) => {

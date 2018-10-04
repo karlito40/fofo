@@ -1,5 +1,5 @@
 import { REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../../api';
-import { removeDuplicate } from '../../../lib/Array';
+import { removeDuplicate } from '../../../utils/Array';
 import marked from 'marked';
 
 export default {

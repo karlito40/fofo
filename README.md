@@ -42,7 +42,7 @@ Generate a password oauth client.
 
 Create the .env file
 
-`cp .env.development .env`
+`cp .env.example .env`
 
 Add your fresh oauth client_id and secret in it.
 
@@ -67,17 +67,17 @@ You may import `fofo-api.postman_collection.json` into postman to have an unders
 
 ### Front
 
-The front project run independently from the WebExtension. 
+Create the .env file
 
-`cd fofo-front && npm run start`
+`cp .env.example .env`
 
-Alternatively, you may execute the script from the root directory to achieve the same.
+Launch the project from the root directory (not fofo-front)
 
 `npm run start-front`
 
 ### WebExtension
 
-Build the project from the root directory
+Build the project from the root directory (not fofo-web-ext)
 
 `npm run build-web-ext`
 

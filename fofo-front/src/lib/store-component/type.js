@@ -1,4 +1,4 @@
-import { camelCaseToUnderscore } from '../String';
+import { camelCaseToUnderscore } from '../../utils/String';
 
 export function createType(namespace, functionName) {
   let type = camelCaseToUnderscore(functionName).toUpperCase();

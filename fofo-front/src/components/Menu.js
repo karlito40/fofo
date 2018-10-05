@@ -18,10 +18,12 @@ export default class extends Component {
         {this.props.children}
       </Sites>
       <Interaction>
-        <IconContainer>
-          <Hint>Profile</Hint>
-          <Avatar user={user} size={20}/>
-        </IconContainer>
+        {user.isLogged && (
+          <IconContainer>
+            <Hint>Profile</Hint>
+            <Avatar user={user} size={20}/>
+          </IconContainer>
+        )}
         
         <IconContainer onClick={this.props.onSettingsClick}>
           <Hint>Settings</Hint>

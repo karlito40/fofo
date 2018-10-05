@@ -7,9 +7,9 @@
     "clean": "rm -rf fofo-web-ext/src/shared && rm -rf fofo-front/src/shared",
     "cp-shared": "cp -R fofo-shared/src fofo-web-ext/src/shared && cp -R fofo-shared/src fofo-front/src/shared",
     "build-shared": "npm run clean && npm run cp-shared",
-    "build-web-ext": "npm run build-share && cd fofo-web-ext && npm run build",
-    "build-web-ext-prod": "npm run build-share && cd fofo-web-ext && npm run build-prod",
-    "start-front": "npm run build-share && cd fofo-front && npm run start"
+    "build-web-ext": "npm run build-shared && cd fofo-web-ext && npm run build",
+    "build-web-ext-prod": "npm run build-shared && cd fofo-web-ext && npm run build-prod",
+    "start-front": "npm run build-shared && cd fofo-front && npm run start"
   },
   "repository": {
     "type": "git",

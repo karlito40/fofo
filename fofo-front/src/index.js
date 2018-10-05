@@ -1,19 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider as StoreProvider } from 'react-redux';
 import { bootstrap } from './app';
 import { actions as appActions } from './store/app';
-import App from './containers/App';
+import Root from './root/Root';
 
 import './window';
 
 const AppData = bootstrap();
 
-ReactDOM.render((
-  <StoreProvider store={AppData.store}>
-    <App/>
-  </StoreProvider>
-), document.getElementById('root'));
+ReactDOM.render(<Root/>, document.getElementById('root'));
 
 
 window.addEventListener('message', (e) => {

@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import styled, { css } from 'styled-components';
-import BaseMenu from './Menu';
-import BaseFlash from './Flash';
-import SiteFeedContainer from './SiteFeed';
-import VisiteFeed from './VisiteFeed';
-import PageFeed from './PageFeed';
-import BaseMessageForm from './MessageForm';
+import BaseMenu from '../containers/Menu';
+import BaseFlash from '../containers/Flash';
+import SiteFeedContainer from '../containers/SiteFeed';
+import VisiteFeed from '../containers/VisiteFeed';
+import PageFeed from '../containers/PageFeed';
+import BaseMessageForm from '../containers/MessageForm';
 import Breadcrumb from '../components/Breadcrumb'; 
-import BaseAuthForm from './AuthForm';
+import BaseAuthForm from '../containers/AuthForm';
 import BaseSettings from '../components/Settings';
 
 export default class Body extends Component {

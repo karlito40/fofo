@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import Comment from './Comment';
 import Loader from './Loader';
 import InfiniteScroll from 'react-infinite-scroller';
-import Box from './styled/Box';
+import Box from './Box';
 
 export default class extends Component {
   componentDidMount() {

@@ -12,15 +12,26 @@ main(async () => {
 
   serviceIPC.background.setBadge('#');
 
-  const panel = (await StorageSync.get()).panel;
+  const storage = await StorageSync.get();
+  const { panel, onDemand } = storage;
   
   const panelScene = new PanelScene();
-  panelScene.select(
-    (typeof panel !== 'undefined') ? panel : config.defaultPanel
-  );
+  
+  if(!onDemand) {
+    panelScene.select(
+      (typeof panel !== 'undefined') ? panel : config.defaultPanel
+    );
+  }
 
   StorageSync.events.on('sync', storage => {
+    console.log('select', storage.panel);
     panelScene.select(storage.panel);
   });
+
+  ipc.events.on('show', async () => {
+    const { panel } = await StorageSync.get();
+    // We dont need to check for the panel status as we want to display something
+    panelScene.select(panel || config.defaultPanel);
+  })
 
 });

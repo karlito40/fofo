@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
-import Box from './styled/Box';
+import Box from './Box';
 import * as Uri from '../utils/Uri';
 
 export default class extends Component {

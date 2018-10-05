@@ -5,13 +5,14 @@ export function setBadge(text) {
   chrome.browserAction.setBadgeText({text});
 }
 
-export function selectPanel(panel) {
-  const newStorage = Storage.setPanel(panel);
-  // A voir si ca vaut pas le coup de sync tous les
-  // onglets.
-  // TODO: serviceIPC.content.all().syncStorage(newStorage);
+export function updateStorage(params) {
+  const newStorage = Storage.set(params);
   serviceIPC.content.current().syncStorage(newStorage);
   return newStorage;
+}
+
+export function show() {
+  serviceIPC.content.current().show();
 }
 
 export function getStorage() {

@@ -10,7 +10,6 @@ const AppData = bootstrap();
 
 ReactDOM.render(<Root/>, document.getElementById('root'));
 
-
 window.addEventListener('message', (e) => {
   let action;
   

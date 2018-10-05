@@ -1,19 +1,21 @@
-import React, { Component, Fragment } from 'react';
-import styled, { css } from 'styled-components';
-import { ThemeProvider } from "styled-components";
-import { GlobalStyle, theme } from './themes';
-// import Body from './Body';
-import PopupExtension from '../shared/components/PopupExtension';
+import { registerI18n } from '../shared/i18n';
+import { importDefaults } from '../shared/utils/Context';
 
-export default class App extends Component {
-  render() {
-    return (
-      <ThemeProvider theme={theme}>
-        <Fragment>
-          <GlobalStyle/>
-          <PopupExtension/>
-        </Fragment>
-      </ThemeProvider>
-    );
+const AppData = {
+  name: 'parallel-app',
+  i18n: null,
+  store: null,
+};
+
+export function bootstrap() {
+  if(AppData.i18n) {
+    return AppData;
   }
+
+  const translations = importDefaults(require.context('../shared/translations', false, /\.js$/));
+  AppData.i18n = registerI18n(translations);
+
+  return AppData;
 }
+
+export default AppData;

@@ -1,3 +1,7 @@
+import { EventEmitter } from 'events';
+
+const events = new EventEmitter();
+
 /* eslint-disable no-undef */
 export function listen(options = {}) {
   const listenOn = getListenOn(options);
@@ -16,7 +20,13 @@ const serviceContent = {
       get(obj, cmd) {
         return async (...args) => {
           const tab = await getCurrentTab();
-          return callContent(tab.id, cmd, ...args);
+          if(!tab) {
+            console.log('current tab does not exist');
+          }
+          
+          return tab 
+            ? callContent(tab.id, cmd, ...args)
+            : null;
         }
       }
     });
@@ -44,8 +54,9 @@ export const service = {
 
 export default service;
 
-const platformConfig = { extensionId: null};
+const platformConfig = { extensionId: null };
 export function withExtension(extId) {
+  platformConfig.isExternal = true;
   platformConfig.extensionId = extId;
 }
 
@@ -59,10 +70,13 @@ export function callBackground(cmd, ...args) {
 
 export function sendMessage(...args) {
   return new Promise((resolve, reject) => {
-    let running = setTimeout(() => {
-      reject(new Error('Timeout exceed'));
+    const close = reason => {
+      reject(new Error(reason || 'Timeout exceed'));
+      clearTimeout(running);
       running = null;
-    }, 5000);
+    };
+
+    let running = setTimeout(close, 5000);
 
     const onReceipt = (response) => {
       if(running) {
@@ -73,7 +87,11 @@ export function sendMessage(...args) {
 
     if(typeof args[0] === 'number') {
       chrome.tabs.sendMessage(...args, onReceipt);
-    } else if(platformConfig.extensionId) {
+    } else if(platformConfig.isExternal) {
+      if(!platformConfig.extensionId) {
+        return close('Cannot call the background script from an external source without extensionId');
+      }
+
       chrome.runtime.sendMessage(platformConfig.extensionId, ...args, onReceipt)  
     } else {
       chrome.runtime.sendMessage(...args, onReceipt)  
@@ -104,14 +122,22 @@ function listener(options = {}) {
     if(request.cmd && commands[request.cmd]) {
       response = commands[request.cmd](...request.args, sender);
       if(response instanceof Promise) {
-        response.then(sendResponse);
+        response.then(response => {
+          events.emit(request.cmd, response);
+          sendResponse(response);
+        });
+
         return true;
       }
+
+      events.emit(request.cmd, response);
     } 
 
     sendResponse(response);
   }
 }
+
+export { events };
 
 function getListenOn(options = {}) {
   return (options.external) ? 'onMessageExternal' : 'onMessage';

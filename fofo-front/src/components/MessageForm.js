@@ -5,6 +5,8 @@ import { Send } from 'styled-icons/material/Send';
 import { Close } from 'styled-icons/material/Close';
 import Loader from './Loader';
 import EmojiPicker from './EmojiPicker';
+import I18NConsumer, { _ } from '../shared/i18n/react';
+import Hint from '../shared/components/Hint';
 
 export default class extends Component {
   formRef = React.createRef();
@@ -39,7 +41,9 @@ export default class extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.onSubmit(this.textarea.current.value);
+    if(this.textarea.current.value.length) {
+      this.props.onSubmit(this.textarea.current.value);
+    }
     this.close();
   }
 
@@ -91,13 +95,15 @@ export default class extends Component {
         onFocus={this.handleFocus}
         tabIndex="-1">
 
-        <Textarea 
-          ref={this.textarea} 
-          name="sendMessage" 
-          placeholder={unfold ? '' : "Send a message"} 
-          onChange={this.handleChange}/>
-
-        { loading && <LoaderStyled size={15}/> }
+        <I18NConsumer>
+          {t => (
+            <Textarea 
+              ref={this.textarea} 
+              name="sendMessage" 
+              placeholder={unfold ? '' : t.get('Send a message')} 
+              onChange={this.handleChange}/>
+          )}
+        </I18NConsumer>
 
         <Interaction unfold={unfold}>
           <EmojiAction 
@@ -111,6 +117,7 @@ export default class extends Component {
           </EmojiAction>
           
           <SubmitButton ref={this.submitButtonRef}>
+            <Hint dir="left">Envoyer</Hint>
             <SendIcon size={18}/>
           </SubmitButton>
         </Interaction>
@@ -186,6 +193,7 @@ const cssIconContainer = `
   margin-left: 10px; 
   cursor: pointer;
   display: flex;
+  position: relative;
 `;
 
 const SmileyIcon = styled(Smile)`

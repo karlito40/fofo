@@ -9,17 +9,27 @@ import 'prismjs/components/prism-java.min.js';
 import 'prismjs/components/prism-python.min.js';
 import 'prismjs/components/prism-go.min.js';
 import 'prismjs/components/prism-swift.min.js';
+
 import React, { Component } from 'react';
 import TurndownService from 'turndown';
 import styled, { css } from 'styled-components';
 import { formatDistance } from 'date-fns'
+import { fr as dateFR, en as dateEN } from 'date-fns/locale'
 import { Reply } from 'styled-icons/material/Reply';
 import { Heart } from 'styled-icons/fa-solid/Heart';
 import { Edit } from 'styled-icons/material/Edit';
-import Box from './styled/Box';
+import { _ } from '../shared/i18n/react';
+import Hint from '../shared/components/Hint';
+import Box from './Box';
 import Avatar from './Avatar';
-import Loader from './Loader';
+// import Loader from './Loader';
+import AppData from '../app';
  
+const dateLocales = {
+  fr: dateFR,
+  en: dateEN
+};
+
 const turndownService = new TurndownService({
   codeBlockStyle: 'fenced'
 });
@@ -73,28 +83,40 @@ export default class extends Component {
 
   render() {
     const { className, comment } = this.props;
-    const { id, user, isEditable, like, created_at, content } = comment;
     const { isEditing } = this.state;
 
     const since = formatDistance(
-      new Date(created_at), 
+      new Date(comment.created_at), 
       new Date(), 
-      {addSuffix: true}
+      { addSuffix: true, locale: dateLocales[AppData.i18n.lang] }
     );
     
     return (
       <Wrapper className={className}>
         <Header>
-          <Avatar user={user}/>
+          <Avatar user={comment.user}/>
           <Presentation>
             <User>
-              <Pseudo>{user.name}</Pseudo>
+              <Pseudo>{comment.user.name}</Pseudo>
               <DateDistance>{since}</DateDistance>
             </User>
             <Extra>
-              {/* <ReplyIcon size={20}/> */}
-              {isEditable && <EditIcon size={17} onClick={this.startEdit}/>}
-              {/* <HeartIcon size={15} like={like} onClick={this.props.onLike.bind(null, id, !like)}/> */}
+              {/* <IconBlock>
+                <Hint dir="left">{_('Reply')}</Hint>
+                <ReplyIcon size={20}/>
+              </IconBlock> */}
+
+              {comment.isEditable && (
+                <IconBlock onClick={this.startEdit}>
+                  <Hint dir="left">{_('Edit')}</Hint>
+                  <EditIcon size={17} />
+                </IconBlock>
+              )}
+
+              {/* <IconBlock onClick={this.props.onLike.bind(null, id, !like)}>
+                <Hint dir="left">{_('I like')}</Hint>
+                <HeartIcon size={15} like={like}/>
+              </IconBlock> */}
             </Extra>
           </Presentation>
         </Header>
@@ -102,10 +124,10 @@ export default class extends Component {
         {isEditing
           ? <Textarea 
               ref={this.textarea} 
-              defaultValue={turndownService.turndown(content)}
+              defaultValue={turndownService.turndown(comment.content)}
               onChange={this.resizeTextarea}
               onBlur={this.saveChange}/>
-          : <Content ref={this.contentRef} dangerouslySetInnerHTML={{__html: content}}/> 
+          : <Content ref={this.contentRef} dangerouslySetInnerHTML={{__html: comment.content}}/> 
         }
 
         {/* {loading && <Loader size={20}/>} */}
@@ -113,11 +135,6 @@ export default class extends Component {
     );
   }
 }
-
-const cssIcon = `
-  margin-left: 10px;
-  cursor: pointer;
-`;
 
 const Textarea = styled.textarea`
   border: 0;
@@ -137,19 +154,22 @@ const Wrapper = styled(Box)`
   padding: 30px;
 `;
 
+const IconBlock = styled.div`
+  margin-left: 10px;
+  cursor: pointer;
+  position: relative;
+`;
+
 const HeartIcon = styled(Heart)`
-  ${cssIcon};
   ${p => p.like && css`
     color: #eb6d58;
   `}
 `;
 
 const ReplyIcon = styled(Reply)`
-  ${cssIcon};
 `;
 
 const EditIcon = styled(Edit)`
-  ${cssIcon};
 `;
 
 const Header = styled.div`

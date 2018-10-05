@@ -74,11 +74,16 @@ export default class PanelScene {
   }
 
   select(panelIndex) {
+    const targetedPanel = this.getPanel(panelIndex);
+    if(targetedPanel === this.selectedPanel) {
+      return;
+    }
+
     if(this.selectedPanel) {
       this.previousPanel = this.selectedPanel;
     }
 
-    this.selectedPanel = this.getPanel(panelIndex);
+    this.selectedPanel = targetedPanel;
     if(this.selectedPanel) {
       this.render();
     } else {

@@ -5,7 +5,7 @@ import user from './store/app/user';
 import visites from './store/app/user/visites';
 import { getToken } from './store/api';
 import * as ipc from './shared/ipc';
-import { importDefaults } from './utils/Context';
+import { importDefaults } from './shared/utils/Context';
 
 const AppData = {
   name: 'parallel-app',
@@ -22,12 +22,12 @@ export function bootstrap() {
   const extid = params.get('extid');
   ipc.withExtension(extid);
 
-  const translations = importDefaults(require.context('../translations', false, /\.js$/));
+  const translations = importDefaults(require.context('./shared/translations', false, /\.js$/));
   AppData.i18n = registerI18n(translations);
 
   AppData.store = registerStore();
 
-  loadCurrentAddress();
+  loadAddress();
   loadUser();
 
   return AppData;
@@ -35,7 +35,7 @@ export function bootstrap() {
 
 export default AppData;
 
-function loadCurrentAddress() {
+function loadAddress() {
   // const domain = window.location.hostname;
   // const uri = window.location.pathname;
 

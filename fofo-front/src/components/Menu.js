@@ -6,6 +6,7 @@ import { MoreVert as MoreVertIcon } from 'styled-icons/material/MoreVert';
 // import { Search as SearchIcon } from 'styled-icons/feather/Search';
 import { User as UserIcon } from 'styled-icons/fa-solid/User';
 import Hint from '../shared/components/Hint';
+import {_} from '../shared/i18n/react';
 import Avatar from './Avatar';
 
 export default class extends Component {
@@ -20,13 +21,13 @@ export default class extends Component {
       <Interaction>
         {user.isLogged && (
           <IconContainer>
-            <Hint>Profile</Hint>
+            <Hint>{_('My account')}</Hint>
             <Avatar user={user} size={20}/>
           </IconContainer>
         )}
         
         <IconContainer onClick={this.props.onSettingsClick}>
-          <Hint>Settings</Hint>
+          <Hint>{_('Settings')}</Hint>
           <FillIcon as={SettingsIcon} size={20}/>
         </IconContainer>
       </Interaction>

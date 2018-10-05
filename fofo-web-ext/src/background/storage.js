@@ -1,7 +1,3 @@
-export function setPanel(panel) {
-  return set({...get(), panel});
-}
-
 let cacheStorage;
 export function get() {
   if(cacheStorage) {
@@ -17,7 +13,11 @@ export function get() {
   return cacheStorage;
 }
 
-export function set(storage) {
+export function set(params) {
+  return save({...get(), ...params});
+}
+
+export function save(storage) {
   cacheStorage = storage;
   localStorage.setItem('storage', JSON.stringify(storage));
   return cacheStorage;

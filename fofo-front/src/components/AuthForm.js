@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Box from './styled/Box';
+import Box from './Box';
 import Loader from './Loader';
-import { ucfirst } from '../utils/String';
+import { ucfirst } from '../shared/utils/String';
 import { IsEmail, Required, validateChange, emulateChangeEvent } from '../lib/Validator';
 
 const LOGIN_TYPE = 'login';

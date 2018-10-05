@@ -1,4 +1,4 @@
-Fofo aims to build a community around your favorite websites. Ever dream to discuss and share your opinion with people browsing the same page as you ? 
+Fofo aims to build communities around their favorite websites. Ever dream to discuss and share your opinion with people browsing the same page as you ? 
 
 
 - No reviews on Netflix anymore ? Fine, just open Fofo and discover what others are saying.
@@ -84,9 +84,9 @@ Build the project from the root directory (not fofo-web-ext)
 Next, go to **[chrome://extensions/](chrome://extensions/)**, active the developer mode and load the unzip extension from `fofo-web-ext/dist`
 
 
-## Some work to do...
+## Some works to do...
 
-- [ ] I18N
+- [x] I18N
 - [ ] Highlight content
 - [ ] Refactoring & Documentation
 - [ ] Automate test on fofo-front & fofo-web-ext

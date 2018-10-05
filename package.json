@@ -5,10 +5,8 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf fofo-web-ext/src/shared && rm -rf fofo-front/src/shared",
-    "cp-share": "cp -R fofo-shared fofo-web-ext/src/shared && cp -R fofo-shared fofo-front/src/shared",
-    "test-share": "jest fofo-shared",
-    "clear-jest": "jest --clearCache",
-    "build-share": "npm run clean && npm run cp-share",
+    "cp-shared": "cp -R fofo-shared/src fofo-web-ext/src/shared && cp -R fofo-shared/src fofo-front/src/shared",
+    "build-shared": "npm run clean && npm run cp-shared",
     "build-web-ext": "npm run build-share && cd fofo-web-ext && npm run build",
     "build-web-ext-prod": "npm run build-share && cd fofo-web-ext && npm run build-prod",
     "start-front": "npm run build-share && cd fofo-front && npm run start"
@@ -22,12 +20,5 @@
   "bugs": {
     "url": "https://github.com/karlito40/fofo/issues"
   },
-  "homepage": "https://github.com/karlito40/fofo#readme",
-  "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-core": "^6.26.3",
-    "babel-jest": "^23.6.0",
-    "babel-preset-env": "^1.7.0",
-    "jest": "^23.6.0"
-  }
+  "homepage": "https://github.com/karlito40/fofo#readme"
 }

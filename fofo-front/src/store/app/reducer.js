@@ -1,10 +1,11 @@
 import config from '../../config';
 import user from './user';
+import * as Panel from '../../utils/Panel';
 
 export default {
   _dependencies: { user },
   _state: {
-    ...selectTheme(config.defaultTheme),
+    ...selectPanel(Panel.getDefault()),
     href: null,
     domain: null,
     uri: null,
@@ -24,28 +25,14 @@ export default {
         uri,
       };
     },
-    setTheme(state, payload) {
-      return {...state, ...selectTheme(payload.theme)};
-    },
-    toggleTheme(state) {
-      let newTheme;
-      for(let selectable of config.themes) {
-        if(selectable !== state.theme) {
-          newTheme = selectable;
-          break;
-        }  
-      }
-
-      return {...state, ...selectTheme(newTheme)};
+    setPanel(state, payload) {
+      return {...state, ...selectPanel(payload.panel)};
     }
   }
 };
 
 
-function selectTheme(theme) {
-  if(config.themes.indexOf(theme) === -1) {
-    throw new Error(theme + ' is not a usable theme');
-  }
-
-  return { theme };
+function selectPanel(panelName) {
+  const panelOptions = config.panels[panelName] || config.panels.def;
+  return { panel: panelOptions };
 }

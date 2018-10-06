@@ -3,7 +3,7 @@
   ✔ handle server error @done(18-09-21 20:44)
   ✔ handle flash: show message info Correctly logged/registered @done(18-09-25 21:28)
 ☐ my profile (nb message sent, messages sent, messages received, messages likes, pseudo)
-☐ dropdown settings (deconnexion, panel option -> sidebar | bottom)
+✔ dropdown settings (deconnexion, panel option -> sidebar | bottom) @done(18-10-06 14:23)
 ✔ avatar @done(18-09-18 14:48)
 ✔ add message on empty page feed @done(18-09-18 15:24)
 ✔ active page indicator @started(18-09-18 14:48) @done(18-09-18 15:08) @lasted(20m32s)
@@ -14,7 +14,7 @@
 ✔ comment: edit @done(18-09-27 14:46)
 ✔ display indicator new comments on page & visited sites @done(18-09-26 14:07)
 ✔ i18n lib @done(18-10-04 20:04)
-☐ add translations
+✔ add translations @done(18-10-06 14:23)
 ✔ use hint css on error form @done(18-09-26 17:18)
 ☐ button: add active state 
 ☐ Test API ip behind load balancer
@@ -22,8 +22,6 @@
 ☐ Ajouter les options de configuration dans la popup (cacher/déplacer panel)
 ☐ Backend like
 ☐ Intégrer message spécifiant une nouvelle maj disponible
-☐ update styled-component to last beta
-☐ generer action -> component.proxy.getX()
 ✔ reducer component = replace if newScope !== oldScope @done(18-09-29 21:34)
 ☐ add animation
 ☐ detach settings on blur
@@ -31,3 +29,5 @@
 ✔ ignore fofo-web-ext/shared directory @done(18-10-04 19:19)
 ☐ load store component with context & subdirectory regex actions.js | reducers.js
 ☐ handle expiration token
+☐ implement getavataaars.com
+☐ add a blur effect or hide the panel content while his being reposition

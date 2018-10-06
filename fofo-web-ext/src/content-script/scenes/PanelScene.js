@@ -13,6 +13,7 @@ export default class PanelScene {
     this.root = document.documentElement;
     this.body = Body;
 
+    this.isAvailable = false;
     this.view = null;
     this.appView = null;
     this.previousPanel = null;
@@ -25,6 +26,7 @@ export default class PanelScene {
   }
 
   create() {
+    this.isAvailable = true;
     this.view = createElement('div', {
       id: `root-${APP_NAME}`,
     }, {
@@ -38,7 +40,7 @@ export default class PanelScene {
 
     this.appView = createElement('iframe', {
       id: APP_NAME,
-      src: chrome.runtime.getURL('/public/frame.csp.html?extid=' + chrome.runtime.id + '&theme=' + this.selectedPanel.theme)
+      src: chrome.runtime.getURL('/public/frame.csp.html?extid=' + chrome.runtime.id + '&panel=' + this.selectedPanel.name)
     }, {
       width: '100%',
       height: '100%',
@@ -89,11 +91,10 @@ export default class PanelScene {
     } else {
       this.clear();
     }
-
-    this.sendTheme();
   }
 
   clear() {
+    this.isAvailable = false;
     if(this.previousPanel) {
       this.previousPanel.clear();
     }
@@ -104,17 +105,15 @@ export default class PanelScene {
     }
   }
 
-  sendTheme() {
-    if(this.appView && this.selectedPanel) {
-      const action = {
+  propagateMessage(type, data) {
+    if(this.isAvailable) {
+      const message = {
         source: APP_NAME,
-        type: 'SET_THEME',
-        data: {
-          theme: this.selectedPanel.theme
-        }
+        type,
+        data
       };
-
-      this.appView.contentWindow.postMessage(JSON.stringify(action), '*');
+      
+      this.appView.contentWindow.postMessage(JSON.stringify(message), '*');
     }
   }
 

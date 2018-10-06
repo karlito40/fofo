@@ -19,7 +19,7 @@ class App extends Component {
 
     return (
       <I18NProvider value={translation}>
-        <ThemeProvider theme={getTheme(app.theme)}>
+        <ThemeProvider theme={getTheme(app.panel.theme)}>
           <Fragment>
             <GlobalStyle/>
             <Body/>

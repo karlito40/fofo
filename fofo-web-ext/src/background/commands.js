@@ -1,12 +1,12 @@
 import serviceIPC from '../shared/ipc';
-import * as Storage from './storage';
+import * as StorageBackground from '../shared/storage/background';
 
 export function setBadge(text) {
   chrome.browserAction.setBadgeText({text});
 }
 
 export function updateStorage(params) {
-  const newStorage = Storage.set(params);
+  const newStorage = StorageBackground.set(params);
   serviceIPC.content.current().syncStorage(newStorage);
   return newStorage;
 }
@@ -16,7 +16,7 @@ export function show() {
 }
 
 export function getStorage() {
-  return Storage.get();
+  return StorageBackground.get();
 }
 
 export async function getPopup() {

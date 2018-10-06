@@ -1,5 +1,6 @@
-import { setToken, REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../../api';
+import { registerToken, REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../../api';
 import visites from './visites';
+import * as StorageAccess from '../../../shared/storage/access';
 
 export default {
   _dependencies: { visites },
@@ -28,17 +29,29 @@ export default {
   }
 };
 
-
-
 function handleLogin(state, payload) {
   switch(payload.status) {
     case REQUEST_COMPLETE:
-      setToken(payload.response.data.access_token);
+      saveLogin(payload.response.data);
 
       const { user } = payload.response.data;
       return {...state, ...user, loading: false, isLogged: true};
     
+    case REQUEST_ERROR:
+      // We remove token and user from the storage
+      saveLogin(payload.response.data);
+      return state;
+
     default:
       return state;
   }
+}
+
+function saveLogin({access_token, user} = {}) {
+  registerToken(access_token);
+
+  StorageAccess.update({
+    token: access_token,
+    user,
+  });
 }

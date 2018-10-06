@@ -3,6 +3,7 @@ import { setStyles, getFixedNode } from '../../shared/dom';
 
 export default class SidebarPanel extends BasePanel {
   theme = 'vertical';
+  name = 'sidebar';
 
   restrict() {
     return { width: this.minSize };

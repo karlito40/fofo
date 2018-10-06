@@ -7,9 +7,13 @@ export const REQUEST_ERROR = 'error';
 export const REQUEST_LOADING = 'loading';
 
 let token;
-export function setToken(t) {
+export function registerToken(t) {
   token = t;
-  localStorage.setItem('token', token);
+  if(token) {
+    localStorage.setItem('token', token);
+  } else {
+    localStorage.removeItem('token');
+  }
 }
 
 export function getToken() {

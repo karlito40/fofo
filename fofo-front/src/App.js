@@ -6,6 +6,9 @@ import visites from './store/app/user/visites';
 import { getToken } from './store/api';
 import * as ipc from './shared/ipc';
 import { importDefaults } from './shared/utils/Context';
+import * as StorageAccess from './shared/storage/access';
+import * as Panel from './utils/Panel';
+import config from './config';
 
 const AppData = {
   name: 'parallel-app',
@@ -18,6 +21,11 @@ export function bootstrap() {
     return AppData;
   }
 
+  StorageAccess.setDefault({
+    panel: config.defaultPanel,
+    onDemand: config.defaultOnDemand,
+  });
+
   const params = new URLSearchParams(window.location.search)
   const extid = params.get('extid');
   ipc.withExtension(extid);
@@ -29,6 +37,11 @@ export function bootstrap() {
 
   loadAddress();
   loadUser();
+  loadPanel();
+
+  StorageAccess.events.on('sync', storage => {
+    dispatchPanelChange(storage.panel);
+  });
 
   return AppData;
 }
@@ -42,6 +55,11 @@ function loadAddress() {
   AppData.store.dispatch(app.actions.setAddress('fr.wikipedia.org', '/wiki/Emmanuel_Macron')); 
 }
 
+async function loadPanel() {
+  const { panel } = await StorageAccess.get();
+  dispatchPanelChange(panel);
+}
+
 async function loadUser() {
   if(getToken()) {
     await AppData.store.dispatch(user.actions.fetch()); 
@@ -51,4 +69,8 @@ async function loadUser() {
   } else {
     AppData.store.dispatch(visites.actions.fetchByIp()); 
   }
+}
+
+function dispatchPanelChange(panel) {
+  AppData.store.dispatch(app.actions.setPanel(panel)); 
 }

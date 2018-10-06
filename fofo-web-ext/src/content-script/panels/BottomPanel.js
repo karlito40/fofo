@@ -3,6 +3,7 @@ import { setStyles, getFixedNode } from '../../shared/dom';
 
 export default class BottomPanel extends BasePanel {
   theme = 'horizontal';
+  name = 'bottom';
   
   restrict() {
     return { height: this.minSize };

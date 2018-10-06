@@ -1,5 +1,5 @@
 import config from './config';
-import * as StorageSync from '../shared/storage-sync';
+import * as StorageAccess from '../shared/storage/access';
 import PanelScene from './scenes/PanelScene';
 
 const AppData = {
@@ -7,7 +7,7 @@ const AppData = {
 };
 
 export async function bootstrap() {
-  const storage = await StorageSync.get();
+  const storage = await StorageAccess.get();
   const { panel, onDemand } = storage;
   
   AppData.scene = new PanelScene();
@@ -18,8 +18,9 @@ export async function bootstrap() {
     );
   }
 
-  StorageSync.events.on('sync', storage => {
+  StorageAccess.events.on('sync', storage => {
     AppData.scene.select(storage.panel);
+    AppData.scene.propagateMessage('SYNC_STORAGE', storage);
   });
 
   return AppData;

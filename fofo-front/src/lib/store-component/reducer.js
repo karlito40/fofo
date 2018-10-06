@@ -42,6 +42,10 @@ function executeTemplate(template) {
           
           let oldScope = getScope(relation, newState);
           let newScope = handler(oldScope, action.data, action.id);
+          if(newScope instanceof Promise) {
+            throw new Error(`One of your reducer respond to ${relation} with an async method which is forbidden`);
+          }
+
           if(newScope !== oldScope) {
             let depsScope = getDependenciesByRelation(relation, template._dependencies);
             newScope = preserveDependencies(depsScope, newScope, oldScope);

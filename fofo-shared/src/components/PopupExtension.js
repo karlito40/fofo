@@ -4,48 +4,49 @@ import Switch from "react-switch";
 import { Sidebar as PanelIcon } from 'styled-icons/feather/Sidebar';
 import { EyeOff as PanelCloseIcon } from 'styled-icons/feather/EyeOff';
 import serviceIPC from '../ipc';
-import * as StorageSync from '../storage-sync';
+import * as StorageAccess from '../storage/access';
 import { _ } from '../i18n/react';
 import Hint from './Hint';
 
-export default class Body extends Component {
-  state = { loading: true, currentPanel: false, onDemand: false };
+// The state should be derived from props
+export default class PopupExtension extends Component {
+  state = { 
+    loading: true, 
+    currentPanel: false, 
+    onDemand: false, 
+    user: null 
+  };
 
   async handlePanel(panel) {
     this.setState({ currentPanel: panel });
-    updateStorage({ panel });
+    StorageAccess.update({ panel });
   }
 
   toggleOnDemand = () => {
     const onDemand = !this.state.onDemand;
     this.setState({ onDemand });
-    updateStorage({ onDemand });
+    StorageAccess.update({ onDemand });
   }
 
   async componentDidMount() { 
-    try {
-      const storage = await StorageSync.get();
-      this.setState({ 
-        currentPanel: storage.panel, 
-        onDemand: storage.onDemand,
-        loading: false 
-      });
+    const storage = await StorageAccess.get();
 
-      // Shouldn't be there..
-      // Place it on index.js for performance reason
-      if(storage.onDemand) {
-        serviceIPC.background.show();
-      }
+    this.setState({ 
+      currentPanel: storage.panel, 
+      onDemand: storage.onDemand,
+      user: storage.user,
+      loading: false 
+    });
 
-    } catch (e) {
-      console.log('PopupExtension cannot call the background script.\nFalling back to bottom panel for demonstration purpose only.');
-      this.setState({loading: false, currentPanel: 'bottom'});
+    // It Should be move to index.js for performance reason
+    // It should be execute as soon as possible
+    if(storage.onDemand) {
+      serviceIPC.background.show();
     }
-    
   }
 
   render() {
-    const { currentPanel, loading, onDemand } = this.state;
+    const { currentPanel, loading, onDemand, user } = this.state;
 
     return <Wrapper>
       {loading ? null : 
@@ -82,7 +83,7 @@ export default class Body extends Component {
               <div onClick={this.toggleOnDemand}>
                 <Switch 
                   onChange={() => {}} 
-                  checked={onDemand} 
+                  checked={onDemand || false} 
                   checkedIcon={false}
                   uncheckedIcon={false}
                   handleDiameter={25}
@@ -95,18 +96,11 @@ export default class Body extends Component {
               
             </Modificators>
           </Row>
+          {user && <div>You are currently logged</div>}
         </Fragment>
       }
       
     </Wrapper> 
-  }
-}
-
-async function updateStorage(change) {
-  try {
-    await serviceIPC.background.updateStorage(change);
-  } catch (e) {
-    console.log('PopupExtension cannot call the background script. updateStorage() will be ignored');
   }
 }
 

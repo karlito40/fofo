@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { bootstrap } from './app';
-import { actions as appActions } from './store/app';
+// import { actions as appActions } from './store/app';
+import * as StorageAccess from './shared/storage/access';
 import Root from './root/Root';
 
 import './window';
@@ -26,8 +27,8 @@ window.addEventListener('message', (e) => {
 
   console.log('frame.app message received', action, e);
 
-  if(action.type === 'SET_THEME') {
-    AppData.store.dispatch(appActions.setTheme(action.data.theme));
+  if(action.type === 'SYNC_STORAGE') {
+    StorageAccess.sync(action.data);
   }
 
 });

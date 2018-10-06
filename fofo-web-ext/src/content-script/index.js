@@ -10,5 +10,4 @@ main(async () => {
   serviceIPC.background.setBadge('#');
 
   bootstrap();
-
 });

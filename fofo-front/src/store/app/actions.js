@@ -1,10 +1,8 @@
 import { actions as visites } from './user/visites';
 
-export function setTheme(theme) {
-  return { theme };
+export function setPanel(panel) {
+  return { panel };
 }
-
-export function toggleTheme() {}
 
 export function setAddress(domain, uri) {
   const address = { domain, uri };

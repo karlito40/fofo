@@ -18,7 +18,7 @@ export async function bootstrap() {
     );
   }
 
-  StorageAccess.events.on('sync', storage => {
+  StorageAccess.events.addListener('sync', storage => {
     AppData.scene.select(storage.panel);
     AppData.scene.propagateMessage('SYNC_STORAGE', storage);
   });

@@ -10,5 +10,9 @@ export default {
   'Dock to bottom': 'Fenêtre en bas',
   'Hide dock': 'Fenêtre cachée',
   'Display only on demand': `Afficher uniquement à la demande`,
-  'This extension will only appear after a click on it': "L'extension n'apparaitra qu'après avoir cliqué dessus"
+  'This extension will only appear after a click on it': "L'extension n'apparaitra qu'après avoir cliqué dessus",
+  'We are happy to see you :name': 'Content de te revoir :name',
+  'UNAUTHENTICATED': 'Merci de te connecter pour executer cette action.',
+  'Login failed': 'Connexion échouée',
+  'Something weird happened': `Une erreur imprévue est survenue`
 };

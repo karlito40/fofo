@@ -31,3 +31,4 @@
 ☐ handle expiration token
 ☐ implement getavataaars.com
 ☐ add a blur effect or hide the panel content while being reposition
+☐ test api comment notif on address with a token expiration  -> user null or throw error

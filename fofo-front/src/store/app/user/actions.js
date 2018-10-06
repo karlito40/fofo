@@ -1,6 +1,6 @@
 import apiCall, { ActionAPI } from '../../api';
 
-export function fetch() {
+export function restore() {
   return apiCall('GET', '/me');
 }
 

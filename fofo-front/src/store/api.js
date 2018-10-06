@@ -45,23 +45,33 @@ export class ActionAPI {
         payloadOrigin: this.payloadOrigin 
       }));
       
-      let response;
+      let apiResult;
+      let error;
       try {
-        response = await axios(createAxiosOptions(this.method, this.route, this.data, this.customize));
+        const response = await axios(createAxiosOptions(this.method, this.route, this.data, this.customize));
+        apiResult = response.data;
       } catch (e) {
-        return dispatch(createPayload({
-          response: e,
-          status: REQUEST_ERROR,
-          payloadOrigin: this.payloadOrigin,
-        }));
+        error = e;
+      }
+
+      const status = (error || (typeof apiResult.success !== "undefined" && !apiResult.success)) 
+        ? REQUEST_ERROR 
+        : REQUEST_COMPLETE;
+
+      if(status === REQUEST_ERROR) {
+        dispatch({
+          type: 'API.REQUEST_ERROR',
+          data: {
+            error: error,
+            response: apiResult,
+            fromType: createPayload().type
+          }
+        })
       }
       
-      const status = (typeof response.data.success !== "undefined" && !response.data.success)
-        ? REQUEST_ERROR
-        : REQUEST_COMPLETE;
-          
       return dispatch(createPayload({ 
-        response: response.data,
+        error: error,
+        response: apiResult,
         status,
         payloadOrigin: this.payloadOrigin,
       }));

@@ -39,7 +39,7 @@ export function bootstrap() {
   loadUser();
   loadPanel();
 
-  StorageAccess.events.on('sync', storage => {
+  StorageAccess.events.addListener('sync', storage => {
     dispatchPanelChange(storage.panel);
   });
 
@@ -62,7 +62,7 @@ async function loadPanel() {
 
 async function loadUser() {
   if(getToken()) {
-    await AppData.store.dispatch(user.actions.fetch()); 
+    await AppData.store.dispatch(user.actions.restore()); 
     if(!getState('app.user.isLogged')) {
       AppData.store.dispatch(visites.actions.fetchByIp());   
     }

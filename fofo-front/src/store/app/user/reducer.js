@@ -1,6 +1,7 @@
 import { registerToken, REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../../api';
 import visites from './visites';
 import * as StorageAccess from '../../../shared/storage/access';
+import { save } from '../../../shared/storage/background';
 
 export default {
   _dependencies: { visites },
@@ -26,6 +27,25 @@ export default {
   'form.auth': {
     login: handleLogin,
     register: handleLogin,
+  },
+  'api': {
+    requestError(state, payload) {
+      if(payload.fromType !== 'APP.USER.RESTORE') {
+        return state;
+      }
+
+      if(payload.error && payload.error.response.data) {
+        const { code } = payload.error.response.data.error;
+        // Handle expiration token, bad token and no token
+        if(code === 'UNAUTHENTICATED') {
+          resetLogin();
+        }
+
+        return {...state, isLogged: false};
+      }
+
+      return state;
+    }
   }
 };
 
@@ -38,10 +58,6 @@ function handleLogin(state, payload) {
       return {...state, ...user, loading: false, isLogged: true};
     
     case REQUEST_ERROR:
-      // We remove token and user from the storage
-      saveLogin(payload.response.data);
-      return state;
-
     default:
       return state;
   }
@@ -50,8 +66,12 @@ function handleLogin(state, payload) {
 function saveLogin({access_token, user} = {}) {
   registerToken(access_token);
 
-  StorageAccess.update({
+  return StorageAccess.update({
     token: access_token,
     user,
   });
+}
+
+function resetLogin() {
+  return saveLogin({access_token: null, user: null});
 }

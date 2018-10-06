@@ -1,4 +1,5 @@
 import config from '../../config';
+import {_} from '../../shared/i18n';
 import { REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../api';
 import { MESSAGE_SUCCESS, MESSAGE_ERROR } from './constants';
 
@@ -15,23 +16,45 @@ export default {
   'form.auth': {
     login: handleAuth,
     register: handleAuth,  
+  },
+  'api': {
+    requestError(state, payload) {
+      if(payload.fromType === 'APP.USER.RESTORE') {
+        return state;
+      }
+
+      if(payload.error && payload.error.response.data) {
+        const { message, code } = payload.error.response.data.error;
+
+        if(message) {
+          return addMessage(state, _(message));
+        } else if(typeof code === 'string') {
+          return addMessage(state, _(code));
+        }
+        
+      }
+
+      return state;
+    }
   }
 };
 
 function handleAuth(state, payload) {
   if(payload.status === REQUEST_COMPLETE) {
     const { user } = payload.response.data;
-    return addMessage(state, `We are happy to see you ${user.name}`); 
+    return addMessage(state, _(`We are happy to see you :name`, {
+      ':name': user.name
+    })); 
   }
 
   if(payload.status === REQUEST_ERROR) {
     const responseError = payload.response && payload.response.error;
     if (responseError && responseError.code === 'INVALID_CREDENTIALS') {
-      return addMessage(state, { text: 'Login failed', type: MESSAGE_ERROR });   
+      return addMessage(state, { text: _('Login failed'), type: MESSAGE_ERROR });   
     }
     
     if (!responseError || responseError.code !== 'INVALID_INPUTS') {
-      return addMessage(state, { text: 'Something weird happened', type: MESSAGE_ERROR }); 
+      return addMessage(state, { text: _('Something weird happened'), type: MESSAGE_ERROR }); 
     }
     
   }

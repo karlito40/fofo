@@ -1,5 +1,5 @@
 // As use enligh indexes we dont need any translations
-// This file is just here to active the language
+// except those provide by key code
 export default {
-
+  'UNAUTHENTICATED': 'You need to be logged to perform this action.',
 }

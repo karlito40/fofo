@@ -17,6 +17,17 @@ export default class PopupExtension extends Component {
     user: null 
   };
 
+  disconnectUser = () => {
+    // Only Usefull for browserAction. 
+    // This popup under BrowserAction cannot be sync with the storage
+    this.setState({user: null}); 
+
+    StorageAccess.update({
+      token: null,
+      user: null,
+    });
+  }
+
   async handlePanel(panel) {
     this.setState({ currentPanel: panel });
     StorageAccess.update({ panel });
@@ -26,6 +37,10 @@ export default class PopupExtension extends Component {
     const onDemand = !this.state.onDemand;
     this.setState({ onDemand });
     StorageAccess.update({ onDemand });
+  }
+
+  onStorageSync = (storage) => {
+    this.setState({user: storage.user});
   }
 
   async componentDidMount() { 
@@ -43,6 +58,12 @@ export default class PopupExtension extends Component {
     if(storage.onDemand) {
       serviceIPC.background.show();
     }
+
+    StorageAccess.events.addListener('sync', this.onStorageSync);
+  }
+
+  componentWillUnmount() {
+    StorageAccess.events.removeListener('sync', this.onStorageSync);
   }
 
   render() {
@@ -96,7 +117,7 @@ export default class PopupExtension extends Component {
               
             </Modificators>
           </Row>
-          {user && <div>You are currently logged</div>}
+          {user && <div onClick={this.disconnectUser}>You are currently logged</div>}
         </Fragment>
       }
       

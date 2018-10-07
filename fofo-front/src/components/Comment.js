@@ -12,12 +12,13 @@ import 'prismjs/components/prism-swift.min.js';
 
 import React, { Component } from 'react';
 import TurndownService from 'turndown';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { formatDistance } from 'date-fns'
 import { fr as dateFR, en as dateEN } from 'date-fns/locale'
 import { Reply } from 'styled-icons/material/Reply';
 import { Heart } from 'styled-icons/fa-solid/Heart';
 import { Edit } from 'styled-icons/material/Edit';
+import { appear as AppearAnimation } from './animations/comment';
 import { _ } from '../shared/i18n/react';
 import Hint from '../shared/components/Hint';
 import Box from './Box';
@@ -149,25 +150,11 @@ const Textarea = styled.textarea`
 `;
 
 
-export const slideToTop = keyframes`
-  from {
-    transform: translateY(15px);
-    opacity: 0;
-  }
-  30% {
-    opacity: 1;
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-`;
+
 const Wrapper = styled(Box)`
   margin: 30px;
   padding: 30px;
-  opacity: 0;
-  transform: translateY(15px);
-  animation: ${slideToTop} 0.5s forwards 0.2s;
+  ${AppearAnimation()}
 `;
 
 const IconBlock = styled.div`

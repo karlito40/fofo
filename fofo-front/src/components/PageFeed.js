@@ -4,6 +4,7 @@ import BaseComment from './Comment';
 import BaseLoader from './Loader';
 import InfiniteScroll from 'react-infinite-scroller';
 import Box from './Box';
+import { appear as AppearAnimation } from './animations/comment';
 
 export default class extends Component {
   componentDidMount() {
@@ -15,7 +16,7 @@ export default class extends Component {
 
     return <Wrapper className={className}>
       {!hasMore && !comments.length && 
-        <EmptyThred>Be the first to comment this thread.</EmptyThred>
+        <EmptyThread>Be the first to comment this thread.</EmptyThread>
       }
 
       <InfiniteScroll
@@ -75,8 +76,9 @@ const Loader = styled(BaseLoader)`
   `}
 `;
 
-const EmptyThred = styled(Box)`
+const EmptyThread = styled(Box)`
   margin: 30px;
   padding: 30px;
+  ${AppearAnimation()}
 `;
 

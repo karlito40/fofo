@@ -120,7 +120,7 @@ export default class extends Component {
             tabIndex="-1"
           >
             <SmileyIcon ref={this.smileyRef} size={16}/>
-            { showEmojiPicker && <EmojiPicker onSelect={this.selectEmoji}/> }
+            <EmojiPicker onSelect={this.selectEmoji} show={showEmojiPicker}/>
           </EmojiAction>
           
           <SubmitButton ref={this.submitButtonRef}>

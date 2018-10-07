@@ -28,7 +28,7 @@
 ☐ add settings => deconnexion, connexion, display only on browserAction
 ✔ ignore fofo-web-ext/shared directory @done(18-10-04 19:19)
 ☐ load store component with context & subdirectory regex actions.js | reducers.js
-☐ handle expiration token
+✔ handle expiration token @done(18-10-07 15:16)
 ☐ implement getavataaars.com
 ☐ add a blur effect or hide the panel content while being reposition
 ☐ test api comment notif on address with a token expiration  -> user null or throw error

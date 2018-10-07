@@ -8,8 +8,8 @@ import * as StorageAccess from '../storage/access';
 import { _ } from '../i18n/react';
 import Hint from './Hint';
 
-// The state should be derived from props
 export default class PopupExtension extends Component {
+  // This state should be derived from props
   state = { 
     loading: true, 
     currentPanel: false, 
@@ -52,14 +52,17 @@ export default class PopupExtension extends Component {
       user: storage.user,
       loading: false 
     });
+    
+    StorageAccess.events.addListener('sync', this.onStorageSync);
 
     // It Should be move to index.js for performance reason
-    // It should be execute as soon as possible
+    // We want to execute it as soon as possible
+    // It as nothing to do with PopupExtension
     if(storage.onDemand) {
-      serviceIPC.background.show();
+      try {
+        await serviceIPC.background.show();
+      } catch (e) {}
     }
-
-    StorageAccess.events.addListener('sync', this.onStorageSync);
   }
 
   componentWillUnmount() {
@@ -117,7 +120,7 @@ export default class PopupExtension extends Component {
               
             </Modificators>
           </Row>
-          {user && <div onClick={this.disconnectUser}>You are currently logged</div>}
+          {user && <DeconnexionButton onClick={this.disconnectUser}>Deconnexion</DeconnexionButton>}
         </Fragment>
       }
       
@@ -181,3 +184,20 @@ const PanelBottomIcon = styled(PanelIcon)`
   transform: rotate(-90deg);
 `;
 
+const DeconnexionButton = styled.button`
+  border: 0;
+  outline: 0;
+  background: rgb(238, 240, 244);
+  font-weight: bold;
+  font-family: GothamRounded, Roboto, sans-serif;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  padding: 10px 15px;
+  color: ${p => p.theme.primaryColor};
+  transition: 0.2s border;
+
+  &:hover {
+    border: 2px solid ${p => p.theme.primaryColor}
+  }
+`;

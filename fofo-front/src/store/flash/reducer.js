@@ -27,9 +27,9 @@ export default {
         const { message, code } = payload.error.response.data.error;
 
         if(message) {
-          return addMessage(state, _(message));
+          return addMessage(state, {text: _(message), type: MESSAGE_ERROR});
         } else if(typeof code === 'string') {
-          return addMessage(state, _(code));
+          return addMessage(state, {text: _(code), type: MESSAGE_ERROR});
         }
         
       }

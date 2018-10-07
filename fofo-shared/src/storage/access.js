@@ -42,6 +42,8 @@ export async function update(change) {
     console.log('StorageSync cannot call the background script. updateStorage() will be emulate.');
     const oldStorage =  StorageEmulate.get();
     StorageEmulate.set(change);
-    events.emit('sync', StorageEmulate.get(), oldStorage);
+    cacheStorage = StorageEmulate.get();
+    console.log('StorageEmulate send sync');
+    events.emit('sync', cacheStorage, oldStorage);
   }
 }

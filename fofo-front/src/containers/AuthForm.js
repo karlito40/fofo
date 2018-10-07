@@ -33,7 +33,11 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(auth.active(false));
     dispatch(auth.reset());
   },
-  onSubmit: (data) => dispatch(auth[data.type](data)),
+  onSubmit: (data) => {
+    dispatch(auth[data.type](data));
+    dispatch(auth.active(false));
+    dispatch(auth.reset());
+  },
   onValidateInput: debounce((name, value, type) => {
     if(type === 'login' && name === 'email') {
       return true;

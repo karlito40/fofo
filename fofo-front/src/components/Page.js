@@ -44,7 +44,7 @@ function getTitle(page) {
 const BoxStyled = styled(Box)`
   cursor: pointer;
   position: relative;
-  transition: 0.2s transform, 0.4s box-shadow 0.1s;
+  transition: 0.2s transform, 0.2s box-shadow 0.1s;
   
   &:hover {
     /* box-shadow: 0px 0px 1px 0px rgba(211,215,221, 0.8); */

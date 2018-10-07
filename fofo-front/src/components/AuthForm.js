@@ -314,6 +314,7 @@ const Input = styled.input`
 
 const SubmitButton = styled.button`
   position: absolute;
+  text-shadow: 0px 1px 0px #077342;
   background-color: ${p => p.theme.highlightBgColor};
   color: ${p => p.theme.secondaryBgColor};
   text-transform: uppercase;

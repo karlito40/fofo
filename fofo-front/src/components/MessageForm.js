@@ -18,9 +18,14 @@ export default class extends Component {
   state = { hasContent: false, showEmojiPicker: false };
 
   selectEmoji = (emoji) => {
-    const newContent = this.textarea.current.value + emoji;
-    this.textarea.current.value = newContent;
-    this.setContent(newContent);
+    if(this.props.isLogged) {
+      const newContent = this.textarea.current.value + emoji;
+      this.textarea.current.value = newContent;
+      this.setContent(newContent);
+    } else {
+      this.props.onForbiddenNewContent()
+    }
+    
   }
 
   onEmojiActionClick = (e) => {
@@ -50,7 +55,9 @@ export default class extends Component {
   handleFocus = (e) => {
     // On ne prend pas en compte le focus sur le bouton submit
     // pour pouvoir replier le formulaire
-    if(e.target !== this.submitButtonRef.current) {
+    if(e.target !== this.submitButtonRef.current
+      && e.target !== this.emojiActionRef.current
+    ) {
       this.props.onFocus();
     }
   }

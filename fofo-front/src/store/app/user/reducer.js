@@ -1,7 +1,6 @@
 import { registerToken, REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../../api';
 import visites from './visites';
 import * as StorageAccess from '../../../shared/storage/access';
-import { save } from '../../../shared/storage/background';
 
 export default {
   _dependencies: { visites },
@@ -10,7 +9,7 @@ export default {
     isLogged: false,
   },
   self: {
-    fetch(state, payload) {
+    restore(state, payload) {
       switch(payload.status) {
         case REQUEST_COMPLETE:
           return {...state, ...payload.response.data, loading: false, isLogged: true};
@@ -22,6 +21,11 @@ export default {
         default:
           return {...state, loading: false};
       }
+    },
+
+    disconnect(state) {
+      registerToken(null);
+      return {...state, isLogged: false};
     }
   }, 
   'form.auth': {
@@ -30,10 +34,6 @@ export default {
   },
   'api': {
     requestError(state, payload) {
-      if(payload.fromType !== 'APP.USER.RESTORE') {
-        return state;
-      }
-
       if(payload.error && payload.error.response.data) {
         const { code } = payload.error.response.data.error;
         // Handle expiration token, bad token and no token
@@ -73,5 +73,6 @@ function saveLogin({access_token, user} = {}) {
 }
 
 function resetLogin() {
+  console.log('reset login');
   return saveLogin({access_token: null, user: null});
 }

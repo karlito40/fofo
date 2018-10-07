@@ -4,6 +4,8 @@ export function restore() {
   return apiCall('GET', '/me');
 }
 
+export function disconnect() {}
+
 // export function login(email, password) {
 //   return apiCall('POST', '/login', {
 //     email,

@@ -7,7 +7,6 @@ import { getToken } from './store/api';
 import * as ipc from './shared/ipc';
 import { importDefaults } from './shared/utils/Context';
 import * as StorageAccess from './shared/storage/access';
-import * as Panel from './utils/Panel';
 import config from './config';
 
 const AppData = {
@@ -39,8 +38,15 @@ export function bootstrap() {
   loadUser();
   loadPanel();
 
-  StorageAccess.events.addListener('sync', storage => {
+  StorageAccess.events.addListener('sync', (storage, oldStorage) => {
+    console.log('StorageAccess sync received');
     dispatchPanelChange(storage.panel);
+    
+    if(!storage.token && oldStorage.token) {
+      console.log('dispatch disconnect');
+      AppData.store.dispatch(user.actions.disconnect()); 
+    }
+    
   });
 
   return AppData;

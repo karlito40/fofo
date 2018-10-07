@@ -19,12 +19,19 @@ export default styled(Loader)`
   width: ${getSize}px;
   height: ${getSize}px;
   position: relative;
+  
   ${p => p.center && css`
     position: absolute;
     top: 50%;
     left: 50%;
     margin-left: -${getSize(p)/2}px;
     margin-top: -${getSize(p)}px;
+  `}
+
+  ${p => p.topRight && css`
+    position: absolute;
+    top: 20px;
+    right: 20px;
   `}
 
   .double-bounce1, .double-bounce2 {

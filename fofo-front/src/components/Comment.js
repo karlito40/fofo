@@ -12,7 +12,7 @@ import 'prismjs/components/prism-swift.min.js';
 
 import React, { Component } from 'react';
 import TurndownService from 'turndown';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { formatDistance } from 'date-fns'
 import { fr as dateFR, en as dateEN } from 'date-fns/locale'
 import { Reply } from 'styled-icons/material/Reply';
@@ -65,7 +65,6 @@ export default class extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    
     if(this.state.isEditing && !prevState.isEditing) { // On rentre en mode edition
       this.resizeTextarea();
       this.textarea.current.focus();
@@ -149,9 +148,26 @@ const Textarea = styled.textarea`
   padding: 20px;
 `;
 
+
+export const slideToTop = keyframes`
+  from {
+    transform: translateY(15px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
 const Wrapper = styled(Box)`
   margin: 30px;
   padding: 30px;
+  opacity: 0;
+  transform: translateY(15px);
+  animation: ${slideToTop} 0.5s forwards 0.2s;
 `;
 
 const IconBlock = styled.div`

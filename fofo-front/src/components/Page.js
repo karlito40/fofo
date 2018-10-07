@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import styled, { css } from 'styled-components';
-import Box from './Box';
+import styled, { css, keyframes } from 'styled-components';
+import BaseBox from './Box';
 import * as Uri from '../utils/Uri';
 
 export default class extends Component {
@@ -12,10 +12,10 @@ export default class extends Component {
     const { page, className} = this.props;
 
     return (
-      <BoxStyled className={className} onClick={this.handleClick.bind(this, page)} hasNew={page.has_new_comment}>
+      <Box className={className} onClick={this.handleClick.bind(this, page)} hasNew={page.has_new_comment}>
         <Link active={page.active}>{getLinkName(page)}</Link>
         <Title>{getTitle(page)}</Title>
-      </BoxStyled>
+      </Box>
     );
   }
 }
@@ -41,14 +41,13 @@ function getTitle(page) {
   return page.title;
 }
 
-const BoxStyled = styled(Box)`
+
+const Box = styled(BaseBox)`
   cursor: pointer;
   position: relative;
   transition: 0.2s transform, 0.2s box-shadow 0.1s;
-  
+
   &:hover {
-    /* box-shadow: 0px 0px 1px 0px rgba(211,215,221, 0.8); */
-    /* box-shadow: 0px 0px 0px 15px rgba(211,215,221,0.2), 0px 0px 0px 1px #efecec inset; */
     transform: translateY(-7px) translateX(4px);
     box-shadow: -4px 20px 30px -12px rgba(211,215,221,0.6);
   }
@@ -67,6 +66,7 @@ const BoxStyled = styled(Box)`
     }
   `}
 `;
+
 
 const Link = styled.div`
   display: inline-block;

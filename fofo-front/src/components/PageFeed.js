@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
-import Comment from './Comment';
-import Loader from './Loader';
+import BaseComment from './Comment';
+import BaseLoader from './Loader';
 import InfiniteScroll from 'react-infinite-scroller';
 import Box from './Box';
 
@@ -28,16 +28,20 @@ export default class extends Component {
         useWindow={true}
       >
         {comments.map(comment => 
-          <CommentStyled 
+          <Comment 
             key={comment.id} 
-            // {...comment}
             comment={comment}
             onLike={this.props.onLike}
             onEdit={this.props.onEdit}
-          />)}
+          />
+        )}
       </InfiniteScroll>
 
-      {loading && <LoaderStyled center={!comments.length}/>}
+      {loading && (
+        <Layer height={300} position={comments.length ? 'relative' : 'static'}>
+          <Loader center/>
+        </Layer>
+      )}
     </Wrapper>
   }
 }
@@ -48,7 +52,7 @@ const Wrapper = styled.div`
   padding-bottom: ${p => p.theme.messageFormHeight};
 `;
 
-const CommentStyled = styled(Comment)`
+const Comment = styled(BaseComment)`
   ${p => p.theme.vertical && css`
     :first-child {
       margin-top: 0px;
@@ -56,7 +60,13 @@ const CommentStyled = styled(Comment)`
   `}
 `;
 
-const LoaderStyled = styled(Loader)`
+const Layer = styled.div`
+  height: ${p => p.height}px;
+  position: ${p => p.position};
+`;
+
+
+const Loader = styled(BaseLoader)`
   ${p => !p.center && css`
     left: 50%;
     margin-left: -20px;

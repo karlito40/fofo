@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import { getCategory, getPreferences, use } from '../lib/Emoji';
 import { TimelineMax, Power4, TweenMax } from 'gsap/all';
-import { Transition } from 'react-transition-group';
+import withTransition from './hoc/withTransition';
 
-export default class extends Component {
+class EmojiPicker extends Component {
   container = React.createRef();
   favoriteSection = React.createRef();
   allSection = React.createRef();
@@ -17,6 +17,21 @@ export default class extends Component {
         ...getCategory('additionalEmoticons'),
       ]
     }
+  }
+
+  getTimeline() {
+    const allSectionNode = this.allSection.current;
+    const favoriteSectionNode = this.favoriteSection.current;
+    const sections = [favoriteSectionNode, allSectionNode];
+
+    TweenMax.set(sections, { opacity: 0, y: 15 });
+    
+    const tl = new TimelineMax();
+    
+    tl.from(this.container.current, 0.6, { width: 0, height: 0, ease: Power4.easeOut }, 'start');
+    tl.to(sections, 0.2, { opacity:1, y: 0 }, '-=0.2');
+
+    return tl;
   }
 
   select(code) {
@@ -32,63 +47,12 @@ export default class extends Component {
     }
   }
   
-  clearAnimation = () => {
-    this.tl = null
-  }
-
-  animate = (node, done) => {
-    this.ensureTimeline();
-    
-    if(this.props.show) {
-      console.log('animate show');
-      this.tl
-        .play()
-        .eventCallback('onComplete', done);
-    } else {
-      console.log('animate hide');
-      this.tl
-        .reverse()
-        .eventCallback('onReverseComplete', done);
-    }
-  }
-
-
-  ensureTimeline() {
-    if(this.tl) {
-      return this.tl;
-    }
-
-    const allSectionNode = this.allSection.current;
-    const favoriteSectionNode = this.favoriteSection.current;
-    const sections = [favoriteSectionNode, allSectionNode];
-
-    TweenMax.set(sections, { opacity: 0, y: 15 });
-    
-    this.tl = new TimelineMax();
-    
-    this.tl.from(this.container.current, 0.6, { width: 0, height: 0, ease: Power4.easeOut }, 'start');
-    this.tl.to(sections, 0.2, { opacity:1, y: 0 }, '-=0.2');
-
-    return this.tl
-  }
-
-  componentWillUnmount() {
-    this.clearAnimation();
-  }
-
   render() {
     const { className, show } = this.props;
     const { emojis } = this.state;
 
-    return <Transition className={className}
-      mountOnEnter
-      unmountOnExit
-      timeout={1000}
-      in={show}
-      onExited={this.clearAnimation}
-      addEndListener={this.animate}
-    > 
-      <Wrapper ref={this.container}>
+    return (
+      <Wrapper ref={this.container} className={className}>
         {!!emojis.prefs.length && (
           <Section ref={this.favoriteSection} dominant>
             <EmojiContainer>
@@ -116,11 +80,12 @@ export default class extends Component {
             )}
           </EmojiContainer>
         </Section>
-        
       </Wrapper>
-    </Transition>
+    );
   }
 }
+
+export default withTransition()(EmojiPicker);
 
 const Section = styled.div`
   margin-bottom: 10px;

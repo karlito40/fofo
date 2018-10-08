@@ -71,7 +71,7 @@ export default {
     }
   },
   'app.user': {
-    fetch(state, payload) {
+    restore(state, payload) {
       switch(payload.status) {
         case REQUEST_COMPLETE:
           const { visites } = payload.response.data;

@@ -1,4 +1,11 @@
 let cacheStorage;
+
+export function setDefault(storage) {
+  if(!localStorage.getItem('storage')) {
+    set(storage);
+  }
+}
+
 export function get() {
   if(cacheStorage) {
     return cacheStorage;

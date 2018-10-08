@@ -5,7 +5,7 @@ import { actions as pageActions } from '../store/feed/page';
 import { actions as likeActions } from '../store/form/like';
 import { actions as commentActions } from '../store/form/comment';
 import { getState } from '../store';
-import config from '../config';
+import config from '../shared/config';
 
 class PageFeedContainer extends Component {
   async refresh() {

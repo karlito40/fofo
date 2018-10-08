@@ -7,13 +7,14 @@ import serviceIPC from '../ipc';
 import * as StorageAccess from '../storage/access';
 import { _ } from '../i18n/react';
 import Hint from './Hint';
+import config from '../config';
 
 export default class PopupExtension extends Component {
   // This state should be derived from props
   state = { 
     loading: true, 
-    currentPanel: false, 
-    onDemand: false, 
+    currentPanel: config.defaultPanel, 
+    onDemand: config.defaultOnDemand, 
     user: null 
   };
 
@@ -59,9 +60,12 @@ export default class PopupExtension extends Component {
     // We want to execute it as soon as possible
     // It as nothing to do with PopupExtension
     if(storage.onDemand) {
+      console.log('trying to show')
       try {
         await serviceIPC.background.show();
-      } catch (e) {}
+      } catch (e) {
+        console.log('show fail')
+      }
     }
   }
 

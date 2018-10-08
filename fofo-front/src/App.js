@@ -7,7 +7,7 @@ import { getToken } from './store/api';
 import * as ipc from './shared/ipc';
 import { importDefaults } from './shared/utils/Context';
 import * as StorageAccess from './shared/storage/access';
-import config from './config';
+import config from './shared/config';
 
 const AppData = {
   name: 'parallel-app',
@@ -39,11 +39,9 @@ export function bootstrap() {
   loadPanel();
 
   StorageAccess.events.addListener('sync', (storage, oldStorage) => {
-    console.log('StorageAccess sync received');
     dispatchPanelChange(storage.panel);
     
     if(!storage.token && oldStorage.token) {
-      console.log('dispatch disconnect');
       AppData.store.dispatch(user.actions.disconnect()); 
     }
     

@@ -1,6 +1,6 @@
 import querystring from 'querystring';
 import axios from 'axios';
-import config from '../config';
+import config from '../shared/config';
 
 export const REQUEST_COMPLETE = 'complete';
 export const REQUEST_ERROR = 'error';

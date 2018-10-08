@@ -1,4 +1,4 @@
-import config from '../../config';
+import config from '../../shared/config';
 import user from './user';
 import * as Panel from '../../utils/Panel';
 

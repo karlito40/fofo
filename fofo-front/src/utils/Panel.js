@@ -1,4 +1,4 @@
-import config from '../config';
+import config from '../shared/config';
 
 export function getDefault() {
   const params = new URLSearchParams(window.location.search)

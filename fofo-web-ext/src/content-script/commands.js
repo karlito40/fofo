@@ -1,6 +1,6 @@
 import * as StorageAccess from '../shared/storage/access';
 import AppData from './app';
-import config from './config';
+import config from '../shared/config';
 
 export async function show() {
   const { panel } = await StorageAccess.get();

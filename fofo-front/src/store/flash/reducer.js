@@ -1,4 +1,4 @@
-import config from '../../config';
+import config from '../../shared/config';
 import {_} from '../../shared/i18n';
 import { REQUEST_COMPLETE, REQUEST_ERROR, REQUEST_LOADING } from '../api';
 import { MESSAGE_SUCCESS, MESSAGE_ERROR } from './constants';

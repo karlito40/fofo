@@ -1,4 +1,4 @@
-import { isDev } from './config';
+import { isDev } from './shared/config';
 import { store, getStore, getState, dispatch } from './store';
 import { actions as app } from './store/app';
 import { actions as pageActions } from './store/feed/page';

@@ -4,7 +4,7 @@ import SiteFeed from '../components/SiteFeed';
 import { actions as siteActions } from '../store/feed/site';
 import { actions as appActions } from '../store/app';
 import { getState } from '../store';
-import config from '../config';
+import config from '../shared/config';
 
 class SiteFeedContainer extends Component {
   async refresh() {

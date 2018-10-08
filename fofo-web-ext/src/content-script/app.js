@@ -1,4 +1,3 @@
-import config from './config';
 import * as StorageAccess from '../shared/storage/access';
 import PanelScene from './scenes/PanelScene';
 
@@ -13,9 +12,7 @@ export async function bootstrap() {
   AppData.scene = new PanelScene();
   
   if(!onDemand) {
-    AppData.scene.select(
-      (typeof panel !== 'undefined') ? panel : config.defaultPanel
-    );
+    AppData.scene.select(panel);
   }
 
   StorageAccess.events.addListener('sync', storage => {

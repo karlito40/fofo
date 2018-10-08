@@ -1,4 +1,4 @@
-import config from '../../config';
+import config from '../../shared/config';
 import { MESSAGE_SUCCESS } from './constants';
 
 export function add(text, type = MESSAGE_SUCCESS, timeout = config.flashTimeout) {

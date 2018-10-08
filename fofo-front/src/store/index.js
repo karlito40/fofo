@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Component } from '../lib/store-component';
-import { isDev } from '../config';
+import { isDev } from '../shared/config';
 import thunkMiddleware from 'redux-thunk';
 
 // Loadable components

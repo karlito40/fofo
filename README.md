@@ -20,11 +20,9 @@ Fofo aims to build communities around their favorite websites. Ever dream to dis
 <figcaption>Fofo dock to the bottom of Wikipedia</figcaption>
 </figure>
 
-## Usage & Installation
+## How to build the API project
 
-### Api
-
-#### With docker, the easiest solution
+### With docker, the easiest solution
 
 The project comes with a one liner command which provide an interactive way to build everything from the database to nginx.
 
@@ -43,13 +41,13 @@ OAUTH_PASSWORD_CLIENT_SECRET=YOUR_SECRET_KEY_HERE
 
 Make sure to update your `/etc/hosts`.
 
-`127.0.0.1 fofo-api.local`
+` 127.0.0.1 fofo-api.local`
 
 If you want some data into your database go with the following script.
 
 `npm run db:seed`
 
-#### With homestead
+### With homestead
 
 First make sure to follow the [laravel installation](https://laravel.com/docs/5.6/homestead) and install all the dependencies.
 
@@ -95,7 +93,7 @@ You may import `fofo-api.postman_collection.json` into postman to have an unders
 
 ---
 
-### Front
+## How to build the Front project
 
 Create the .env file
 
@@ -105,26 +103,10 @@ Launch the project from the root directory (not fofo-front)
 
 `npm run start-front`
 
-### WebExtension
+## How to build the WebExtension project
 
-Build the project from the root directory (not fofo-web-ext)
+From the root directory.
 
 `npm run build-web-ext`
 
 Next, go to **[chrome://extensions/](chrome://extensions/)**, active the developer mode and load the unzip extension from `fofo-web-ext/dist`
-
-
-## Some works to do...
-
-- [x] I18N
-- [ ] Highlight content
-- [ ] Refactoring & Documentation
-- [ ] Automate test on fofo-front & fofo-web-ext
-- [ ] Create a logo and switch to a different name
-- [ ] Create a Markdown editor
-- [ ] Animations
-- [ ] Like a post
-- [ ] Tag someone on a post
-- [ ] Add a profile page   
-- [ ] Export to Firefox
-- [ ] Deploy

@@ -1,0 +1,56 @@
+version: '2.1'
+services:
+  nginx:
+    image: nginx
+    ports:
+      - "7777:81"
+      - "443:443"
+    volumes:
+      - ./:/var/www/docker
+      - ./docker/nginx.conf:/etc/nginx/conf.d/fofo-api.conf:ro
+    links:
+      - php-fpm
+      - db:database
+  php-fpm:
+    build: 
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+    volumes:
+      - ./:/var/www/docker
+    expose:
+      - 9000
+  lara-cli:
+    build: 
+      context: .
+      dockerfile: ./docker/lara-cli/Dockerfile
+    env_file: .env
+    volumes:
+      - ./:/var/www/docker
+    links:
+      - db:database
+  db:
+    image: "mysql:8"
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=fofo
+      - MYSQL_USER=homestead
+      - MYSQL_PASSWORD=secret
+    volumes:
+      - ./.db/:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    # healthcheck:
+    #     test: "/usr/bin/mysql --user=root --password=secret --execute \"SELECT 1;\""
+    #     interval: 3s
+    #     timeout: 5s
+    #     retries: 5
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: secret

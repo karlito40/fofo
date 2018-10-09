@@ -6,7 +6,7 @@ services:
       - "7777:81"
       - "443:443"
     volumes:
-      - ./:/var/www/docker
+      - ./:/var/www/fofo-api
       - ./docker/nginx.conf:/etc/nginx/conf.d/fofo-api.conf:ro
     links:
       - php-fpm
@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: ./docker/php-fpm/Dockerfile
     volumes:
-      - ./:/var/www/docker
+      - ./:/var/www/fofo-api
     expose:
       - 9000
   lara-cli:
@@ -25,7 +25,7 @@ services:
       dockerfile: ./docker/lara-cli/Dockerfile
     env_file: .env
     volumes:
-      - ./:/var/www/docker
+      - ./:/var/www/fofo-api
     links:
       - db:database
   db:

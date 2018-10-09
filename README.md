@@ -24,6 +24,33 @@ Fofo aims to build communities around their favorite websites. Ever dream to dis
 
 ### Api
 
+#### With docker, the easiest solution
+
+The project comes with a one liner command which provide an interactive way to build everything from the database to nginx.
+
+`cd fofo-api && npm run laravel`
+
+Next, create the .env file
+
+`cp .env.example .env`
+
+Add your fresh oauth client_id and secret key into it.
+
+```
+OAUTH_PASSWORD_CLIENT_ID=2
+OAUTH_PASSWORD_CLIENT_SECRET=YOUR_SECRET_KEY_HERE
+```
+
+Make sure to update your `/etc/hosts`.
+
+`127.0.0.1 fofo-api.local`
+
+If you want some data into your database go with the following script.
+
+`npm run db:seed`
+
+#### With homestead
+
 First make sure to follow the [laravel installation](https://laravel.com/docs/5.6/homestead) and install all the dependencies.
 
 `cd fofo-api && composer install`
@@ -44,18 +71,21 @@ Create the .env file
 
 `cp .env.example .env`
 
-Add your fresh oauth client_id and secret in it.
+Add your fresh oauth client_id and secret key in it.
 
 ```
 OAUTH_PASSWORD_CLIENT_ID=2
 OAUTH_PASSWORD_CLIENT_SECRET=YOUR_SECRET_KEY_HERE
 ```
 
+
 Follow this [tutorial](https://medium.com/@adnanxteam/how-to-setup-https-with-laravel-homestead-ad7915470fa8) to make the https works on your server. Next, go to https://your-local-api-domain and accept the certificate.
 
 Now, run the seeder.
 
 `php artisan db:seed`
+
+#### Postman
 
 You may import `fofo-api.postman_collection.json` into postman to have an understanding of the api.
 

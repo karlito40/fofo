@@ -8,7 +8,8 @@
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "laravel": "npm run compose:start && CMD=install npm run composer && npm run artisan:migrate",
+    "laravel": "npm run ssl:generate && npm run compose:start && CMD=install npm run composer && npm run artisan:migrate && npm run artisan:passport:client",
+    "ssl:generate": "cd docker/nginx/ssl && openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 365 -keyout fofo-api.local.key -out fofo-api.local.crt",
     "compose:start": "docker-compose build && npm run compose:up",
     "compose:up": "docker-compose up -d",
     "compose:stop": "docker-compose stop",
@@ -17,6 +18,8 @@
     "composer": "docker-compose run --rm --no-deps lara-cli composer ${CMD}",
     "artisan:migrate": "CMD=migrate npm run artisan",
     "artisan:migrate-rollback": "CMD=migrate:rollback npm run artisan",
+    "artisan:passport:client": "CMD=\"passport:client --password\" npm run artisan",
+    "db:seed": "CMD=db:seed npm run artisan",
     "docker:clear": "docker system prune"
   },
   "devDependencies": {

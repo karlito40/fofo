@@ -7,6 +7,8 @@
 /.vscode
 /.vagrant
 /.db
+/docker/nginx/ssl/*.key
+/docker/nginx/ssl/*.crt
 Homestead.json
 Homestead.yaml
 npm-debug.log

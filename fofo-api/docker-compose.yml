@@ -7,7 +7,8 @@ services:
       - "443:443"
     volumes:
       - ./:/var/www/fofo-api
-      - ./docker/nginx.conf:/etc/nginx/conf.d/fofo-api.conf:ro
+      - ./docker/nginx/fofo-api.conf:/etc/nginx/conf.d/fofo-api.conf:ro
+      - ./docker/nginx/ssl:/etc/nginx/ssl
     links:
       - php-fpm
       - db:database

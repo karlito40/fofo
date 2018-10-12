@@ -1,32 +1,26 @@
-version: '2.1'
+version: '2'
 services:
-  nginx:
-    image: nginx
+  laravel:
+    build: 
+      context: ./docker/laravel
+      dockerfile: Dockerfile
     ports:
-      - "7777:81"
+      - "7777:80"
       - "443:443"
     volumes:
-      - ./:/var/www/fofo-api
+      - ./:/var/www/laravel
       - ./docker/nginx/fofo-api.conf:/etc/nginx/conf.d/fofo-api.conf:ro
       - ./docker/nginx/ssl:/etc/nginx/ssl
     links:
-      - php-fpm
       - db:database
-  php-fpm:
-    build: 
-      context: .
-      dockerfile: ./docker/php-fpm/Dockerfile
-    volumes:
-      - ./:/var/www/fofo-api
-    expose:
-      - 9000
   lara-cli:
     build: 
       context: .
       dockerfile: ./docker/lara-cli/Dockerfile
     env_file: .env
+    working_dir: /var/www/laravel
     volumes:
-      - ./:/var/www/fofo-api
+      - ./:/var/www/laravel
     links:
       - db:database
   db:
@@ -40,11 +34,6 @@ services:
       - ./.db/:/var/lib/mysql
     ports:
       - "3306:3306"
-    # healthcheck:
-    #     test: "/usr/bin/mysql --user=root --password=secret --execute \"SELECT 1;\""
-    #     interval: 3s
-    #     timeout: 5s
-    #     retries: 5
   phpmyadmin:
     depends_on:
       - db

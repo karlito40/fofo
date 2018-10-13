@@ -16,6 +16,10 @@ php artisan config:clear
 
 cp .env.production .env
 
+echo "Starting migration..."
+php artisan migrate --force
+echo "Migration done!"
+
 echo "" > ./storage/laravel.log 
 
 eb create api-prod

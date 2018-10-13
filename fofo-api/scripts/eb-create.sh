@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd ..
-
 if [[ `git status --porcelain` ]]; then
   echo "Please, commit your changes before executing this";
   exit 1

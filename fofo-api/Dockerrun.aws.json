@@ -1,0 +1,29 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "karlito40/laravel"
+  },
+  "Ports": [
+    {
+      "ContainerPort": "80"
+    },
+    {
+      "ContainerPort": "443"
+    }
+  ],
+  "Volumes": [
+    {
+      "HostDirectory": "/var/app/current",
+      "ContainerDirectory": "/var/www/laravel"
+    },
+    {
+      "HostDirectory": "/var/app/current/docker/nginx/fofo-api.prod.conf",
+      "ContainerDirectory": "/etc/nginx/conf.d/default.conf"
+    },
+    {
+      "HostDirectory": "/var/app/current/docker/nginx/ssl",
+      "ContainerDirectory": "/etc/nginx/ssl"
+    }
+  ],
+  "Logging": "/var/log/nginx"
+}

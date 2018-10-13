@@ -30,9 +30,10 @@ RUN sed -i "s/worker_processes  1/worker_processes  4/" /etc/nginx/nginx.conf
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-ADD ./start-app.sh /usr/local/bin/start-app.sh
+ADD ./start-laravel.sh /usr/local/bin/start-laravel.sh
 
 WORKDIR /var/www/laravel
-CMD /usr/local/bin/start-app.sh
+
+CMD /usr/local/bin/start-laravel.sh
 
 EXPOSE 80 443

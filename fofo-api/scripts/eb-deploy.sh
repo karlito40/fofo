@@ -14,9 +14,7 @@ php artisan view:clear
 php artisan route:clear
 php artisan config:clear
 
-# cp .env.production .env
-
-php artisan migrate
+cp .env.production .env
 
 echo "" > ./storage/logs/laravel.log 
 

@@ -24,6 +24,8 @@ echo "" > ./storage/laravel.log
 
 eb create api-prod
 
+cp .env.example .env
+
 git stash
 git checkout master
 git branch -d ${DEPLOY_BRANCH}

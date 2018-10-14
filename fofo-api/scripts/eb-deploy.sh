@@ -24,5 +24,8 @@ echo "" > ./storage/logs/laravel.log
 
 eb deploy
 
+cp .env.example .env
+
+git stash
 git checkout master
 git branch -d ${DEPLOY_BRANCH}

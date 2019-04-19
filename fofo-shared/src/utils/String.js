@@ -14,14 +14,14 @@ export function ucfirst(s) {
 }
 
 export function strtr(string, o = {}) {
-	let res = string;
-  
-	for(let find in o) {
- 		let replaceBy = o[find];
- 		let regex = new RegExp(find, 'g');
+  let res = string;
 
- 		res = res.replace(regex, replaceBy);
- 	}
+  for(let find in o) {
+    let replaceBy = o[find];
+    let regex = new RegExp(find, 'g');
 
- 	return res;
+    res = res.replace(regex, replaceBy);
+  }
+
+  return res;
 }

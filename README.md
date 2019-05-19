@@ -1,4 +1,4 @@
-Fofo aims to build communities around their favorite websites. Ever dream to discuss and share your opinion with people browsing the same page as you ? 
+Ever dream to discuss and share your opinion with people browsing the same page as you ? 
 
 
 - No reviews on Netflix anymore ? Fine, just open Fofo and discover what others are saying.
@@ -20,7 +20,7 @@ Fofo aims to build communities around their favorite websites. Ever dream to dis
 <figcaption>Fofo dock to the bottom of Wikipedia</figcaption>
 </figure>
 
-## How to build the API project
+## How to build the API
 
 ### With docker, the easiest solution
 
@@ -93,7 +93,7 @@ You may import `fofo-api.postman_collection.json` into postman to have an unders
 
 ---
 
-## How to build the Front project
+## How to build the Front
 
 Create the .env file
 
@@ -103,7 +103,7 @@ Launch the project from the root directory (not fofo-front)
 
 `npm run start-front`
 
-## How to build the WebExtension project
+## How to build the WebExtension
 
 From the root directory.
 
